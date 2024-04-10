@@ -96,20 +96,6 @@ namespace PMS
             return user;
         }
 
-		public void AddUser()
-		{ 
-			//To be implemented
-		}
-
-        public void UpdateUser()
-        {
-            //To be implemented
-        }
-
-        public void DeleteUser()
-        {
-            //To be implemented
-        }
 
         public void ChangePassword(string userID, string password)
         {

@@ -32,22 +32,6 @@ namespace PMS
             //To be implemented
             return null;
         }
-
-        public void AddPreference()
-        {
-            //To be implemented
-        }
-
-		public void UpdatePreference()
-		{
-			//To be implemented
-		}
-
-		public void DeletePreference()
-		{
-			//To be implemented
-		}
-		
-
+         
     }
 }

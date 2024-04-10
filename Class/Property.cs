@@ -171,21 +171,7 @@ namespace PMS
             return dt;
         }
 
-        public void AddProperty()
-        { 
-            //To be implemented
-        }
-
-        public void UpdateProperty()
-        {
-            //To be implemented
-        }
-
-        public void DeleteProperty()
-        {
-            //To be implemented
-        }
-
+        
         //Records for Prototype
         public DataTable TempPropertyRecords()
         {
