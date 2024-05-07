@@ -106,12 +106,9 @@
     <Content Include="Dashboard.aspx" />
     <Content Include="AddProperty.aspx" />
     <Content Include="Message.aspx" />
-    <Content Include="Backup\Chat.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Listing.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="Backup\bak_About.aspx" />
-    <Content Include="Backup\bak_Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -129,7 +126,6 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Backup\bak_Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -194,6 +190,7 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\DB.cs" />
     <Compile Include="Class\Message.cs" />
     <Compile Include="Class\Preference.cs" />
     <Compile Include="ViewProperty.aspx.cs">
@@ -226,13 +223,6 @@
     <Compile Include="Message.aspx.designer.cs">
       <DependentUpon>Message.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Backup\Chat.aspx.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Backup\Chat.aspx.designer.cs">
-      <DependentUpon>Chat.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -255,28 +245,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Backup\bak_About.aspx.cs">
-      <DependentUpon>bak_About.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Backup\bak_About.aspx.designer.cs">
-      <DependentUpon>bak_About.aspx</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Backup\bak_Contact.aspx.cs">
-      <DependentUpon>bak_Contact.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Backup\bak_Contact.aspx.designer.cs">
-      <DependentUpon>bak_Contact.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Backup\bak_Default.aspx.cs">
-      <DependentUpon>bak_Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Backup\bak_Default.aspx.designer.cs">
-      <DependentUpon>bak_Default.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
