@@ -78,15 +78,6 @@ namespace PMS
         protected global::System.Web.UI.WebControls.LinkButton lbnRegister;
 
         /// <summary>
-        /// panelRegister control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelRegister;
-
-        /// <summary>
         /// txtRegisterUserID control.
         /// </summary>
         /// <remarks>
