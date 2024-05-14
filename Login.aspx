@@ -17,7 +17,7 @@
                 
             </div>
          </asp:Panel>
-         <asp:Panel ID="panelRegister" runat="server" Visib 
+         <asp:Panel ID="panelRegister" runat="server" Visible="false">
             <div class="register-section">
                 <h2>Sign Up</h2>
                     <asp:TextBox runat="server" ID="txtRegisterUserID" placeholder="User ID" CssClass="form-input"></asp:TextBox>

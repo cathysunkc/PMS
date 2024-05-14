@@ -129,6 +129,7 @@ namespace PMS
             dt.PrimaryKey = new DataColumn[] { dt.Columns["user_id"] };
 
             dt.Rows.Add("client01", "password", "Client", "01", "client01@test.com", "", "client");
+            dt.Rows.Add("client02", "password", "Client", "02", "client02@test.com", "", "client");
             dt.Rows.Add("realtor01", "password", "Realtor", "01", "realtor01@test.com", "", "realtor");
 
             return dt;
