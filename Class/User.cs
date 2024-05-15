@@ -60,13 +60,13 @@ namespace PMS
         
 		public User Login(string userID, string password)
 		{
+            DB db = new DB();
 			User user = null;
-
-            DataRow[] dataRows = (TempUserRecords()).Select($"user_id = '{userID}' and password='{password}'");
-
-			if (dataRows.Length > 0)
+            DataTable dt = db.SelectUserByIDPassword(userID, password);
+            
+            if (dt.Rows.Count > 0)
 			{
-                DataRow dr = dataRows[0];
+                DataRow dr = dt.Rows[0];
 				user = new User(userID, password);
 				user.FirstName = dr["first_name"].ToString();
                 user.LastName = dr["last_name"].ToString();
@@ -79,13 +79,13 @@ namespace PMS
 
 		public User GetUserByID(string userID)
         {
+            DB db = new DB();
             User user = null;
+            DataTable dt = db.SelectUserByID(userID);
 
-            DataRow[] dataRows = (TempUserRecords()).Select($"user_id = '{userID}'");
-
-            if (dataRows.Length > 0)
+            if (dt.Rows.Count > 0)
             {
-                DataRow dr = dataRows[0];
+                DataRow dr = dt.Rows[0];
                 user = new User(userID, dr["password"].ToString());
                 user.FirstName = dr["first_name"].ToString();
                 user.LastName = dr["last_name"].ToString();
@@ -113,7 +113,9 @@ namespace PMS
             //To be implemented
         }
 
+        
         //Records for prototype
+        /*
         public DataTable TempUserRecords()
         {
             DataTable dt = new DataTable("Users");
@@ -135,5 +137,6 @@ namespace PMS
 
             return dt;
         }
+        */
     }
 }
