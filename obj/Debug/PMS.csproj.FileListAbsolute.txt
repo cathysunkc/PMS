@@ -144,3 +144,7 @@ C:\Cathy\SAIT\2024 Winter\SAD\PMS\PMS\obj\Debug\PMS.csproj.CoreCompileInputs.cac
 C:\Cathy\SAIT\2024 Winter\SAD\PMS\PMS\obj\Debug\PMS.csproj.CopyComplete
 C:\Cathy\SAIT\2024 Winter\SAD\PMS\PMS\obj\Debug\PMS.dll
 C:\Cathy\SAIT\2024 Winter\SAD\PMS\PMS\obj\Debug\PMS.pdb
+C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.csproj.AssemblyReference.cache
+C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.csproj.CoreCompileInputs.cache
+C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.dll
+C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.pdb
