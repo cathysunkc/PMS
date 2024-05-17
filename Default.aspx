@@ -6,12 +6,14 @@
                 <h2>Find Properties Near You</h2>
                 <p>Explore the map to find properties in your desired area.</p>
                 <!-- Placeholder for the map -->
-                <img src="https://i.stack.imgur.com/F9v3y.png" alt="Map Placeholder" style="max-width:100%; height:auto;">
-            </section>
-
-            <section class="listings-container">
-                <h2>Featured Listings</h2>
-                    
+                 <!--img src="https://i.stack.imgur.com/F9v3y.png" alt="Map Placeholder" style="max-width:100%; height:auto;"-->
+                 <script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js"></script>                               
+                <div id="googleMap" style="width:100%;height:500px;"></div>
+                <script type="text/javascript" src="Scripts/map.js"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdCFuqERJyLjpKCjXdokfdPWGk-Niu8Pk&callback=myMap"></script>
+                </section>
+                <section class="listings-container">
+                <h2>Featured Listings</h2>                    
                     <asp:GridView runat="server" CellPadding="10" ID="gridProperty" CssClass="listing" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
                         <Columns> 
                         <asp:TemplateField>
