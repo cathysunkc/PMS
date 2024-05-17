@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\map.js" />
+    <Content Include="SQL\pms.sql" />
     <Content Include="ViewProperty.aspx" />
     <Content Include="Dashboard.aspx" />
     <Content Include="AddProperty.aspx" />
