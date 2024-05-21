@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySqlX.XDevAPI.Relational;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -39,15 +41,37 @@ namespace PMS
 
                     if (realtor != null)
                     {
+
                         this.txtRecipientEmail.Text = realtor.Email;
                         this.txtRecipientEmail.ReadOnly = true;
                     }
                 }
+
+                // Edited by Wilson
+                BindMessageList();
             }
             else
             {
                 Response.Redirect("Login");
             }
+        }
+
+        // Edited by Wilson
+        private void BindMessageList()
+        {
+            DataSet ds = new DataSet();
+
+            Message message = new Message();
+            DataTable dt = message.FindMessage((String)Session["UserID"]);
+
+            ds.Tables.Add(dt);
+            listMessage.DataSource = ds;
+            listMessage.DataBind();
+        }
+
+        protected void Message_Click(string message_id)
+        {
+            System.Windows.Forms.MessageBox.Show($"Hi {message_id}");
         }
     }
 }
