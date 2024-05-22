@@ -27,7 +27,7 @@
                 <asp:TextBox runat="server" ID="txtRegisterPassword01" placeholder="Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
                 <asp:TextBox runat="server" ID="txtRegisterPassword02" placeholder="Re-enter Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
                     <input type="submit" value="Register" class="form-button">                
-                Already had an account? Login <asp:LinkButton ID="lbnLogin" CssClass="link" runat="server" OnClick="LoginLink_Click">here</asp:LinkButton>
+                Already have an account? Login <asp:LinkButton ID="lbnLogin" CssClass="link" runat="server" OnClick="LoginLink_Click">here</asp:LinkButton>
                 
             </div>
         </asp:Panel>        
