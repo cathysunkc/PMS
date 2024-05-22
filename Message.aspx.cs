@@ -81,7 +81,6 @@ namespace PMS
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
-            //System.Windows.Forms.MessageBox.Show($"Hi {e.CommandArgument}");
         }
     }
 }
