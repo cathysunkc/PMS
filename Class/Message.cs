@@ -56,12 +56,31 @@ namespace PMS
             return null;
         }
 
-        public DataTable FindMessage(string userID)
+        public DataTable GetMessageByUserID(string userID)
         {
             DataTable dt = new DataTable();
 
-            DataRow[] dr = (TempMessageRecords()).AsEnumerable().Where(row => ((User)row["sender"]).UserID == $"{userID}").ToArray();
-            // DataRow[] dr = (TempMessageRecords()).Select($"sender.UserID = '{userID}' OR recipent.UserID = '{userID}'");
+            DataRow[] dr = (TempMessageRecords()).AsEnumerable()
+                            .Where(row => ((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}")
+                            .GroupBy(row => ((Property)row["property"]).PropertyID)
+                            .Select(group => group.First())
+                            .ToArray();
+
+            if (dr.Length > 0)
+                dt = dr.CopyToDataTable();
+            else if (dr.Length == 0)
+                dt = new DataTable();
+
+            return dt;
+        }
+
+        public DataTable GetMessageByPropID(string userID, string propertyID)
+        {
+            DataTable dt = new DataTable();
+
+            DataRow[] dr = (TempMessageRecords()).AsEnumerable()
+                            .Where(row => (((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}") && ((Property)row["property"]).PropertyID == $"{propertyID}")
+                            .ToArray();
 
             if (dr.Length > 0)
                 dt = dr.CopyToDataTable();

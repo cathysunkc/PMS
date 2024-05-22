@@ -62,16 +62,26 @@ namespace PMS
             DataSet ds = new DataSet();
 
             Message message = new Message();
-            DataTable dt = message.FindMessage((String)Session["UserID"]);
+            DataTable dt = message.GetMessageByUserID((String)Session["UserID"]);
 
             ds.Tables.Add(dt);
             listMessage.DataSource = ds;
             listMessage.DataBind();
         }
 
-        protected void Message_Click(string message_id)
+        protected void Message_Click(Object sender, CommandEventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show($"Hi {message_id}");
+            DataSet ds = new DataSet();
+            Message message = new Message();
+
+
+            DataTable dt = message.GetMessageByPropID((String)Session["UserID"], (String)e.CommandArgument);
+
+            ds.Tables.Add(dt);
+
+            gridMessage.DataSource = ds;
+            gridMessage.DataBind();
+            //System.Windows.Forms.MessageBox.Show($"Hi {e.CommandArgument}");
         }
     }
 }

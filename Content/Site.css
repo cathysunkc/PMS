@@ -210,7 +210,6 @@ h2, h3 {
     background: #1A1A1A;
     padding: 10px;
     height: 300px;
-    overflow-y: auto;
     margin-bottom: 20px;
     border-radius: 10px;
 }
@@ -221,9 +220,10 @@ h2, h3 {
     border-radius: 20px;
     color: #FFF;
     max-width: 80%;
+    cursor: pointer;
 }
 
-.realtor-message {
+.another-message {
     background-color: #5E2D79; /* Lighter purple for the realtor */
     align-self: flex-start;
     margin-left: 20px;
@@ -234,11 +234,13 @@ h2, h3 {
     align-self: flex-end;
     margin-right: 20px;
     text-align: right;
+    
 }
 
 .chat-container {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 
