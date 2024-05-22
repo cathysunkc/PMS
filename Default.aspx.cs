@@ -10,7 +10,10 @@ namespace PMS
 {
     public partial class Default : Page
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> cathysun
         //Testing for merge to main 4
         protected void Page_Load(object sender, EventArgs e)
         {
