@@ -16,8 +16,9 @@ namespace PMS
 
             if (propertyID != null)
             {
+                DB db = new DB();
                 Property property = new Property();
-                property = property.GetPropertyByID(propertyID);
+                property = Property.GetPropertyByID(db, propertyID);
 
                 this.lblAddress01.Text = property.Address;
                 this.imgProperty.ImageUrl = property.ImagePath;
@@ -30,7 +31,7 @@ namespace PMS
                 this.lblAddress02.Text = property.Address;
                 this.lblCity.Text = property.City;
                 this.lblZipCode.Text = property.ZipCode;
-                this.lblArea.Text = property.Area.ToString("N0") + " Square Feet";
+                this.lblArea.Text = property.Area + " Square Feet";
                 this.lblDescription.Text = property.Description;
                 this.lblPropertyType.Text = property.PropertyType;
                 this.lblBedNum.Text = property.BedNum.ToString();
@@ -62,7 +63,7 @@ namespace PMS
                     }
                 }
                 else
-                { 
+                {
                     this.btnContactRealtor.Visible = false;
                     this.btnEditProperty.Visible = false;
                 }
