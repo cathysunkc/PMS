@@ -3,14 +3,14 @@ using System.Data;
 
 namespace PMS
 {
-	//Implement the Property class
+    //Implement the Property class
 
-	public class Property 
-	{
-		//Attributes with Getters and Setters
-		public string PropertyID { get; set; }
+    public class Property
+    {
+        //Attributes with Getters and Setters
+        public string PropertyID { get; set; }
 
-		public string Address { get; set; }
+        public string Address { get; set; }
 
         public string ZipCode { get; set; }
 
@@ -20,9 +20,9 @@ namespace PMS
 
         public double BedNum { get; set; }
 
-		public double BathNum { get; set; }
+        public double BathNum { get; set; }
 
-		public double Area { get; set; }
+        public string Area { get; set; }
 
         public string ParkingType { get; set; }
 
@@ -47,17 +47,17 @@ namespace PMS
         //Constructors
         public Property() { }
 
-		public Property(string propertyID) 
-		{
-			this.PropertyID = propertyID;
-		}
+        public Property(string propertyID)
+        {
+            this.PropertyID = propertyID;
+        }
 
-		public Property(string propertyID, string address, string zipCode, string city, string propertyType,
-            double bedNum, double bathNum, double area, string parkingType, 
-            DateTime postedDate, DateTime availableDate, 
-            string description, bool isFeatured, char transactionType, double price, 
+        public Property(string propertyID, string address, string zipCode, string city, string propertyType,
+            double bedNum, double bathNum, string area, string parkingType,
+            DateTime postedDate, DateTime availableDate,
+            string description, bool isFeatured, char transactionType, double price,
             string imagePath, string realtorID, bool isSold)
-		{
+        {
             this.PropertyID = propertyID;
             this.Address = address;
             this.ZipCode = zipCode;
@@ -69,7 +69,7 @@ namespace PMS
             this.ParkingType = parkingType;
             this.PostedDate = postedDate;
             this.AvailableDate = availableDate;
-            this.Description = description; 
+            this.Description = description;
             this.IsFeatured = isFeatured;
             this.TransactionType = transactionType;
             this.Price = price;
@@ -78,11 +78,11 @@ namespace PMS
             this.IsSold = isSold;
         }
 
-		public bool IsSale()
-		{
-			return this.TransactionType == 'S';
-		
-		}
+        public bool IsSale()
+        {
+            return this.TransactionType == 'S';
+
+        }
 
         public bool IsRent()
         {
@@ -92,9 +92,53 @@ namespace PMS
         //Methods
         public string GetFullAddress()
         {
-            return this.Address + "\n" + this.City + "\n" + this.ZipCode;        
+            return this.Address + "\n" + this.City + "\n" + this.ZipCode;
         }
 
+        //Edited by Harry
+        // New static method to get a property by ID using DB instance
+        public static Property GetPropertyByID(DB db, string propertyID)
+        {
+            return db.GetPropertyByID(propertyID);
+        }
+
+        //Edited by Harry
+        // New static method to get featured properties using DB instance
+        public static DataTable GetFeaturedProperty(DB db)
+        {
+            return db.GetFeaturedProperty();
+        }
+
+        //Edited by Harry
+        // New static method to find properties using DB instance
+        public static DataTable FindProperty(DB db, char transactionType, double bedNum, double bathNum)
+        {
+            return db.FindProperty(transactionType, bedNum, bathNum);
+        }
+
+        // New method to add the property to the database using DB instance
+        public void AddProperty(DB db)
+        {
+            db.AddProperty(this);
+        }
+
+        // New method to update the property in the database using DB instance
+        public void UpdateProperty(DB db)
+        {
+
+        }
+
+        // New method to delete the property from the database using DB instance
+        public void DeleteProperty(DB db)
+        {
+
+        }
+
+
+
+
+        //Records for prototype
+        /*
 		public Property GetPropertyByID(string propertyID)
         {
             
@@ -224,6 +268,6 @@ namespace PMS
                false, 'R', 4995, "https://cdn.britannica.com/05/157305-050-FD9CB47C.jpg", "realtor01", false);
 
             return dt;
-        }
+        } */
     }
 }
