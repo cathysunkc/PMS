@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -81,6 +82,22 @@ namespace PMS
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
+        }
+
+        protected void Send_Click(object sender, EventArgs e)
+        {
+            //DataSet ds = new DataSet();
+            //Message message = new Message();
+
+            System.Windows.Forms.MessageBox.Show($"{((DataRowView)gridMessage.Rows[1].DataItem)["message_id"]}");
+            //Console.WriteLine($"{(DataRowView)gridMessage.Rows[0].DataItem}");
+            //DataTable dt = message.GetMessageByPropID((String)Session["UserID"], ((Property)((DataRowView)gridMessage.Rows[0].DataItem)["property"]).PropertyID);
+
+            //ds.Tables.Add(dt);
+
+            //gridMessage.DataSource = ds;
+            //gridMessage.DataBind();
+            this.txtMessage.Text = null;
         }
     }
 }

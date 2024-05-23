@@ -40,25 +40,25 @@
                         <asp:TextBox ID="txtRecipientEmail" runat="server" class="form-input"></asp:TextBox>
                         -->
                         <asp:GridView runat="server" CellPadding="10" ID="gridMessage" CssClass="listing" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
-                        <Columns> 
-                        <asp:TemplateField>
-                            <ItemTemplate > 
-                                <asp:Panel runat="server" class='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? "another-message" : "user-message" %>'>
-                                <asp:Label ID="Label1" runat="server" Text='<%#Eval("property.Address")%>' Font-Size="medium"  /><br/>
-                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
-                                <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Substring(0,40) %>' Font-Size="x-small"  /><br/>
-                                </asp:Panel>
-                            </ItemTemplate> 
-                        </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
+                            <Columns> 
+                            <asp:TemplateField>
+                                <ItemTemplate > 
+                                    <asp:Panel runat="server" class='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? "another-message" : "user-message" %>'>
+                                    <asp:Label ID="Label1" runat="server" Text='<%#Eval("property.Address")%>' Font-Size="medium"  /><br/>
+                                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID") == Session["UserID"] ? Eval("recipent.FirstName")+" "+Eval("recipent.LastName") : Eval("sender.FirstName")+" "+Eval("sender.LastName") %>' Font-Size="medium"  /> <br />
+                                    <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Substring(0,40) %>' Font-Size="x-small"  /><br/>                              
+                                    </asp:Panel>
+                                </ItemTemplate> 
+                            </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
 
                     </div>
                     <div>
                         <label for="message">Your Message:</label>
-                        <textarea id="message" name="message" class="form-input" required></textarea>
-                        <input type="submit" value="Send" class="form-button"> 
-                    </div>
+                        <asp:TextBox runat="server" ID="txtMessage" placeholder="Input here" CssClass="form-input" MaxLength="200" TextMode="MultiLine" Rows="4"></asp:TextBox>
+                        <asp:Button ID="btnSend" CssClass="form-button" runat="server" OnClick="Send_Click" Text="Send" Width="80px" />
+                    </div> 
                 </asp:TableCell>
             </asp:TableRow>
         </asp:Table>
