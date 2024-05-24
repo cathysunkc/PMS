@@ -54,6 +54,7 @@ namespace PMS
         }
 
         public string GetFullName()
+
         {
             return this.FirstName + " " + this.LastName;
         }

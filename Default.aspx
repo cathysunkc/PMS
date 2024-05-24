@@ -6,25 +6,25 @@
                 <h2>Find Properties Near You</h2>
                 <p>Explore the map to find properties in your desired area.</p>
                 <!-- Placeholder for the map -->
-                <img src="https://i.stack.imgur.com/F9v3y.png" alt="Map Placeholder" style="max-width:100%; height:auto;">
-            </section>
-
-            <section class="listings-container">
-                <h2>Featured Listings</h2>
-                    
+                <script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js"></script>                               
+                <div id="googleMap" style="width:100%;height:500px;"></div>
+                <script type="text/javascript" src="Scripts/map.js"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdCFuqERJyLjpKCjXdokfdPWGk-Niu8Pk&callback=myMap"></script>
+                </section>
+                <section class="listings-container">
+                <h2>Featured Listings</h2>                    
                     <asp:GridView runat="server" CellPadding="10" ID="gridProperty" CssClass="listing" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
                         <Columns> 
                         <asp:TemplateField>
                             <ItemTemplate> 
-                                <asp:Label ID="Label1" runat="server" Text='<%#Eval("address")%>' Font-Size="X-Large"  /><br>
-                                <asp:Label ID="Label2" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /><br>
-                                <asp:HyperLink ID="HyperLink1" NavigateUrl='<%# "ViewProperty?id=" + Eval("property_id")%>' runat="server"><asp:Image ID="Image1" runat="server" style="max-width:100%; height:auto;" ImageUrl='<%#Eval("image_path")%>'/></asp:HyperLink><br/>
-                                <asp:Label ID="Label3" runat="server" Text='<%#Eval("description")%>' />
+                                <asp:Label ID="lblAddress" runat="server" Text='<%#Eval("address")%>' Font-Size="X-Large"  /><br>
+                                <asp:Label ID="lblPrice" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /><br>
+                                <asp:HyperLink ID="hlkProperty" NavigateUrl='<%# "ViewProperty?id=" + Eval("property_id")%>' runat="server"><asp:Image ID="Image1" runat="server" style="max-width:100%; height:auto;" ImageUrl='<%#Eval("image_path")%>'/></asp:HyperLink><br/>
+                                <asp:Label ID="lblDescription" runat="server" Text='<%#Eval("description")%>' />
                             </ItemTemplate> 
                         </asp:TemplateField>
                         </Columns>
-                    </asp:GridView>
-                
+                    </asp:GridView>                
               </section>
     </main>
 </asp:Content>

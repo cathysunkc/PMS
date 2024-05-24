@@ -10,19 +10,19 @@ namespace PMS
 {
     public partial class Default : Page
     {
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            Property property = new Property();
-            
+            DB db = new DB();
+
             DataSet ds = new DataSet();
-            DataTable dt = property.GetFeaturedProperty();
+            DataTable dt = Property.GetFeaturedProperty(db);
 
             ds.Tables.Add(dt);
-            
+
             gridProperty.DataSource = ds;
             gridProperty.DataBind();
         }
-        
+
     }
 }
