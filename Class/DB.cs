@@ -5,10 +5,12 @@ using MySql.Data.MySqlClient;
 
 namespace PMS
 {
+
     //Implement the DB class
 
     public class DB
     {
+
         //attributes
         private MySqlConnection connection;
         private string server;
@@ -89,6 +91,11 @@ namespace PMS
         }
 
         public void AddProperty(Property property)
+
+		{
+			//To be implemented
+		}
+
         {
             //To be implemented
         }
@@ -208,6 +215,7 @@ namespace PMS
             return dt;
         }
 
+
         //Get User by ID and Password from DB
         public DataTable SelectUserByIDPassword(string userID, string password)
         {
@@ -273,50 +281,72 @@ namespace PMS
         }
 
 
-        public void AddUser(User user)
+
+        public bool AddUser(User user)
         {
-            //To be implemented
+            string query = "INSERT INTO pms_user (user_id, password, first_name, last_name, email, phone, role) VALUES (@userID, @password, @firstName, @lastName, @Email, @Phone, @Role)";
+
+            if (this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@userID", user.UserID);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", user.LastName);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Phone", user.Phone);
+                cmd.Parameters.AddWithValue("@Role", user.Role);
+
+                int result = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void UpdateUser()
-        {
-            //To be implemented
-        }
+		{
+			//To be implemented
+		}
 
-        public void DeleteUser()
-        {
-            //To be implemented
-        }
+		public void DeleteUser()
+		{
+			//To be implemented
+		}
 
-        public void AddMessage(Message message)
-        {
-            //To be implemented
-        }
+		public void AddMessage(Message message)
+		{
+			//To be implemented
+		}
 
-        public void UpdateMessage()
-        {
-            //To be implemented
-        }
+		public void UpdateMessage()
+		{
+			//To be implemented
+		}
 
-        public void DeleteMessage()
-        {
-            //To be implemented
-        }
+		public void DeleteMessage()
+		{
+			//To be implemented
+		}
 
-        public void AddPreference()
-        {
-            //To be implemented
-        }
+		public void AddPreference()
+		{
+			//To be implemented
+		}
 
-        public void UpdatePreference()
-        {
-            //To be implemented
-        }
+		public void UpdatePreference()
+		{
+			//To be implemented
+		}
 
-        public void DeletePreference()
-        {
-            //To be implemented
-        }
+		public void DeletePreference()
+		{
+			//To be implemented
+		}
 
-    }
+	}
 }
+
