@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Data;
+using System.Transactions;
 
 namespace PMS
 {
@@ -134,7 +136,13 @@ namespace PMS
 
         }
 
+        public class PropertyImages
+        {
+            public string FileName { get; set; }
+            public string FilePath { get; set; }
 
+            public string PropertyID { get; set; }
+        }
 
 
         //Records for prototype

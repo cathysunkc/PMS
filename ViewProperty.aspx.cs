@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
+using static PMS.Property;
 
 namespace PMS
 {
     public partial class ViewProperty : Page
     {
         string realtor_id = string.Empty;
+        string propertyID = string.Empty;
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            string propertyID = Request.QueryString["id"];
+            propertyID = Request.QueryString["id"];
 
             if (propertyID != null)
             {
@@ -21,10 +26,16 @@ namespace PMS
                 property = Property.GetPropertyByID(db, propertyID);
 
                 this.lblAddress01.Text = property.Address;
-                this.imgProperty.ImageUrl = property.ImagePath;
 
+                if (!IsPostBack)
+                {
+                    //this.imgProperty.ImageUrl = property.ImagePath;
+                    PopulateImages();
+                }
+
+                
                 if (property.IsRent())
-                    this.lblPrice.Text = property.Price.ToString("C2") + "/Monthy";
+                    this.lblPrice.Text = property.Price.ToString("C2") + "/Month";
                 else
                     this.lblPrice.Text = property.Price.ToString("C2");
 
@@ -39,6 +50,7 @@ namespace PMS
                 this.lblAvailableOn.Text = property.AvailableDate.ToString("yyyy-MM-dd");
                 this.realtor_id = property.RealtorID;
 
+                
 
                 if (Session["UserID"] != null)
                 {
@@ -78,5 +90,22 @@ namespace PMS
         {
             Response.Redirect("Message?realtor_id=" + realtor_id);
         }
+
+        private void PopulateImages()
+        {
+            List<PropertyImages> myImages = new List<PropertyImages>();
+            DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + this.propertyID + "/"));
+            foreach (var file in DI.GetFiles())
+            {
+                myImages.Add(new PropertyImages { 
+                    PropertyID = this.propertyID,
+                    FileName = file.Name,
+                    FilePath = "/Images/" + this.propertyID + "/" + file.Name});
+            }
+            listImages.DataSource = myImages;
+            listImages.DataBind();
+        }
+
+
     }
 }

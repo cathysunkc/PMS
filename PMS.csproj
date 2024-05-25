@@ -205,6 +205,20 @@
     <Content Include="Images\P000006\P00000604.jpg" />
     <Content Include="Images\P000006\P00000605.jpg" />
     <Content Include="Images\P000006\P00000606.jpg" />
+    <Content Include="Images\P000007\P00000701.jpg" />
+    <Content Include="Images\P000008\P00000801.jpg" />
+    <Content Include="Images\P000009\P00000901.jpg" />
+    <Content Include="Images\P000010\P00001001.jpg" />
+    <Content Include="Images\P000011\P00001101.jpg" />
+    <Content Include="Images\P000012\P00001201.jpg" />
+    <Content Include="Images\P000013\P00001301.jpg" />
+    <Content Include="Images\P000014\P00001401.jpg" />
+    <Content Include="Images\P000015\P00001501.jpg" />
+    <Content Include="Images\P000016\P00001601.jpg" />
+    <Content Include="Images\P000017\P00001701.jpg" />
+    <Content Include="Images\P000018\P00001801.jpg" />
+    <Content Include="Images\P000019\P00001901.jpg" />
+    <Content Include="Images\P000020\P00002001.jpg" />
     <Content Include="Scripts\map.js" />
     <Content Include="SQL\pms.sql" />
     <Content Include="ViewProperty.aspx" />
@@ -379,20 +393,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\P000007\" />
-    <Folder Include="Images\P000008\" />
-    <Folder Include="Images\P000009\" />
-    <Folder Include="Images\P000010\" />
-    <Folder Include="Images\P000011\" />
-    <Folder Include="Images\P000012\" />
-    <Folder Include="Images\P000013\" />
-    <Folder Include="Images\P000014\" />
-    <Folder Include="Images\P000015\" />
-    <Folder Include="Images\P000016\" />
-    <Folder Include="Images\P000017\" />
-    <Folder Include="Images\P000018\" />
-    <Folder Include="Images\P000019\" />
-    <Folder Include="Images\P000020\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
