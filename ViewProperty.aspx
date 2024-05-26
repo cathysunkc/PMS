@@ -34,7 +34,7 @@
                               </GroupTemplate>
                              <ItemTemplate>
                                 <td runat="server" style="width:100%; vertical-align: top; padding: 3px">
-                                    <img onload="setImage('<%#Eval("PropertyID") %>')" onclick="changeImage('<%#Eval("FilePath") %>')" src='<%#Eval("FilePath") %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 170px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
+                                    <img onload="setImage('<%#Eval("PropertyID") %>')" onclick="changeImage('<%#Eval("FilePath") %>')" src='<%#Eval("FilePath") %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 165px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
                                  </td>
                               </ItemTemplate>
                             </asp:ListView>                  
