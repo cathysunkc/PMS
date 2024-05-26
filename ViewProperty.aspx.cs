@@ -29,7 +29,6 @@ namespace PMS
 
                 if (!IsPostBack)
                 {
-                    //this.imgProperty.ImageUrl = property.ImagePath;
                     PopulateImages();
                 }
 
@@ -50,7 +49,6 @@ namespace PMS
                 this.lblAvailableOn.Text = property.AvailableDate.ToString("yyyy-MM-dd");
                 this.realtor_id = property.RealtorID;
 
-                
 
                 if (Session["UserID"] != null)
                 {
@@ -105,7 +103,6 @@ namespace PMS
             listImages.DataSource = myImages;
             listImages.DataBind();
         }
-
 
     }
 }
