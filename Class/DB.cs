@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics.Metrics;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 
 namespace PMS
@@ -88,6 +89,9 @@ namespace PMS
             }
         }
 
+        /************************************
+         * Property
+        /************************************/
         public void AddProperty(Property property)
         {
             //To be implemented
@@ -110,6 +114,7 @@ namespace PMS
         public Property GetPropertyByID(string propertyID)
         {
             string query = "SELECT * FROM Properties WHERE property_id = @property_id";
+           
             Property property = null;
 
             if (OpenConnection() == true)
@@ -138,10 +143,12 @@ namespace PMS
                             IsFeatured = Convert.ToBoolean(dataReader["is_featured"]),
                             TransactionType = Convert.ToChar(dataReader["transaction_type"]),
                             Price = Convert.ToDouble(dataReader["price"]),
-                            ImagePath = dataReader["image_path"].ToString(),
+                            ImagePath = "~/Images/" + propertyID + "/" + propertyID + "01.jpg",
                             RealtorID = dataReader["realtor_id"].ToString(),
                             IsSold = Convert.ToBoolean(dataReader["is_sold"])
                         };
+
+                        // ImagePath = dataReader["image_path"].ToString(),
                     }
                 }
                 CloseConnection();
@@ -154,6 +161,7 @@ namespace PMS
         public DataTable GetFeaturedProperty()
         {
             string query = "SELECT * FROM Properties WHERE is_featured = 1 AND is_sold = 0";
+            
             DataTable dt = new DataTable();
 
             if (OpenConnection() == true)
@@ -161,7 +169,9 @@ namespace PMS
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 adapter.Fill(dt);
-                CloseConnection();
+                
+                //close Connection
+                this.CloseConnection();
             }
             return dt;
         }
@@ -171,17 +181,18 @@ namespace PMS
         public DataTable FindProperty(char transactionType, double bedNum, double bathNum)
         {
             string query = "SELECT * FROM Properties WHERE is_sold = 0";
+            
             if (transactionType != ' ')
             {
-                query += " AND transaction_type = @transaction_type";
+                query += " AND p.transaction_type = @transaction_type";
             }
             if (bedNum != 0)
             {
-                query += " AND bed_num = @bed_num";
+                query += " AND p.bed_num = @bed_num";
             }
             if (bathNum != 0)
             {
-                query += " AND bath_num = @bath_num";
+                query += " AND p.bath_num = @bath_num";
             }
 
             DataTable dt = new DataTable();
@@ -207,6 +218,10 @@ namespace PMS
             }
             return dt;
         }
+
+        /************************************
+         * User
+        /************************************/
 
         //Get User by ID and Password from DB
         public DataTable SelectUserByIDPassword(string userID, string password)

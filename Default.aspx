@@ -19,7 +19,8 @@
                             <ItemTemplate> 
                                 <asp:Label ID="lblAddress" runat="server" Text='<%#Eval("address")%>' Font-Size="X-Large"  /><br>
                                 <asp:Label ID="lblPrice" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /><br>
-                                <asp:HyperLink ID="hlkProperty" NavigateUrl='<%# "ViewProperty?id=" + Eval("property_id")%>' runat="server"><asp:Image ID="Image1" runat="server" style="max-width:100%; height:auto;" ImageUrl='<%#Eval("image_path")%>'/></asp:HyperLink><br/>
+                                <asp:HyperLink ID="hlkProperty" NavigateUrl='<%# "ViewProperty?id=" + Eval("property_id")%>' runat="server">
+                                <asp:Image ID="imgPropertyImage" runat="server" style="max-width:100%; height:auto;" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id") + "01.jpg" %>'/></asp:HyperLink><br/>
                                 <asp:Label ID="lblDescription" runat="server" Text='<%#Eval("description")%>' />
                             </ItemTemplate> 
                         </asp:TemplateField>

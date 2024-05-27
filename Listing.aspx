@@ -44,11 +44,13 @@
               </GroupTemplate>
             
              <ItemTemplate>
-                <td runat="server" style="width: 30%; vertical-align: top; padding: 20px">
-                 <asp:Label ID="Label1" runat="server" Text='<%#Eval("address")%>' Font-Size="X-Large"  /><br/>
-                    <asp:Label ID="Label2" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /> <asp:Label ID="Label3" runat="server" Text='<%# Eval("transaction_type").ToString() == "R" ? "/Monthly" : "" %>' Font-Size="X-Large"  /><br/>
-                 <div style="min-height: 200px"><a href='<%# "ViewProperty?id=" + Eval("property_id")%>'><asp:Image ID="Image1" style="max-width:100%; height:auto;" runat="server" ImageUrl='<%#Eval("image_path")%>'/></a></div> 
-                 <asp:Label ID="Label4" runat="server" Text='<%#Eval("description")%>' />
+                <td runat="server" style="width: 30%; vertical-align: top; padding: 15px">
+                 <asp:Label ID="lblAddress" runat="server" Text='<%#Eval("address")%>' style="white-space:nowrap" Font-Size="X-Large"  /><br/>
+                    <asp:Label ID="lblPrice" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /> <asp:Label ID="Label3" runat="server" Text='<%# Eval("transaction_type").ToString() == "R" ? "/Monthly" : "" %>' Font-Size="X-Large"  /><br/>
+                 <div style="min-height: 200px"><a href='<%# "ViewProperty?id=" + Eval("property_id")%>'>
+                     <asp:Image ID="imgPropertyImage" style="max-width:100%; height:200px; background-position: center center;
+background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id")  + "01.jpg" %>'/></a></div> 
+                 <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description")%> ' />
                  </div>
              </td>
           </ItemTemplate>
