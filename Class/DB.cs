@@ -94,7 +94,35 @@ namespace PMS
         /************************************/
         public void AddProperty(Property property)
         {
-            //To be implemented
+            string query = @"INSERT INTO Properties 
+                    (property_id, address, zip_code, city, property_type, bed_num, bath_num, area, parking_type, posted_date, available_date, description, is_featured, transaction_type, price, realtor_id, is_sold) 
+                    VALUES 
+                    (@PropertyID, @Address, @ZipCode, @City, @PropertyType, @BedNum, @BathNum, @Area, @ParkingType, @PostedDate, @AvailableDate, @Description, @IsFeatured, @TransactionType, @Price, @RealtorID, @IsSold)";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@PropertyID", property.PropertyID);
+                cmd.Parameters.AddWithValue("@Address", property.Address);
+                cmd.Parameters.AddWithValue("@ZipCode", property.ZipCode);
+                cmd.Parameters.AddWithValue("@City", property.City);
+                cmd.Parameters.AddWithValue("@PropertyType", property.PropertyType);
+                cmd.Parameters.AddWithValue("@BedNum", property.BedNum);
+                cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
+                cmd.Parameters.AddWithValue("@Area", property.Area);
+                cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
+                cmd.Parameters.AddWithValue("@PostedDate", property.PostedDate);
+                cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
+                cmd.Parameters.AddWithValue("@Description", property.Description);
+                cmd.Parameters.AddWithValue("@IsFeatured", property.IsFeatured);
+                cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
+                cmd.Parameters.AddWithValue("@Price", property.Price);
+                cmd.Parameters.AddWithValue("@RealtorID", property.RealtorID);
+                cmd.Parameters.AddWithValue("@IsSold", property.IsSold);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public void UpdateProperty()

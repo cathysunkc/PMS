@@ -47,6 +47,7 @@ namespace PMS
                 this.lblBedNum.Text = property.BedNum.ToString();
                 this.lblBathNum.Text = property.BathNum.ToString();
                 this.lblAvailableOn.Text = property.AvailableDate.ToString("yyyy-MM-dd");
+                this.lblParkingType.Text = property.ParkingType;
                 this.realtor_id = property.RealtorID;
 
 
