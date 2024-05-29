@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Web.DynamicData;
+using System.Windows.Forms;
 
 namespace PMS
 {
@@ -11,11 +15,11 @@ namespace PMS
 		//Attributes with Getters and Setters
 		public string MessageID { get; set; }
 
-        public User Sender { get; set; }
+        public string SenderID { get; set; }
 
-        public User Recipent { get; set; }
+        public string RecipentID { get; set; }
 
-        public Property Property { get; set; }
+        public string PropertyID { get; set; }
 
         public DateTime SendOutDate { get; set; }
 
@@ -37,12 +41,12 @@ namespace PMS
             this.MessageID = messageID;
         }
 
-        public Message(string messageID, User sender, User recipent, Property property, DateTime SendOutDate, bool IsImportant, string content, bool isChecked)
+        public Message(string messageID, string senderID, string recipentID, string propertyID, DateTime SendOutDate, bool IsImportant, string content, bool isChecked)
         {
             this.MessageID = messageID;
-            this.Sender = sender;
-            this.Recipent = recipent;
-            this.Property = property;
+            this.SenderID = senderID;
+            this.RecipentID = recipentID;
+            this.PropertyID = propertyID;
             this.SendOutDate = SendOutDate;
             this.IsImportant = IsImportant;
             this.Content = content;
@@ -61,13 +65,38 @@ namespace PMS
             DataTable dt = new DataTable();
 
             DataRow[] dr = (TempMessageRecords()).AsEnumerable()
-                            .Where(row => ((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}")
-                            .GroupBy(row => ((Property)row["property"]).PropertyID)
+                            .Where(row => (string)row["sender_id"] == $"{userID}" || (string)row["recipent_id"] == $"{userID}")
+                            .GroupBy(row => row["property_id"])
                             .Select(group => group.First())
                             .ToArray();
 
             if (dr.Length > 0)
+            {
                 dt = dr.CopyToDataTable();
+                User user = new User();
+
+                DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
+                DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
+                DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                dt.Columns.Add(tempColSend);
+                dt.Columns.Add(tempColRecip);
+                dt.Columns.Add(tempColProp);
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
+                    row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
+                    row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID((string)row["property_id"]), typeof(Property));
+                }
+                tempColSend.SetOrdinal(1);
+                tempColRecip.SetOrdinal(2);
+                tempColProp.SetOrdinal(3);
+                dt.Columns.Remove("sender_id");
+                dt.Columns.Remove("recipent_id");
+                dt.Columns.Remove("property_id");
+                tempColSend.ColumnName = "sender";
+                tempColRecip.ColumnName = "recipent";
+                tempColProp.ColumnName = "property";
+            }
             else if (dr.Length == 0)
                 dt = new DataTable();
 
@@ -79,11 +108,37 @@ namespace PMS
             DataTable dt = new DataTable();
 
             DataRow[] dr = (TempMessageRecords()).AsEnumerable()
-                            .Where(row => (((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}") && ((Property)row["property"]).PropertyID == $"{propertyID}")
+                            .Where(row => ((string)row["sender_id"] == $"{userID}" || (string)row["recipent_id"] == $"{userID}") && (string)row["property_id"] == $"{propertyID}")
                             .ToArray();
 
-            if (dr.Length > 0)
+            if (dr.Length > 0) 
+            {
                 dt = dr.CopyToDataTable();
+                User user = new User();
+
+                DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
+                DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
+                DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                dt.Columns.Add(tempColSend);
+                dt.Columns.Add(tempColRecip);
+                dt.Columns.Add(tempColProp);
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
+                    row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
+                    row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID(propertyID), typeof(Property));
+                }
+                tempColSend.SetOrdinal(1);
+                tempColRecip.SetOrdinal(2);
+                tempColProp.SetOrdinal(3);
+                dt.Columns.Remove("sender_id");
+                dt.Columns.Remove("recipent_id");
+                dt.Columns.Remove("property_id");
+                tempColSend.ColumnName = "sender";
+                tempColRecip.ColumnName = "recipent";
+                tempColProp.ColumnName = "property";
+
+            }
             else if (dr.Length == 0)
                 dt = new DataTable();
 
@@ -95,12 +150,11 @@ namespace PMS
         {
             DataTable dt = new DataTable("Messages");
             User user = new User();
-            Property property = new Property();
 
             dt.Columns.Add("message_id", typeof(string));
-            dt.Columns.Add("sender", typeof(User));
-            dt.Columns.Add("recipent", typeof(User));
-            dt.Columns.Add("property", typeof(Property));
+            dt.Columns.Add("sender_id", typeof(string));
+            dt.Columns.Add("recipent_id", typeof(string));
+            dt.Columns.Add("property_id", typeof(string));
             dt.Columns.Add("sendout_date", typeof(DateTime));
             dt.Columns.Add("is_important", typeof(bool));
             dt.Columns.Add("content", typeof(string));
@@ -108,41 +162,41 @@ namespace PMS
 
             dt.PrimaryKey = new DataColumn[] { dt.Columns["message_id"] };
 
-            dt.Rows.Add("M000001", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000001"),
+            dt.Rows.Add("M000001", "client01", "realtor01", "P000001",
                 "2024-04-01", 
                 true, "Hi, I'm client01 and want to ask about P000001", false);
-            dt.Rows.Add("M000002", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000002"),
+            dt.Rows.Add("M000002", "client01", "realtor01", "P000002",
                 "2024-04-03", 
                 true, "Hi, I'm client01 and want to ask about P000002", false);
-            dt.Rows.Add("M000003", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000003"),
+            dt.Rows.Add("M000003", "client01", "realtor01", "P000003",
                 "2024-04-02", 
                 false, "Hi, I'm client01 and want to ask about P000003", false);
-            dt.Rows.Add("P000004", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000004"),
+            dt.Rows.Add("P000004", "client01", "realtor01", "P000004",
                 "2024-04-02", 
                 false, "Hi, I'm client01 and want to ask about P000004", false);
-            dt.Rows.Add("P000005", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000005"),
+            dt.Rows.Add("P000005", "client01", "realtor01", "P000005",
                "2024-04-02",
                false, "Hi, I'm client01 and want to ask about P000005", false);
-            dt.Rows.Add("P000006", user.GetUserByID("client01"), user.GetUserByID("realtor01"), property.GetPropertyByID("P000006"),
+            dt.Rows.Add("P000006", "client01", "realtor01", "P000006",
                "2024-04-03", 
                false, "Hi, I'm client01 and want to ask about P000006", false);
 
-            dt.Rows.Add("M000011", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000001"),
+            dt.Rows.Add("M000011", "realtor01", "client01", "P000001",
                 "2024-05-01",
                 true, "Nice to meet you. I'm realtor01 and want to reply about P000001", false);
-            dt.Rows.Add("M000012", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000002"),
+            dt.Rows.Add("M000012", "realtor01", "client01", "P000002",
                 "2024-05-05",
                 true, "Nice to meet you. I'm realtor01 and want to reply about P000002", false);
-            dt.Rows.Add("M000013", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000003"),
+            dt.Rows.Add("M000013", "realtor01", "client01", "P000003",
                 "2024-05-10",
                 false, "Nice to meet you. I'm realtor01 and want to reply about P000003", false);
-            dt.Rows.Add("M000014", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000004"),
+            dt.Rows.Add("M000014", "realtor01", "client01", "P000004",
                 "2024-05-30",
                 false, "Nice to meet you. I'm realtor01 and want to reply about P000004", false);
-            dt.Rows.Add("M000015", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000005"),
+            dt.Rows.Add("M000015", "realtor01", "client01", "P000005",
                "2024-05-30",
                false, "Nice to meet you. I'm realtor01 and want to reply about P000005", false);
-            dt.Rows.Add("M000016", user.GetUserByID("realtor01"), user.GetUserByID("client01"), property.GetPropertyByID("P000006"),
+            dt.Rows.Add("M000016", "realtor01", "client01", "P000006",
                 "2024-05-15",
                false, "Nice to meet you. I'm realtor01 and want to reply about P000006", false);
 

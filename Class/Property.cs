@@ -95,10 +95,10 @@ namespace PMS
             return this.Address + "\n" + this.City + "\n" + this.ZipCode;        
         }
 
-		public Property GetPropertyByID(string propertyID)
+		public static Property GetPropertyByID(string propertyID)
         {
             
-            DataTable dt = (TempPropertyRecords()).Select($"property_id = '{propertyID}'").CopyToDataTable();
+            DataTable dt = (TempPropertyRecords().Select($"property_id = '{propertyID}'").CopyToDataTable());
 
             DataRow dr = dt.Rows[0];
             Property property = new Property(propertyID);
@@ -173,7 +173,7 @@ namespace PMS
 
         
         //Records for Prototype
-        public DataTable TempPropertyRecords()
+        public static DataTable TempPropertyRecords()
         {
             DataTable dt = new DataTable("Properties");
 

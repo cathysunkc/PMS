@@ -90,8 +90,7 @@ namespace PMS
             DataSet ds = new DataSet();
             Message message = new Message();
             User user = new User();
-            Property property = new Property();
-            property = property.GetPropertyByID(sendMessage.Value);
+            Property property = Property.GetPropertyByID(sendMessage.Value);
 
             DataTable dt = message.GetMessageByPropID((String)Session["UserID"], sendMessage.Value);
             dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,

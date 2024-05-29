@@ -16,8 +16,7 @@ namespace PMS
 
             if (propertyID != null)
             {
-                Property property = new Property();
-                property = property.GetPropertyByID(propertyID);
+                Property property = Property.GetPropertyByID(propertyID);
 
                 this.lblAddress01.Text = property.Address;
                 this.imgProperty.ImageUrl = property.ImagePath;

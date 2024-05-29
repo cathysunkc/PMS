@@ -21,7 +21,7 @@
 
                                 <td runat="server">
                                     <asp:LinkButton ID="lbnRegister" runat="server" CssClass="chat-message" CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
-                                        <asp:Label ID="Label1" runat="server" Text='<%#Eval("property.Address")%>' Font-Size="medium"  /><br/>
+                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address")%>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
                                         <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Substring(0,40) %>' Font-Size="x-small"  /><br/>
                                     </asp:LinkButton>
