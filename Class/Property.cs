@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Transactions;
+using System.Web.WebSockets;
 
 namespace PMS
 {
@@ -100,10 +101,11 @@ namespace PMS
 
         //Edited by Harry
         // New static method to get a property by ID using DB instance
-        //Edited by Wilson for db static method
+        //Edited by Wilson to minus db argument
         public static Property GetPropertyByID(string propertyID)
         {
-            return DB.GetPropertyByID(propertyID);
+            DB db = new DB();
+            return db.GetPropertyByID(propertyID);
         }
 
         //Edited by Harry
