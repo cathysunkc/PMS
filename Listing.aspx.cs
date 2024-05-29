@@ -22,7 +22,7 @@ namespace PMS
                     this.panelAddListing.Visible = true;
                 }
 
-                
+
             }
 
             if (!this.IsPostBack)
@@ -33,7 +33,7 @@ namespace PMS
 
         }
 
-        private void BindDropDownList() 
+        private void BindDropDownList()
         {
             var transactionType = new Dictionary<char, string>
             {
@@ -75,14 +75,14 @@ namespace PMS
         }
 
         private void BindListing()
-        {   
+        {
             DataSet ds = new DataSet();
+            DB db = new DB();
 
             char transactionType = Convert.ToChar(ddlTransactionType.SelectedValue);
             double bedNum = Convert.ToDouble(ddlBedNum.SelectedValue);
             double bathNum = Convert.ToDouble(ddlBathNum.SelectedValue);
-            Property property = new Property();
-            DataTable dt = property.FindProperty(transactionType, bedNum, bathNum);
+            DataTable dt = Property.FindProperty(db, transactionType, bedNum, bathNum);
 
             if (dt.Rows.Count == 0)
                 this.lblNoPropertyFound.Visible = true;

@@ -1,13 +1,50 @@
-﻿<%@ Page Title="View Property" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ViewProperty.aspx.cs" Inherits="PMS.ViewProperty" %>
+﻿<%@ Page Title="View Property" Language="C#" MasterPageFile="~/Site.Master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="ViewProperty.aspx.cs" Inherits="PMS.ViewProperty" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
-
             <h2>View Property</h2>
                 <table>
                     <tr><td style="padding:10px"><h4><asp:Label ID="lblAddress01" runat="server" Text="Address"></asp:Label></h4></td></tr>
-                    <tr><td style="padding:10px"><asp:Image ID="imgProperty" runat="server" Width="100%"></asp:Image></td></tr>
+                    <tr><td style="padding:10px;"></td></tr>
                 </table>
+                <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+                <script language="javascript" type="text/javascript">
+                    function setImage(value) {
+                        document.getElementById("mainImage").src = "/Images/" + value + "/" + value + "01.jpg";
+                    }
+                    function changeImage(url) {
+                        document.getElementById("mainImage").src = url;                    
+                    }
+                </script>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" height="550px">
+                <tr>
+                    <td width="30%" valign="top" align="center" >
+                        <div id="ImageGallery" style="overflow:auto; max-height: 500px; width:100%; display:inline-block;">
+                            <asp:ListView ID="listImages" runat="server" GroupItemCount="2" ShowHeader="False" AutoGenerateColumns="False">
+                            <LayoutTemplate>
+                            <table id="table1">
+                              <tr runat="server" id="groupPlaceholder">
+                              </tr>
+                            </table>
+                            </LayoutTemplate>
+                              <GroupTemplate>
+                                <tr runat="server" id="tableRow">
+                                  <td runat="server" id="itemPlaceholder" />
+                                </tr>
+                              </GroupTemplate>
+                             <ItemTemplate>
+                                <td runat="server" style="width:100%; vertical-align: top; padding: 3px">
+                                    <img onload="setImage('<%#Eval("PropertyID") %>')" onclick="changeImage('<%#Eval("FilePath") %>')" src='<%#Eval("FilePath") %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 165px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
+                                 </td>
+                              </ItemTemplate>
+                            </asp:ListView>                  
+                         </div>
+                    </td>  
+                    <td width="70%" style="vertical-align:top;"> 
+                        <img ID="mainImage" style="width:100%; padding:3px; height:500px; background-position: center center;background-repeat: no-repeat;" />
+                    </td>
+                    </tr>                
+                </table>                        
                 <table style="width: 80%">
                     <tr>
                         <td style="padding:10px; width: 50%"><h5><asp:Label ID="lblPrice" ForeColor="gold" runat="server" Text="Price"></asp:Label></h5></td>

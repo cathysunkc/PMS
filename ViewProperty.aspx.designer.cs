@@ -24,13 +24,13 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label lblAddress01;
 
         /// <summary>
-        /// imgProperty control.
+        /// listImages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgProperty;
+        protected global::System.Web.UI.WebControls.ListView listImages;
 
         /// <summary>
         /// lblPrice control.
