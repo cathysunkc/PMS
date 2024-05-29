@@ -169,6 +169,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ChangePassword.aspx" />
     <Content Include="Scripts\map.js" />
     <Content Include="SQL\pms.sql" />
     <Content Include="ViewProperty.aspx" />
@@ -262,6 +263,13 @@
     <Compile Include="Class\DB.cs" />
     <Compile Include="Class\Message.cs" />
     <Compile Include="Class\Preference.cs" />
+    <Compile Include="ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewProperty.aspx.cs">
       <DependentUpon>ViewProperty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

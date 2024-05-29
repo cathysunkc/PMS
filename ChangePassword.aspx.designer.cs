@@ -11,79 +11,88 @@ namespace PMS
 {
 
 
-    public partial class SiteMaster
+    public partial class ChangePassword
     {
 
         /// <summary>
-        /// HeadContent control.
+        /// UsernameLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.WebControls.Label UsernameLabel;
 
         /// <summary>
-        /// lblWelcome control.
+        /// UsernameTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblWelcome;
+        protected global::System.Web.UI.WebControls.TextBox UsernameTextBox;
 
         /// <summary>
-        /// lnkDefault control.
+        /// OldPasswordLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkDefault;
+        protected global::System.Web.UI.WebControls.Label OldPasswordLabel;
 
         /// <summary>
-        /// lnkListing control.
+        /// OldPasswordTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkListing;
+        protected global::System.Web.UI.WebControls.TextBox OldPasswordTextBox;
 
         /// <summary>
-        /// lnkMessage control.
+        /// NewPasswordLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkMessage;
+        protected global::System.Web.UI.WebControls.Label NewPasswordLabel;
 
         /// <summary>
-        /// lnkDashboard control.
+        /// NewPasswordTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkDashboard;
+        protected global::System.Web.UI.WebControls.TextBox NewPasswordTextBox;
 
         /// <summary>
-        /// lbnLogin control.
+        /// ConfirmPasswordLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lbnLogin;
+        protected global::System.Web.UI.WebControls.Label ConfirmPasswordLabel;
 
         /// <summary>
-        /// MainContent control.
+        /// ConfirmPasswordTextBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.TextBox ConfirmPasswordTextBox;
+
+        /// <summary>
+        /// ChangePasswordButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ChangePasswordButton;
     }
 }
