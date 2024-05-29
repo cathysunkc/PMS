@@ -21,9 +21,9 @@ namespace PMS
 
             if (propertyID != null)
             {
-                DB db = new DB();
-                Property property = new Property();
-                property = Property.GetPropertyByID(db, propertyID);
+
+                //Edited by Wilson for Property static method
+                Property property = Property.GetPropertyByID(propertyID);
 
                 this.lblAddress01.Text = property.Address;
 

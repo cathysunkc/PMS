@@ -139,6 +139,7 @@ namespace PMS
         //images of listing is from https://pixabay.com/images/search/
         //Edited by Harry
         // New method to get a property by ID
+        //Edited by Wilson to change as static method
         public Property GetPropertyByID(string propertyID)
         {
             string query = "SELECT * FROM Properties WHERE property_id = @property_id";
