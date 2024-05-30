@@ -1,56 +1,72 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Web.Security;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.UI;
+using MySql.Data.MySqlClient;
 
 namespace PMS
 {
     public partial class ChangePassword : Page
     {
-        protected void ChangePasswordButton_Click(object sender, EventArgs e)
+        protected void ChangePassword_Click(object sender, EventArgs e)
         {
-            string username = UsernameTextBox.Text;
-            string oldPassword = OldPasswordTextBox.Text;
-            string newPassword = NewPasswordTextBox.Text;
-            string confirmPassword = ConfirmPasswordTextBox.Text;
+            string userID = Session["UserID"].ToString();
+            string oldPassword = txtCurrentPassword.Text;
+            string newPassword = txtNewPassword.Text;
+            string confirmPassword = txtConfirmNewPassword.Text;
 
             if (newPassword != confirmPassword)
             {
-                // Show error message: new passwords do not match
-                Response.Write("<script>alert('New passwords do not match.');</script>");
+                lblErrorNewPassword.Visible = true;
                 return;
             }
 
-            // Connect to the database
             string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Check if the username and old password are correct
-                string query = "SELECT Password FROM Users WHERE Username = @Username";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Username", username);
+                string query = "SELECT password FROM pms_user WHERE user_id = @userID";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
                 string storedPasswordHash = (string)command.ExecuteScalar();
 
-                if (storedPasswordHash == null || !FormsAuthentication.HashPasswordForStoringInConfigFile(oldPassword, "SHA1").Equals(storedPasswordHash))
+                if (storedPasswordHash == null || !VerifyPassword(oldPassword, storedPasswordHash))
                 {
-                    // Show error message: invalid username or old password
-                    Response.Write("<script>alert('Invalid username or old password.');</script>");
+                    lblErrorCurrentPassword.Visible = true;
                     return;
                 }
 
-                // Update the password
-                string newPasswordHash = FormsAuthentication.HashPasswordForStoringInConfigFile(newPassword, "SHA1");
-                query = "UPDATE Users SET Password = @NewPassword WHERE Username = @Username";
-                command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@NewPassword", newPasswordHash);
-                command.Parameters.AddWithValue("@Username", username);
+                string newPasswordHash = HashPassword(newPassword);
+                query = "UPDATE pms_user SET password = @newPassword WHERE user_id = @userID";
+                command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@newPassword", newPasswordHash);
+                command.Parameters.AddWithValue("@userID", userID);
                 command.ExecuteNonQuery();
 
-                // Show success message
-                Response.Write("<script>alert('Password successfully changed.');</script>");
+                lblSuccessPasswordChange.Visible = true;
             }
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var builder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool VerifyPassword(string enteredPassword, string storedHash)
+        {
+            var enteredHash = HashPassword(enteredPassword);
+            return enteredHash.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

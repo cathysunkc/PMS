@@ -8,20 +8,18 @@
     <main aria-labelledby="title">
         <div class="change-password-section">
             <h2>Change Password</h2>
-            <asp:Label ID="UsernameLabel" runat="server" Text="Username:"></asp:Label>
-            <asp:TextBox ID="UsernameTextBox" runat="server" CssClass="form-input"></asp:TextBox>
-            <br />
-            <asp:Label ID="OldPasswordLabel" runat="server" Text="Old Password:"></asp:Label>
-            <asp:TextBox ID="OldPasswordTextBox" runat="server" TextMode="Password" CssClass="form-input"></asp:TextBox>
-            <br />
-            <asp:Label ID="NewPasswordLabel" runat="server" Text="New Password:"></asp:Label>
-            <asp:TextBox ID="NewPasswordTextBox" runat="server" TextMode="Password" CssClass="form-input"></asp:TextBox>
-            <br />
-            <asp:Label ID="ConfirmPasswordLabel" runat="server" Text="Confirm New Password:"></asp:Label>
-            <asp:TextBox ID="ConfirmPasswordTextBox" runat="server" TextMode="Password" CssClass="form-input"></asp:TextBox>
-            <br />
-            <asp:Button ID="ChangePasswordButton" runat="server" Text="Change Password" CssClass="form-button" OnClick="ChangePasswordButton_Click" />
+            <asp:Panel ID="panelChangePassword" runat="server">
+                <asp:Label ID="lblErrorCurrentPassword" runat="server" Text="Current password is incorrect." ForeColor="Red" Visible="False" />
+                <asp:Label ID="lblErrorNewPassword" runat="server" Text="New passwords do not match." ForeColor="Red" Visible="False" />
+                <asp:Label ID="lblErrorPasswordChange" runat="server" Text="Password change failed." ForeColor="Red" Visible="False" />
+                <asp:Label ID="lblSuccessPasswordChange" runat="server" Text="Password changed successfully." ForeColor="Green" Visible="False" />
+ 
+                <asp:TextBox ID="txtCurrentPassword" runat="server" TextMode="Password" Placeholder="Current Password" />
+                <asp:TextBox ID="txtNewPassword" runat="server" TextMode="Password" Placeholder="New Password" />
+                <asp:TextBox ID="txtConfirmNewPassword" runat="server" TextMode="Password" Placeholder="Confirm New Password" />
+ 
+                <asp:Button ID="btnChangePassword" runat="server" Text="Change Password" OnClick="ChangePassword_Click" />
+            </asp:Panel>
         </div>
     </main>
 </asp:Content>
- 

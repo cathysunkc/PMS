@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using MySql.Data.MySqlClient;
 
 namespace PMS
 {
@@ -15,7 +14,7 @@ namespace PMS
             {
                 Response.Redirect("Dashboard");
             }
-        }        
+        }
 
         protected void LoginSubmit_Click(object sender, EventArgs e)
         {
@@ -25,45 +24,73 @@ namespace PMS
             string userID = this.txtLoginUserID.Text.Trim();
             string password = this.txtLoginPassword.Text.Trim();
 
-            if (userID == string.Empty || password == string.Empty)
+            if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(password))
             {
                 this.lblErrorNoLoginInfo.Visible = true;
                 return;
-            }            		
-
-
-            //if ((userID == "client01" || userID == "realtor01") && password == "password")
-            User user = new User();
-            user = user.Login(userID, password);
-
-            if (user != null)
-            { 
-                Session["UserID"] = user.UserID;
-                Session["UserRole"] = user.Role;
-                Response.Redirect("Default");        
-
             }
-            else
+
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-				Session["UserID"] = null;
+                connection.Open();
+
+                string query = "SELECT password, role FROM pms_user WHERE user_id = @userID";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string storedPasswordHash = reader["password"].ToString();
+                    string role = reader["role"].ToString();
+
+                    if (VerifyPassword(password, storedPasswordHash))
+                    {
+                        Session["UserID"] = userID;
+                        Session["UserRole"] = role;
+                        Response.Redirect("Default");
+                        return;
+                    }
+                }
+
+                Session["UserID"] = null;
                 Session["UserRole"] = null;
-                this.lblErrorLoginFail.Visible = true;                
-			}
+                this.lblErrorLoginFail.Visible = true;
+            }
+        }
 
-			//Response.Redirect(HttpContext.Current.Request.Url.ToString(), true);
-
-		}
-
-		protected void RegisterLink_Click(object sender, EventArgs e)
-		{
+        protected void RegisterLink_Click(object sender, EventArgs e)
+        {
             this.panelRegister.Visible = true;
             this.panelLogin.Visible = false;
-		}
+        }
 
-		protected void LoginLink_Click(object sender, EventArgs e)
-		{
-			this.panelRegister.Visible = false;
-			this.panelLogin.Visible = true;
-		}
-	}
+        protected void LoginLink_Click(object sender, EventArgs e)
+        {
+            this.panelRegister.Visible = false;
+            this.panelLogin.Visible = true;
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var builder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool VerifyPassword(string enteredPassword, string storedHash)
+        {
+            var enteredHash = HashPassword(enteredPassword);
+            return enteredHash.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
+        }
+    }
 }

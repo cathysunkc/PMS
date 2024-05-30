@@ -15,84 +15,84 @@ namespace PMS
     {
 
         /// <summary>
-        /// UsernameLabel control.
+        /// panelChangePassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label UsernameLabel;
+        protected global::System.Web.UI.WebControls.Panel panelChangePassword;
 
         /// <summary>
-        /// UsernameTextBox control.
+        /// lblErrorCurrentPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UsernameTextBox;
+        protected global::System.Web.UI.WebControls.Label lblErrorCurrentPassword;
 
         /// <summary>
-        /// OldPasswordLabel control.
+        /// lblErrorNewPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label OldPasswordLabel;
+        protected global::System.Web.UI.WebControls.Label lblErrorNewPassword;
 
         /// <summary>
-        /// OldPasswordTextBox control.
+        /// lblErrorPasswordChange control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox OldPasswordTextBox;
+        protected global::System.Web.UI.WebControls.Label lblErrorPasswordChange;
 
         /// <summary>
-        /// NewPasswordLabel control.
+        /// lblSuccessPasswordChange control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NewPasswordLabel;
+        protected global::System.Web.UI.WebControls.Label lblSuccessPasswordChange;
 
         /// <summary>
-        /// NewPasswordTextBox control.
+        /// txtCurrentPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox NewPasswordTextBox;
+        protected global::System.Web.UI.WebControls.TextBox txtCurrentPassword;
 
         /// <summary>
-        /// ConfirmPasswordLabel control.
+        /// txtNewPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ConfirmPasswordLabel;
+        protected global::System.Web.UI.WebControls.TextBox txtNewPassword;
 
         /// <summary>
-        /// ConfirmPasswordTextBox control.
+        /// txtConfirmNewPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ConfirmPasswordTextBox;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmNewPassword;
 
         /// <summary>
-        /// ChangePasswordButton control.
+        /// btnChangePassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ChangePasswordButton;
+        protected global::System.Web.UI.WebControls.Button btnChangePassword;
     }
 }

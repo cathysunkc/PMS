@@ -1,36 +1,96 @@
-﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="PMS.Login" %>
+﻿using System;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.UI;
+using MySql.Data.MySqlClient;
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <main aria-labelledby="title">
-         <asp:Panel ID="panelLogin" runat="server">
-            <div class="login-section">               
-                <h2>Login</h2>
-                
-                <asp:Label runat="server" CssClass="error-msg" ID="lblErrorLoginFail" Visible="False">Invalid Login ID or Password.</asp:Label>
-                <asp:label runat="server" CssClass="error-msg" ID="lblErrorNoLoginInfo" Visible="False">Please enter your User ID and Password.</asp:label>
+namespace PMS
+{
+    public partial class Login : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["UserID"] != null)
+            {
+                Response.Redirect("Dashboard");
+            }
+        }
 
-                <asp:TextBox runat="server" ID="txtLoginUserID" placeholder="User ID" CssClass="form-input"></asp:TextBox>                    
+        protected void LoginSubmit_Click(object sender, EventArgs e)
+        {
+            this.lblErrorNoLoginInfo.Visible = false;
+            this.lblErrorLoginFail.Visible = false;
 
-                <asp:TextBox runat="server" CssClass="form-input" placeholder="Password" ID="txtLoginPassword" TextMode="Password"></asp:TextBox>
-                <asp:Button runat="server" Text="Login" ID="btnLogin" CssClass="form-button" OnClick="LoginSubmit_Click"></asp:Button>
-                <br />
-                No account yet? Sign Up <asp:LinkButton ID="lbnRegister" CssClass="link" runat="server" OnClick="RegisterLink_Click">here</asp:LinkButton>
-                <br />
-                Forgot password? <asp:HyperLink ID="ChangePasswordLink" runat="server" NavigateUrl="~/ChangePassword.aspx">Change Password</asp:HyperLink>
-            </div>
-         </asp:Panel>
-         <asp:Panel ID="panelRegister" runat="server" Visible="false">
-            <div class="register-section">
-                <h2>Sign Up</h2>
-                <asp:TextBox runat="server" ID="txtRegisterUserID" placeholder="User ID" CssClass="form-input"></asp:TextBox>
-                <asp:TextBox runat="server" ID="txtRegisterFirstName" placeholder="First Name" CssClass="form-input"></asp:TextBox>    
-                <asp:TextBox runat="server" ID="txtRegisterLastName" placeholder="Last Name" CssClass="form-input"></asp:TextBox> 
-                <asp:TextBox runat="server" ID="txtRegisterEmail" placeholder="Email" CssClass="form-input"></asp:TextBox>
-                <asp:TextBox runat="server" ID="txtRegisterPassword01" placeholder="Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
-                <asp:TextBox runat="server" ID="txtRegisterPassword02" placeholder="Re-enter Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
-                <input type="submit" value="Register" class="form-button">                
-                Already have an account? Login <asp:LinkButton ID="lbnLogin" CssClass="link" runat="server" OnClick="LoginLink_Click">here</asp:LinkButton>
-            </div>
-        </asp:Panel>        
-    </main>
-</asp:Content>
+            string userID = this.txtLoginUserID.Text.Trim();
+            string password = this.txtLoginPassword.Text.Trim();
+
+            if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(password))
+            {
+                this.lblErrorNoLoginInfo.Visible = true;
+                return;
+            }
+
+            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT password, role FROM pms_user WHERE user_id = @userID";
+                MySqlCommand command = new MySqlCommand(query, connection);
+                command.Parameters.AddWithValue("@userID", userID);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    string storedPasswordHash = reader["password"].ToString();
+                    string role = reader["role"].ToString();
+
+                    if (VerifyPassword(password, storedPasswordHash))
+                    {
+                        Session["UserID"] = userID;
+                        Session["UserRole"] = role;
+                        Response.Redirect("Default");
+                        return;
+                    }
+                }
+
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                this.lblErrorLoginFail.Visible = true;
+            }
+        }
+
+        protected void RegisterLink_Click(object sender, EventArgs e)
+        {
+            this.panelRegister.Visible = true;
+            this.panelLogin.Visible = false;
+        }
+
+        protected void LoginLink_Click(object sender, EventArgs e)
+        {
+            this.panelRegister.Visible = false;
+            this.panelLogin.Visible = true;
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var builder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool VerifyPassword(string enteredPassword, string storedHash)
+        {
+            var enteredHash = HashPassword(enteredPassword);
+            return enteredHash.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+}
