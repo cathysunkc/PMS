@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\PMS.dll.config
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\PMS.dll
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\PMS.pdb
@@ -557,7 +556,6 @@ C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.csproj.CoreCompileInputs.cache
 C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.csproj.CopyComplete
 C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.dll
 C:\Users\howin\source\repos\PMS\PMS\obj\Debug\PMS.pdb
->>>>>>> main
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\roslyn\csc.exe.refresh
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\roslyn\csi.exe.refresh
 C:\Users\mic2h\Desktop\SAIT\Capstone Project (PROJ-309-SDF)\PMS\PMS\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll.refresh

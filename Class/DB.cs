@@ -332,9 +332,65 @@ namespace PMS
             //To be implemented
         }
 
+        /************************************
+         * Message
+        /************************************/
+
+        //Get User by ID from DB
+        public DataTable SelectMessageByID(string userID)
+        {
+            string query = $"SELECT * FROM pms_message WHERE sender_id = '{userID}' OR recipent_id = '{userID}' ;";
+
+            DataTable dt = new DataTable();
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                dt.Load(dataReader);
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return user
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+
         public void AddMessage(Message message)
         {
-            //To be implemented
+            string query = @"INSERT INTO pms_message 
+                    (message_id, sender_id, recipent_id, property_id, sendout_date, is_important, content, is_checked) 
+                    VALUES 
+                    (@MessageID, @SenderID, @RecipentID, @PropertyID, @SendOutDate, @IsImportant, @Content, @IsChecked)";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@MessageID", message.MessageID);
+                cmd.Parameters.AddWithValue("@SenderID", message.SenderID);
+                cmd.Parameters.AddWithValue("@RecipentID", message.RecipentID);
+                cmd.Parameters.AddWithValue("@PropertyID", message.PropertyID);
+                cmd.Parameters.AddWithValue("@SendOutDate", message.SendOutDate);
+                cmd.Parameters.AddWithValue("@IsImportant", message.IsImportant);
+                cmd.Parameters.AddWithValue("@Content", message.Content);
+                cmd.Parameters.AddWithValue("@IsChecked", message.IsChecked);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public void UpdateMessage()

@@ -61,10 +61,9 @@ namespace PMS
         private void BindMessageList()
         {
             DataSet ds = new DataSet();
-            Message message = new Message();
-            DataTable dt = message.GetMessageByUserID((String)Session["UserID"]);
-
+            DataTable dt = Message.GetMessageByUserID((String)Session["UserID"]);
             ds.Tables.Add(dt);
+
             listMessage.DataSource = ds;
             listMessage.DataBind();
 
@@ -73,9 +72,7 @@ namespace PMS
         protected void Message_Click(Object sender, CommandEventArgs e)
         {
             DataSet ds = new DataSet();
-            Message message = new Message();
-            DataTable dt = message.GetMessageByPropID((String)Session["UserID"], (String)e.CommandArgument);
-
+            DataTable dt = Message.GetMessageByUserIDAndPropID((String)Session["UserID"], (String)e.CommandArgument);
             ds.Tables.Add(dt);
 
             gridMessage.DataSource = ds;
@@ -87,26 +84,17 @@ namespace PMS
 
         protected void Send_Click(object sender, EventArgs e)
         {
+            Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
+    DateTime.Now.ToString("yyyy'-'MM'-'dd"), true, this.txtMessage.Text, false);
+            message.SendMessage(message);
+            //dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,DateTime.Now.ToString("yyyy'-'MM'-'dd"),false, this.txtMessage.Text, false);
+
             DataSet ds = new DataSet();
-            Message message = new Message();
-            User user = new User();
-            Property property = Property.GetPropertyByID(sendMessage.Value);
-
-            DataTable dt = message.GetMessageByPropID((String)Session["UserID"], sendMessage.Value);
-            dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,
-                DateTime.Now.ToString("yyyy'-'MM'-'dd"),
-               false, this.txtMessage.Text, false);
-
+            DataTable dt = Message.GetMessageByUserIDAndPropID((String)Session["UserID"], sendMessage.Value);
             ds.Tables.Add(dt);
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
-
-            //List<DataRow> dataSource = (List<DataRow>)gridMessage.DataSource;
-
-            //DataRowView dv = (DataRowView)gridMessage.Rows[0].DataItem;
-            //Property property = (Property)dv["property"];
-
 
             //Console.WriteLine($"{dv}");
             //System.Windows.Forms.MessageBox.Show($"{sendMessage.Value}");
