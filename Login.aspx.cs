@@ -15,21 +15,21 @@ namespace PMS
             {
                 Response.Redirect("Dashboard");
             }
-        }        
+        }
 
         protected void LoginSubmit_Click(object sender, EventArgs e)
         {
-            this.lblErrorNoLoginInfo.Visible = false;
-            this.lblErrorLoginFail.Visible = false;
+            lblErrorNoLoginInfo.Visible = false;
+            lblErrorLoginFail.Visible = false;
 
-            string userID = this.txtLoginUserID.Text.Trim();
-            string password = this.txtLoginPassword.Text.Trim();
+            string userID = txtLoginUserID.Text.Trim();
+            string password = txtLoginPassword.Text.Trim();
 
-            if (userID == string.Empty || password == string.Empty)
+            if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(password))
             {
-                this.lblErrorNoLoginInfo.Visible = true;
+                lblErrorNoLoginInfo.Visible = true;
                 return;
-            }            		
+            }
 
 
             //if ((userID == "client01" || userID == "realtor01") && password == "password")
@@ -37,34 +37,34 @@ namespace PMS
             user = user.Login(userID, password);
 
             if (user != null)
-            { 
+            {
                 Session["UserID"] = user.UserID;
                 Session["UserRole"] = user.Role;
-                Response.Redirect("Default");        
+                Response.Redirect("Default");
 
             }
             else
             {
-				Session["UserID"] = null;
+                Session["UserID"] = null;
                 Session["UserRole"] = null;
-                this.lblErrorLoginFail.Visible = true;                
-			}
+                lblErrorLoginFail.Visible = true;
+            }
 
 			//Response.Redirect(HttpContext.Current.Request.Url.ToString(), true);
 
-		}
+        }
 
-		protected void RegisterLink_Click(object sender, EventArgs e)
-		{
-            this.panelRegister.Visible = true;
-            this.panelLogin.Visible = false;
-		}
+        protected void RegisterLink_Click(object sender, EventArgs e)
+        {
+            panelRegister.Visible = true;
+            panelLogin.Visible = false;
+        }
 
-		protected void LoginLink_Click(object sender, EventArgs e)
-		{
-			this.panelRegister.Visible = false;
-			this.panelLogin.Visible = true;
-		}
+        protected void LoginLink_Click(object sender, EventArgs e)
+        {
+            panelRegister.Visible = false;
+            panelLogin.Visible = true;
+        }
 
 
 
@@ -79,22 +79,27 @@ namespace PMS
             string lastName = txtRegisterLastName.Text.Trim();
             string email = txtRegisterEmail.Text.Trim();
             string phone = txtRegisterPhone.Text.Trim();
-            string role = ddlRegisterRole.SelectedValue;
+            string role = rblRegisterRole.SelectedValue;
 
             // Hide all error messages initially
             lblErrorRegisterFieldsRequired.Visible = false;
             lblErrorRegisterFail.Visible = false;
             lblErrorPasswordMismatch.Visible = false;
-
-
-
+            lblErrorRoleRequired.Visible = false;
 
             if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) ||
                 string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) ||
-                string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(role))
+                string.IsNullOrEmpty(phone) || string.IsNullOrEmpty(role) || role == "")
             {
+                if (string.IsNullOrEmpty(role) || role == "")
+                {
+                    lblErrorRoleRequired.Visible = true;
+                }
+                else
+                {
                 // Show error message that all fields are required
-                lblErrorRegisterFieldsRequired.Visible = true;
+                    lblErrorRegisterFieldsRequired.Visible = true;
+                }
                 return;
             }
 
@@ -106,7 +111,7 @@ namespace PMS
                 lblErrorPasswordMismatch.Visible = true;
                 return;
             }
-            
+
             try
             {
                 User user = new User(userID, password, firstName, lastName, email, phone, role);

@@ -114,6 +114,15 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label lblErrorPasswordMismatch;
 
         /// <summary>
+        /// lblErrorRoleRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorRoleRequired;
+
+        /// <summary>
         /// txtRegisterFirstName control.
         /// </summary>
         /// <remarks>
@@ -177,13 +186,13 @@ namespace PMS
         protected global::System.Web.UI.WebControls.TextBox txtConfirmPassword;
 
         /// <summary>
-        /// ddlRegisterRole control.
+        /// rblRegisterRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRegisterRole;
+        protected global::System.Web.UI.WebControls.RadioButtonList rblRegisterRole;
 
         /// <summary>
         /// btnRegister control.
