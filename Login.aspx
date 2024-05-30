@@ -13,6 +13,7 @@
 
                 <asp:TextBox runat="server" CssClass="form-input" placeholder="Password" ID="txtLoginPassword" TextMode="Password"></asp:TextBox>
                     <asp:Button runat="server" Text="Login" ID="btnLogin" CssClass="form-button" OnClick="LoginSubmit_Click"></asp:Button>
+
                     No account yet? Sign Up <asp:LinkButton ID="lbnRegister" CssClass="link" runat="server" OnClick="RegisterLink_Click">here</asp:LinkButton>
                 
             </div>
@@ -20,13 +21,38 @@
          <asp:Panel ID="panelRegister" runat="server" Visible="false">
             <div class="register-section">
                 <h2>Sign Up</h2>
-                    <asp:TextBox runat="server" ID="txtRegisterUserID" placeholder="User ID" CssClass="form-input"></asp:TextBox>
+
+                <asp:Label ID="lblErrorRegisterFieldsRequired" runat="server" CssClass="error-msg" Text="All fields are required." Visible="false"></asp:Label>
+                <asp:Label ID="lblErrorRegisterFail" runat="server" CssClass="error-msg" Text="Registration failed. Please try again." Visible="false"></asp:Label>
+                <asp:Label ID="lblErrorPasswordMismatch" runat="server" CssClass="error-msg" Text="Passwords do not match." Visible="false"></asp:Label>
+                <asp:Label ID="lblErrorRoleRequired" runat="server" Text="Role must be selected." ForeColor="Red" Visible="False" />
+
                     <asp:TextBox runat="server" ID="txtRegisterFirstName" placeholder="First Name" CssClass="form-input"></asp:TextBox>    
-                    <asp:TextBox runat="server" ID="txtRegisterLastName" placeholder="Last Name" CssClass="form-input"></asp:TextBox> 
-                    <asp:TextBox runat="server" ID="txtRegisterEmail" placeholder="Email" CssClass="form-input"></asp:TextBox>
-                <asp:TextBox runat="server" ID="txtRegisterPassword01" placeholder="Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
-                <asp:TextBox runat="server" ID="txtRegisterPassword02" placeholder="Re-enter Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
-                    <input type="submit" value="Register" class="form-button">                
+                <asp:TextBox runat="server" ID="txtRegisterLastName" placeholder="Last Name" CssClass="form-input"></asp:TextBox> 
+                <asp:TextBox runat="server" ID="txtRegisterEmail" placeholder="Email" CssClass="form-input"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtRegisterPhone" placeholder="Phone" CssClass="form-input"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtRegisterUserID" placeholder="User ID" CssClass="form-input"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtRegisterPassword" placeholder="Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtConfirmPassword"  placeholder="Confirm Password" CssClass="form-input" TextMode="Password"></asp:TextBox>
+
+
+
+
+
+                <asp:RadioButtonList ID="rblRegisterRole" runat="server" CssClass="form-input">
+                    <asp:ListItem Value="" Text="Select Role" Selected="True" />
+                    <asp:ListItem Value="realtor">Realtor</asp:ListItem>
+                    <asp:ListItem Value="client">Client</asp:ListItem>
+                </asp:RadioButtonList>
+
+
+
+
+
+                <asp:Button runat="server" Text="Register" ID="btnRegister" CssClass="form-button" OnClick="RegisterSubmit_Click"></asp:Button>
+
+
+
                 Already had an account? Login <asp:LinkButton ID="lbnLogin" CssClass="link" runat="server" OnClick="LoginLink_Click">here</asp:LinkButton>
                 
             </div>

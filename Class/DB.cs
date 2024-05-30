@@ -94,7 +94,35 @@ namespace PMS
         /************************************/
         public void AddProperty(Property property)
         {
-            //To be implemented
+            string query = @"INSERT INTO Properties 
+                    (property_id, address, zip_code, city, property_type, bed_num, bath_num, area, parking_type, posted_date, available_date, description, is_featured, transaction_type, price, realtor_id, is_sold) 
+                    VALUES 
+                    (@PropertyID, @Address, @ZipCode, @City, @PropertyType, @BedNum, @BathNum, @Area, @ParkingType, @PostedDate, @AvailableDate, @Description, @IsFeatured, @TransactionType, @Price, @RealtorID, @IsSold)";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@PropertyID", property.PropertyID);
+                cmd.Parameters.AddWithValue("@Address", property.Address);
+                cmd.Parameters.AddWithValue("@ZipCode", property.ZipCode);
+                cmd.Parameters.AddWithValue("@City", property.City);
+                cmd.Parameters.AddWithValue("@PropertyType", property.PropertyType);
+                cmd.Parameters.AddWithValue("@BedNum", property.BedNum);
+                cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
+                cmd.Parameters.AddWithValue("@Area", property.Area);
+                cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
+                cmd.Parameters.AddWithValue("@PostedDate", property.PostedDate);
+                cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
+                cmd.Parameters.AddWithValue("@Description", property.Description);
+                cmd.Parameters.AddWithValue("@IsFeatured", property.IsFeatured);
+                cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
+                cmd.Parameters.AddWithValue("@Price", property.Price);
+                cmd.Parameters.AddWithValue("@RealtorID", property.RealtorID);
+                cmd.Parameters.AddWithValue("@IsSold", property.IsSold);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public void UpdateProperty()
@@ -111,6 +139,7 @@ namespace PMS
         //images of listing is from https://pixabay.com/images/search/
         //Edited by Harry
         // New method to get a property by ID
+        //Edited by Wilson to change as static method
         public Property GetPropertyByID(string propertyID)
         {
             string query = "SELECT * FROM Properties WHERE property_id = @property_id";
@@ -288,10 +317,31 @@ namespace PMS
         }
 
 
-        public void AddUser(User user)
+        public bool AddUser(User user)
         {
-            //To be implemented
+            string query = "INSERT INTO pms_user (user_id, password, first_name, last_name, email, phone, role) VALUES (@userID, @password, @firstName, @lastName, @Email, @Phone, @Role)";
+
+            if (this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@userID", user.UserID);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", user.LastName);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Phone", user.Phone);
+                cmd.Parameters.AddWithValue("@Role", user.Role);
+
+                int result = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
+    
 
         public void UpdateUser()
         {
