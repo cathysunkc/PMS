@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics.Metrics;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 
 namespace PMS
@@ -88,9 +89,40 @@ namespace PMS
             }
         }
 
+        /************************************
+         * Property
+        /************************************/
         public void AddProperty(Property property)
         {
-            //To be implemented
+            string query = @"INSERT INTO Properties 
+                    (property_id, address, zip_code, city, property_type, bed_num, bath_num, area, parking_type, posted_date, available_date, description, is_featured, transaction_type, price, realtor_id, is_sold) 
+                    VALUES 
+                    (@PropertyID, @Address, @ZipCode, @City, @PropertyType, @BedNum, @BathNum, @Area, @ParkingType, @PostedDate, @AvailableDate, @Description, @IsFeatured, @TransactionType, @Price, @RealtorID, @IsSold)";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@PropertyID", property.PropertyID);
+                cmd.Parameters.AddWithValue("@Address", property.Address);
+                cmd.Parameters.AddWithValue("@ZipCode", property.ZipCode);
+                cmd.Parameters.AddWithValue("@City", property.City);
+                cmd.Parameters.AddWithValue("@PropertyType", property.PropertyType);
+                cmd.Parameters.AddWithValue("@BedNum", property.BedNum);
+                cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
+                cmd.Parameters.AddWithValue("@Area", property.Area);
+                cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
+                cmd.Parameters.AddWithValue("@PostedDate", property.PostedDate);
+                cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
+                cmd.Parameters.AddWithValue("@Description", property.Description);
+                cmd.Parameters.AddWithValue("@IsFeatured", property.IsFeatured);
+                cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
+                cmd.Parameters.AddWithValue("@Price", property.Price);
+                cmd.Parameters.AddWithValue("@RealtorID", property.RealtorID);
+                cmd.Parameters.AddWithValue("@IsSold", property.IsSold);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public void UpdateProperty()
@@ -107,9 +139,11 @@ namespace PMS
         //images of listing is from https://pixabay.com/images/search/
         //Edited by Harry
         // New method to get a property by ID
+        //Edited by Wilson to change as static method
         public Property GetPropertyByID(string propertyID)
         {
             string query = "SELECT * FROM Properties WHERE property_id = @property_id";
+           
             Property property = null;
 
             if (OpenConnection() == true)
@@ -138,10 +172,12 @@ namespace PMS
                             IsFeatured = Convert.ToBoolean(dataReader["is_featured"]),
                             TransactionType = Convert.ToChar(dataReader["transaction_type"]),
                             Price = Convert.ToDouble(dataReader["price"]),
-                            ImagePath = dataReader["image_path"].ToString(),
+                            ImagePath = "~/Images/" + propertyID + "/" + propertyID + "01.jpg",
                             RealtorID = dataReader["realtor_id"].ToString(),
                             IsSold = Convert.ToBoolean(dataReader["is_sold"])
                         };
+
+                        // ImagePath = dataReader["image_path"].ToString(),
                     }
                 }
                 CloseConnection();
@@ -154,6 +190,7 @@ namespace PMS
         public DataTable GetFeaturedProperty()
         {
             string query = "SELECT * FROM Properties WHERE is_featured = 1 AND is_sold = 0";
+            
             DataTable dt = new DataTable();
 
             if (OpenConnection() == true)
@@ -161,7 +198,9 @@ namespace PMS
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 adapter.Fill(dt);
-                CloseConnection();
+                
+                //close Connection
+                this.CloseConnection();
             }
             return dt;
         }
@@ -171,17 +210,18 @@ namespace PMS
         public DataTable FindProperty(char transactionType, double bedNum, double bathNum)
         {
             string query = "SELECT * FROM Properties WHERE is_sold = 0";
+            
             if (transactionType != ' ')
             {
-                query += " AND transaction_type = @transaction_type";
+                query += " AND p.transaction_type = @transaction_type";
             }
             if (bedNum != 0)
             {
-                query += " AND bed_num = @bed_num";
+                query += " AND p.bed_num = @bed_num";
             }
             if (bathNum != 0)
             {
-                query += " AND bath_num = @bath_num";
+                query += " AND p.bath_num = @bath_num";
             }
 
             DataTable dt = new DataTable();
@@ -207,6 +247,10 @@ namespace PMS
             }
             return dt;
         }
+
+        /************************************
+         * User
+        /************************************/
 
         //Get User by ID and Password from DB
         public DataTable SelectUserByIDPassword(string userID, string password)
