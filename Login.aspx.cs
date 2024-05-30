@@ -136,16 +136,6 @@ namespace PMS
                     lblErrorRegisterFail.Text = "User ID already exists. Please choose a different User ID.";
                     lblErrorRegisterFail.Visible = true;
                 }
-                else
-                {
-                    // Log the exception (consider using a logging framework)
-                    // Show a user-friendly error message
-                    lblErrorRegisterFail.Text = "An error occurred during registration. Please contact support.";
-                    lblErrorRegisterFail.Visible = true;
-
-                    // Optionally, log the detailed exception message for debugging purposes
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                }
             }
 
         }
