@@ -21,7 +21,7 @@ namespace PMS
 
         public string PropertyID { get; set; }
 
-        public DateTime SendOutDate { get; set; }
+        public string SendOutDate { get; set; }
 
         public bool IsImportant { get; set; }
 
@@ -29,21 +29,25 @@ namespace PMS
 
         public bool IsChecked { get; set; }
 
+        // initial messages are before 20
+        private static int MessageINT = 20;
 
         //Constructors
         public Message() 
-        { 
-        
+        {
+            this.MessageID = "M" + MessageINT.ToString("D6");
+            MessageINT++;
         }
 
         public Message(string messageID) 
         { 
-            this.MessageID = messageID;
+            this.MessageID = "M" + MessageINT.ToString("D6");
+            MessageINT++;
         }
 
-        public Message(string messageID, string senderID, string recipentID, string propertyID, DateTime SendOutDate, bool IsImportant, string content, bool isChecked)
+        public Message(string senderID, string recipentID, string propertyID, string SendOutDate, bool IsImportant, string content, bool isChecked)
         {
-            this.MessageID = messageID;
+            this.MessageID = "M" + MessageINT.ToString("D6");
             this.SenderID = senderID;
             this.RecipentID = recipentID;
             this.PropertyID = propertyID;
@@ -51,6 +55,7 @@ namespace PMS
             this.IsImportant = IsImportant;
             this.Content = content;
             this.IsChecked = isChecked;
+            MessageINT++;
         }
 
         //Methods
@@ -60,15 +65,24 @@ namespace PMS
             return null;
         }
 
-        public DataTable GetMessageByUserID(string userID)
+        public static DataTable GetMessageByUserID(string userID)
         {
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByID(userID);
             DataTable dt = new DataTable();
 
+            DataRow[] dr = dtDB.AsEnumerable()
+                .GroupBy(row => row["property_id"])
+                .Select(group => group.First())
+                .ToArray();
+
+            /*
             DataRow[] dr = (TempMessageRecords()).AsEnumerable()
                             .Where(row => (string)row["sender_id"] == $"{userID}" || (string)row["recipent_id"] == $"{userID}")
                             .GroupBy(row => row["property_id"])
                             .Select(group => group.First())
                             .ToArray();
+            */
 
             if (dr.Length > 0)
             {
@@ -103,12 +117,14 @@ namespace PMS
             return dt;
         }
 
-        public DataTable GetMessageByPropID(string userID, string propertyID)
+        public static DataTable GetMessageByUserIDAndPropID(string userID, string propertyID)
         {
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByID(userID);
             DataTable dt = new DataTable();
 
-            DataRow[] dr = (TempMessageRecords()).AsEnumerable()
-                            .Where(row => ((string)row["sender_id"] == $"{userID}" || (string)row["recipent_id"] == $"{userID}") && (string)row["property_id"] == $"{propertyID}")
+            DataRow[] dr = dtDB.AsEnumerable()
+                            .Where(row => (string)row["property_id"] == $"{propertyID}")
                             .ToArray();
 
             if (dr.Length > 0) 
@@ -145,6 +161,7 @@ namespace PMS
             return dt;
         }
 
+        /*
         //Records for Prototype
         public DataTable TempMessageRecords()
         {
@@ -203,6 +220,7 @@ namespace PMS
 
             return dt;
         }
+        */
 
         public void CheckMessage(string messageID)
         {
@@ -210,9 +228,10 @@ namespace PMS
             this.IsChecked = true;
         }
 
-        public void SendMessage()
+        public void SendMessage(Message message)
         {
-            //To be implemented
+            DB dB = new DB();
+            dB.AddMessage(message);
         }
 
         public void AlertMessage()
