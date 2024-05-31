@@ -33,19 +33,25 @@ namespace PMS
 
                 this.txtSenderEmail.Text = user.Email;
 
-                string realtorID = Request.QueryString["realtor_id"];
+                string propertyID = Request.QueryString["property_id"];
 
-                if (realtorID != null)
+                if (propertyID != null)
                 {
-                    User realtor = new User();
-                    realtor = realtor.GetUserByID(realtorID);
+                    BindMessageGrid(propertyID);
+
+                    this.panelSelectMessage.Visible = true;
+                    sendMessage.Value = propertyID;
+
+                    /* edited by Wilson 
+                    //User realtor = new User();
+                    //realtor = realtor.GetUserByID(realtorID);
 
                     if (realtor != null)
                     {
-
                         this.txtRecipientEmail.Text = realtor.Email;
                         this.txtRecipientEmail.ReadOnly = true;
                     }
+                    */
                 }
 
                 // Edited by Wilson
@@ -61,25 +67,29 @@ namespace PMS
         private void BindMessageList()
         {
             DataSet ds = new DataSet();
-            Message message = new Message();
-            DataTable dt = message.GetMessageByUserID((String)Session["UserID"]);
-
+            DataTable dt = Message.GetMessageByUserID((String)Session["UserID"]);
             ds.Tables.Add(dt);
+
             listMessage.DataSource = ds;
             listMessage.DataBind();
 
         }
 
-        protected void Message_Click(Object sender, CommandEventArgs e)
+        private void BindMessageGrid(string propertyID)
         {
             DataSet ds = new DataSet();
-            Message message = new Message();
-            DataTable dt = message.GetMessageByPropID((String)Session["UserID"], (String)e.CommandArgument);
-
+            DataTable dt = Message.GetMessageByUserIDAndPropID((String)Session["UserID"], propertyID);
             ds.Tables.Add(dt);
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
+
+        }
+
+        protected void Message_Click(Object sender, CommandEventArgs e)
+        {
+
+            BindMessageGrid((String)e.CommandArgument);
 
             this.panelSelectMessage.Visible = true;
             sendMessage.Value = (String)e.CommandArgument;
@@ -87,31 +97,18 @@ namespace PMS
 
         protected void Send_Click(object sender, EventArgs e)
         {
-            DataSet ds = new DataSet();
-            Message message = new Message();
-            User user = new User();
-            Property property = Property.GetPropertyByID(sendMessage.Value);
+            Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
+    DateTime.Now.ToString("yyyy'-'MM'-'dd"), true, this.txtMessage.Text, false);
+            message.SendMessage(message);
+            //dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,DateTime.Now.ToString("yyyy'-'MM'-'dd"),false, this.txtMessage.Text, false);
 
-            DataTable dt = message.GetMessageByPropID((String)Session["UserID"], sendMessage.Value);
-            dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,
-                DateTime.Now.ToString("yyyy'-'MM'-'dd"),
-               false, this.txtMessage.Text, false);
+            BindMessageGrid(sendMessage.Value);
+            BindMessageList();
 
-            ds.Tables.Add(dt);
-
-            gridMessage.DataSource = ds;
-            gridMessage.DataBind();
-
-            //List<DataRow> dataSource = (List<DataRow>)gridMessage.DataSource;
-
-            //DataRowView dv = (DataRowView)gridMessage.Rows[0].DataItem;
-            //Property property = (Property)dv["property"];
-
+            this.txtMessage.Text = null;
 
             //Console.WriteLine($"{dv}");
             //System.Windows.Forms.MessageBox.Show($"{sendMessage.Value}");
-   
-            this.txtMessage.Text = null;
         }
     }
 }
