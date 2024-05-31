@@ -40,7 +40,6 @@ namespace PMS
                     BindMessageGrid(propertyID);
 
                     this.panelSelectMessage.Visible = true;
-                    this.txtMessage.Text = propertyID;
                     sendMessage.Value = propertyID;
 
                     /* edited by Wilson 
@@ -104,6 +103,7 @@ namespace PMS
             //dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,DateTime.Now.ToString("yyyy'-'MM'-'dd"),false, this.txtMessage.Text, false);
 
             BindMessageGrid(sendMessage.Value);
+            BindMessageList();
 
             this.txtMessage.Text = null;
 
