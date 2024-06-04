@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI;
-using MySql.Data.MySqlClient;
 
 namespace PMS
 {
@@ -10,7 +11,7 @@ namespace PMS
     {
         protected void ChangePassword_Click(object sender, EventArgs e)
         {
-            string userID = Session["UserID"].ToString();
+            string username = txtUsername.Text;
             string oldPassword = txtCurrentPassword.Text;
             string newPassword = txtNewPassword.Text;
             string confirmPassword = txtConfirmNewPassword.Text;
@@ -21,15 +22,25 @@ namespace PMS
                 return;
             }
 
-            string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            string server = "localhost";
+            string database = "pms";
+            string uid = "root";
+            string password = "password";
+            string connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
+
+            // Get the connection string from Web.config
+            //string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+            // Connect to the database
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                string query = "SELECT password FROM pms_user WHERE user_id = @userID";
+                // Check if the username and old password are correct
+                string query = "SELECT password FROM pms_user WHERE user_id = @Username";
                 MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userID", userID);
+                command.Parameters.AddWithValue("@Username", username);
                 string storedPasswordHash = (string)command.ExecuteScalar();
 
                 if (storedPasswordHash == null || !VerifyPassword(oldPassword, storedPasswordHash))
@@ -38,11 +49,12 @@ namespace PMS
                     return;
                 }
 
+                // Update the password
                 string newPasswordHash = HashPassword(newPassword);
-                query = "UPDATE pms_user SET password = @newPassword WHERE user_id = @userID";
+                query = "UPDATE pms_user SET Password = @NewPassword WHERE user_id = @Username";
                 command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@newPassword", newPasswordHash);
-                command.Parameters.AddWithValue("@userID", userID);
+                command.Parameters.AddWithValue("@NewPassword", newPasswordHash);
+                command.Parameters.AddWithValue("@Username", username);
                 command.ExecuteNonQuery();
 
                 lblSuccessPasswordChange.Visible = true;
@@ -65,8 +77,9 @@ namespace PMS
 
         private bool VerifyPassword(string enteredPassword, string storedHash)
         {
-            var enteredHash = HashPassword(enteredPassword);
-            return enteredHash.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
+            return enteredPassword == storedHash;
+            //var enteredHash = HashPassword(enteredPassword);
+            //return enteredHash.Equals(storedHash, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
