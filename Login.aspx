@@ -49,7 +49,7 @@
 
 
 
-                <asp:Button runat="server" Text="Register" ID="btnRegister" CssClass="form-button" OnClick="RegisterSubmit_Click"></asp:Button>
+                 <asp:Button runat="server" Text="Register" ID="btnRegister" CssClass="form-button" OnClick="RegisterSubmit_Click"></asp:Button>
 
 
 
