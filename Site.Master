@@ -1,47 +1,43 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="PMS.SiteMaster" %>
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Property Pro - <%: Page.Title %></title>
-
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
-
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
     <form runat="server">
-    <header>
-        <div class="container">
-            <h1>Property Pro</h1>
-                <asp:Label runat="server" CssClass="welcome-msg" Text="Welcome" ID="lblWelcome"></asp:Label>                
+        <header>
+            <div class="container">
+                <h1>Property Pro</h1>
+                <asp:Label runat="server" CssClass="welcome-msg" Text="Welcome" ID="lblWelcome"></asp:Label>
                 <nav>
                     <asp:HyperLink ID="lnkDefault" NavigateUrl="Default" runat="server">Home</asp:HyperLink>
                     <asp:HyperLink ID="lnkListing" NavigateUrl="Listing" runat="server">Listings</asp:HyperLink>
-                    <asp:HyperLink ID="lnkMessage" NavigateUrl="Message" runat="server">Message</asp:HyperLink>                  
+                    <asp:HyperLink ID="lnkMessage" NavigateUrl="Message" runat="server">Message</asp:HyperLink>
                     <asp:HyperLink ID="lnkDashboard" NavigateUrl="Dashboard" runat="server">Dashboard</asp:HyperLink>
                     <asp:LinkButton ID="lbnLogin" runat="server" OnClick="Login_Click">Login</asp:LinkButton>
                 </nav>
-        </div>
-    </header>
+            </div>
+        </header>
         <div class="container content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
-            <hr />           
-        </div>    
-     <footer>
-        <p>&copy; <%: DateTime.Now.Year %> Property Pro. All rights reserved.</p>
-     </footer>
-    <asp:PlaceHolder runat="server">
-        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
-    </asp:PlaceHolder>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+            <hr />
+        </div>
+        <footer>
+            <p>&copy; <%: DateTime.Now.Year %> Property Pro. All rights reserved.</p>
+        </footer>
+        <asp:PlaceHolder runat="server">
+            <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+        </asp:PlaceHolder>
     </form>
 </body>
 </html>
