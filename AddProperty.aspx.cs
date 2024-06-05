@@ -52,10 +52,11 @@ namespace PMS
 
                 // Retrieve the logged-in user's ID from the session
                 string realtorID = Session["UserID"] != null ? Session["UserID"].ToString() : "defaultRealtorID";
+                DB db = new DB();
 
                 Property property = new Property
                 {
-                    PropertyID = Guid.NewGuid().ToString(),
+                    PropertyID = db.GenerateNewPropertyID(),
                     Address = Request.Form["propertyName"],
                     City = Request.Form["propertyCity"],
                     ZipCode = Request.Form["propertyZip"],
@@ -74,7 +75,6 @@ namespace PMS
                     RealtorID = realtorID
                 };
 
-                DB db = new DB();
                 db.AddProperty(property);
 
                 Response.Redirect("ViewProperty.aspx");
