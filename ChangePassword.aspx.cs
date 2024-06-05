@@ -50,10 +50,10 @@ namespace PMS
                 }
 
                 // Update the password
-                string newPasswordHash = HashPassword(newPassword);
+                //string newPassword = HashPassword(newPassword);
                 query = "UPDATE pms_user SET Password = @NewPassword WHERE user_id = @Username";
                 command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@NewPassword", newPasswordHash);
+                command.Parameters.AddWithValue("@NewPassword", newPassword);
                 command.Parameters.AddWithValue("@Username", username);
                 command.ExecuteNonQuery();
 
