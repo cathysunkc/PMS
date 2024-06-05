@@ -12,7 +12,7 @@ namespace PMS
 {
     public partial class ViewProperty : Page
     {
-        string realtor_id = string.Empty;
+        string property_id = string.Empty;
         string propertyID = string.Empty;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -21,9 +21,9 @@ namespace PMS
 
             if (propertyID != null)
             {
-                DB db = new DB();
-                Property property = new Property();
-                property = Property.GetPropertyByID(db, propertyID);
+
+                //Edited by Wilson for Property static method
+                Property property = Property.GetPropertyByID(propertyID);
 
                 this.lblAddress01.Text = property.Address;
 
@@ -48,7 +48,8 @@ namespace PMS
                 this.lblBathNum.Text = property.BathNum.ToString();
                 this.lblAvailableOn.Text = property.AvailableDate.ToString("yyyy-MM-dd");
                 this.lblParkingType.Text = property.ParkingType;
-                this.realtor_id = property.RealtorID;
+                // edited by Wilson for redirect to Message page
+                this.property_id = property.PropertyID;
 
 
                 if (Session["UserID"] != null)
@@ -87,7 +88,7 @@ namespace PMS
 
         protected void ContactReatlor_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Message?realtor_id=" + realtor_id);
+            Response.Redirect("Message?property_id=" + property_id);
         }
 
         private void PopulateImages()

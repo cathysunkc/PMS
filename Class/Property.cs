@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Transactions;
+using System.Web.WebSockets;
 
 namespace PMS
 {
@@ -97,9 +98,16 @@ namespace PMS
             return this.Address + "\n" + this.City + "\n" + this.ZipCode;
         }
 
+<<<<<<< HEAD
+=======
+
+        //Edited by Harry
+>>>>>>> main
         // New static method to get a property by ID using DB instance
-        public static Property GetPropertyByID(DB db, string propertyID)
+        //Edited by Wilson to minus db argument
+        public static Property GetPropertyByID(string propertyID)
         {
+            DB db = new DB();
             return db.GetPropertyByID(propertyID);
         }
 
@@ -145,9 +153,10 @@ namespace PMS
         //Records for prototype
         /*
 		public Property GetPropertyByID(string propertyID)
+>>>>>>> main
         {
             
-            DataTable dt = (TempPropertyRecords()).Select($"property_id = '{propertyID}'").CopyToDataTable();
+            DataTable dt = (TempPropertyRecords().Select($"property_id = '{propertyID}'").CopyToDataTable());
 
             DataRow dr = dt.Rows[0];
             Property property = new Property(propertyID);
@@ -222,7 +231,7 @@ namespace PMS
 
         
         //Records for Prototype
-        public DataTable TempPropertyRecords()
+        public static DataTable TempPropertyRecords()
         {
             DataTable dt = new DataTable("Properties");
 

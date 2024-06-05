@@ -98,6 +98,43 @@ INSERT INTO `properties` (`property_id`, `address`, `zip_code`, `city`, `propert
 ('P000019', '14 Bridlewood Road SW', 'T2Y4H3', 'Calgary, AB', 'Single Family', 3, 2, '1700', 'Attached Garage (2)', '2024-04-17 00:00:00', '2024-08-01 00:00:00', 'Charming 3 bedroom home in Bridlewood with hardwood floors and a large deck.', 0, 'S', 390000, 'https://cdn.pixabay.com/photo/2015/09/27/22/36/house-961401_1280.jpg', 'realtor02', 0),
 ('P000020', '22 Silverado Blvd SW', 'T2X4E7', 'Calgary, AB', 'Single Family', 4, 3, '2500', 'Attached Garage (2)', '2024-04-18 00:00:00', '2024-08-05 00:00:00', 'Stunning 4 bedroom home in Silverado with a spacious floor plan and high-end finishes.', 1, 'S', 720000, 'https://cdn.pixabay.com/photo/2018/04/30/13/33/house-3362676_1280.jpg', 'realtor02', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pms_message`
+--
+
+CREATE TABLE `pms_message` (
+  `message_id` varchar(20) NOT NULL,
+  `sender_id` varchar(20) NOT NULL,
+  `recipent_id` varchar(20) DEFAULT NULL,
+  `property_id` varchar(50) DEFAULT NULL,
+  `sendout_date` datetime DEFAULT NULL,
+  `is_important` tinyint(1) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `is_checked` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pms_message`
+--
+
+INSERT INTO `pms_message` (`message_id`, `sender_id`, `recipent_id`, `property_id`, `sendout_date`, `is_important`, `content`, `is_checked`) VALUES
+('M000001', 'client01', 'realtor01', 'P000001','2024-04-01', 1, 'Hi, I am client01 and want to ask about P000001', 0),
+('M000002', 'client01', 'realtor01', 'P000002','2024-04-03', 1, 'Hi, I am client01 and want to ask about P000002', 0),
+('M000003', 'client01', 'realtor01', 'P000003','2024-04-02', 1, 'Hi, I am client01 and want to ask about P000003', 0),
+('M000004', 'client01', 'realtor01', 'P000004','2024-04-02', 1, 'Hi, I am client01 and want to ask about P000004', 0),
+('M000005', 'client01', 'realtor01', 'P000005','2024-04-02', 1, 'Hi, I am client01 and want to ask about P000005', 0),
+('M000006', 'client01', 'realtor01', 'P000006','2024-04-03', 1, 'Hi, I am client01 and want to ask about P000006', 0),
+('M000011', 'realtor01', 'client01', 'P000001','2024-05-01', 1, 'Nice to meet you. I am realtor01 and want to reply about P000001', 0),
+('M000012', 'realtor01', 'client01', 'P000002','2024-05-05', 1, 'Nice to meet you. I am realtor01 and want to reply about P000002', 0),
+('M000013', 'realtor01', 'client01', 'P000003','2024-05-10', 1, 'Nice to meet you. I am realtor01 and want to reply about P000003', 0),
+('M000014', 'realtor01', 'client01', 'P000004','2024-05-30', 1, 'Nice to meet you. I am realtor01 and want to reply about P000004', 0),
+('M000015', 'realtor01', 'client01', 'P000005','2024-05-30', 1, 'Nice to meet you. I am realtor01 and want to reply about P000005', 0),
+('M000016', 'realtor01', 'client01', 'P000006','2024-05-15', 1, 'Nice to meet you. I am realtor01 and want to reply about P000006', 0);
+
+-- --------------------------------------------------------
+
 --
 -- Indexes for dumped tables
 --
@@ -113,6 +150,13 @@ ALTER TABLE `pms_user`
 --
 ALTER TABLE `properties`
   ADD PRIMARY KEY (`property_id`);
+
+--
+-- Indexes for table `pms_message`
+--
+ALTER TABLE `pms_message`
+  ADD PRIMARY KEY (`message_id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

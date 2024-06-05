@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Web.DynamicData;
+using System.Windows.Forms;
 
 namespace PMS
 {
@@ -11,13 +15,13 @@ namespace PMS
 		//Attributes with Getters and Setters
 		public string MessageID { get; set; }
 
-        public User Sender { get; set; }
+        public string SenderID { get; set; }
 
-        public User Recipent { get; set; }
+        public string RecipentID { get; set; }
 
-        public Property Property { get; set; }
+        public string PropertyID { get; set; }
 
-        public DateTime SendOutDate { get; set; }
+        public string SendOutDate { get; set; }
 
         public bool IsImportant { get; set; }
 
@@ -25,28 +29,33 @@ namespace PMS
 
         public bool IsChecked { get; set; }
 
+        // initial messages are before 20
+        private static int MessageINT = 20;
 
         //Constructors
         public Message() 
-        { 
-        
+        {
+            this.MessageID = "M" + MessageINT.ToString("D6");
+            MessageINT++;
         }
 
         public Message(string messageID) 
         { 
-            this.MessageID = messageID;
+            this.MessageID = "M" + MessageINT.ToString("D6");
+            MessageINT++;
         }
 
-        public Message(string messageID, User sender, User recipent, Property property, DateTime SendOutDate, bool IsImportant, string content, bool isChecked)
+        public Message(string senderID, string recipentID, string propertyID, string SendOutDate, bool IsImportant, string content, bool isChecked)
         {
-            this.MessageID = messageID;
-            this.Sender = sender;
-            this.Recipent = recipent;
-            this.Property = property;
+            this.MessageID = "M" + MessageINT.ToString("D6");
+            this.SenderID = senderID;
+            this.RecipentID = recipentID;
+            this.PropertyID = propertyID;
             this.SendOutDate = SendOutDate;
             this.IsImportant = IsImportant;
             this.Content = content;
             this.IsChecked = isChecked;
+            MessageINT++;
         }
 
         //Methods
@@ -56,52 +65,113 @@ namespace PMS
             return null;
         }
 
-        public DataTable GetMessageByUserID(string userID)
+        public static DataTable GetMessageByUserID(string userID)
         {
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByID(userID);
             DataTable dt = new DataTable();
 
+            DataRow[] dr = dtDB.AsEnumerable()
+                .GroupBy(row => row["property_id"])
+                .Select(group => group.First())
+                .ToArray();
+
+            /*
             DataRow[] dr = (TempMessageRecords()).AsEnumerable()
-                            .Where(row => ((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}")
-                            .GroupBy(row => ((Property)row["property"]).PropertyID)
+                            .Where(row => (string)row["sender_id"] == $"{userID}" || (string)row["recipent_id"] == $"{userID}")
+                            .GroupBy(row => row["property_id"])
                             .Select(group => group.First())
                             .ToArray();
+            */
 
             if (dr.Length > 0)
+            {
                 dt = dr.CopyToDataTable();
+                User user = new User();
+
+                DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
+                DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
+                DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                dt.Columns.Add(tempColSend);
+                dt.Columns.Add(tempColRecip);
+                dt.Columns.Add(tempColProp);
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
+                    row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
+                    row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID((string)row["property_id"]), typeof(Property));
+                }
+                tempColSend.SetOrdinal(1);
+                tempColRecip.SetOrdinal(2);
+                tempColProp.SetOrdinal(3);
+                dt.Columns.Remove("sender_id");
+                dt.Columns.Remove("recipent_id");
+                dt.Columns.Remove("property_id");
+                tempColSend.ColumnName = "sender";
+                tempColRecip.ColumnName = "recipent";
+                tempColProp.ColumnName = "property";
+            }
             else if (dr.Length == 0)
                 dt = new DataTable();
 
             return dt;
         }
 
-        public DataTable GetMessageByPropID(string userID, string propertyID)
+        public static DataTable GetMessageByUserIDAndPropID(string userID, string propertyID)
         {
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByID(userID);
             DataTable dt = new DataTable();
 
-            DataRow[] dr = (TempMessageRecords()).AsEnumerable()
-                            .Where(row => (((User)row["sender"]).UserID == $"{userID}" || ((User)row["recipent"]).UserID == $"{userID}") && ((Property)row["property"]).PropertyID == $"{propertyID}")
+            DataRow[] dr = dtDB.AsEnumerable()
+                            .Where(row => (string)row["property_id"] == $"{propertyID}")
                             .ToArray();
 
-            if (dr.Length > 0)
+            if (dr.Length > 0) 
+            {
                 dt = dr.CopyToDataTable();
+                User user = new User();
+
+                DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
+                DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
+                DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                dt.Columns.Add(tempColSend);
+                dt.Columns.Add(tempColRecip);
+                dt.Columns.Add(tempColProp);
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
+                    row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
+                    row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID(propertyID), typeof(Property));
+                }
+                tempColSend.SetOrdinal(1);
+                tempColRecip.SetOrdinal(2);
+                tempColProp.SetOrdinal(3);
+                dt.Columns.Remove("sender_id");
+                dt.Columns.Remove("recipent_id");
+                dt.Columns.Remove("property_id");
+                tempColSend.ColumnName = "sender";
+                tempColRecip.ColumnName = "recipent";
+                tempColProp.ColumnName = "property";
+
+            }
             else if (dr.Length == 0)
                 dt = new DataTable();
 
             return dt;
         }
 
+        /*
         //Records for Prototype
         public DataTable TempMessageRecords()
         {
             DataTable dt = new DataTable("Messages");
             User user = new User();
-            Property property = new Property();
-            DB db = new DB();
 
             dt.Columns.Add("message_id", typeof(string));
-            dt.Columns.Add("sender", typeof(User));
-            dt.Columns.Add("recipent", typeof(User));
-            dt.Columns.Add("property", typeof(Property));
+            dt.Columns.Add("sender_id", typeof(string));
+            dt.Columns.Add("recipent_id", typeof(string));
+            dt.Columns.Add("property_id", typeof(string));
             dt.Columns.Add("sendout_date", typeof(DateTime));
             dt.Columns.Add("is_important", typeof(bool));
             dt.Columns.Add("content", typeof(string));
@@ -109,47 +179,48 @@ namespace PMS
 
             dt.PrimaryKey = new DataColumn[] { dt.Columns["message_id"] };
 
-            dt.Rows.Add("M000001", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000001"),
+            dt.Rows.Add("M000001", "client01", "realtor01", "P000001",
                 "2024-04-01", 
-                true, "Welcome to Arrive at Bowness, where innovation meets elegance!", false);
-            dt.Rows.Add("M000002", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000002"),
+                true, "Hi, I am client01 and want to ask about P000001", false);
+            dt.Rows.Add("M000002", "client01", "realtor01", "P000002",
                 "2024-04-03", 
-                true, "LOCATED IN THE HIGHLY SOUGHT AFTER COMMUNITY OF LAKE MAHOGANY. ", false);
-            dt.Rows.Add("M000003", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000003"),
+                true, "Hi, I am client01 and want to ask about P000002", false);
+            dt.Rows.Add("M000003", "client01", "realtor01", "P000003",
                 "2024-04-02", 
-                false, "Nestled within the vibrant community of Copperfield, this perfectly upgraded END UNIT townhome invites you to indulge in a lifestyle of convenience and style.", false);
-            dt.Rows.Add("P000004", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000004"),
+                false, "Hi, I am client01 and want to ask about P000003", false);
+            dt.Rows.Add("P000004", "client01", "realtor01", "P000004",
                 "2024-04-02", 
-                false, "3 Bed 1.5 Bath House in Temple with Double Car Garage ", false);
-            dt.Rows.Add("P000005", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000005"),
+                false, "Hi, I am client01 and want to ask about P000004", false);
+            dt.Rows.Add("P000005", "client01", "realtor01", "P000005",
                "2024-04-02",
-               false, "Legal Suite BASEMENT with 2 bedrooms 1 bathroom - Tenants will have their separate entrance, kitchen, washer and dryer, microwave and parking space.", false);
-            dt.Rows.Add("P000006", user.GetUserByID("client01"), user.GetUserByID("realtor01"), Property.GetPropertyByID(db, "P000006"),
+               false, "Hi, I am client01 and want to ask about P000005", false);
+            dt.Rows.Add("P000006", "client01", "realtor01", "P000006",
                "2024-04-03", 
-               false, "Introducing a Spectacular Residence in Hamptons for Rent:Property Size: 3400 SQ FT **Breathtaking Views**: Enjoy stunning vistas of the golf course pond, adding a serene and tranquil backdrop to your daily life.", false);
+               false, "Hi, I am client01 and want to ask about P000006", false);
 
-            dt.Rows.Add("M000011", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000001"),
+            dt.Rows.Add("M000011", "realtor01", "client01", "P000001",
                 "2024-05-01",
-                true, "This townhouse, honoured with the esteemed 2017 Mayors Urban Design Award for Housing Innovation, is a beacon of contemporary living.", false);
-            dt.Rows.Add("M000012", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000002"),
+                true, "Nice to meet you. I am realtor01 and want to reply about P000001", false);
+            dt.Rows.Add("M000012", "realtor01", "client01", "P000002",
                 "2024-05-05",
-                true, "2 BED PLUS DEN, 2 BATH, TITLED UNDERGROUND PARKING, AND STORAGE LOCKER!", false);
-            dt.Rows.Add("M000013", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000003"),
+                true, "Nice to meet you. I am realtor01 and want to reply about P000002", false);
+            dt.Rows.Add("M000013", "realtor01", "client01", "P000003",
                 "2024-05-10",
-                false, "Nestled within the vibrant community of Copperfield, this perfectly upgraded END UNIT townhome invites you to indulge in a lifestyle of convenience and style.", false);
-            dt.Rows.Add("M000014", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000004"),
+                false, "Nice to meet you. I am realtor01 and want to reply about P000003", false);
+            dt.Rows.Add("M000014", "realtor01", "client01", "P000004",
                 "2024-05-30",
-                false, "- More Photos Coming Soon!Located in the established community of Temple, this updated 1100+ square foot detached house with a double car garage is the perfect home with a variety of features. ", false);
-            dt.Rows.Add("M000015", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000005"),
+                false, "Nice to meet you. I am realtor01 and want to reply about P000004", false);
+            dt.Rows.Add("M000015", "realtor01", "client01", "P000005",
                "2024-05-30",
-               false, "Legal Suite BASEMENT with 2 bedrooms 1 bathroom - Tenants will have their separate entrance, kitchen, washer and dryer, microwave and parking space.", false);
-            dt.Rows.Add("M000016", user.GetUserByID("realtor01"), user.GetUserByID("client01"), Property.GetPropertyByID(db, "P000006"),
+               false, "Nice to meet you. I am realtor01 and want to reply about P000005", false);
+            dt.Rows.Add("M000016", "realtor01", "client01", "P000006",
                 "2024-05-15",
-               false, "Introducing a Spectacular Residence in Hamptons for Rent:Property Size: 3400 SQ FT **Breathtaking Views**: Enjoy stunning vistas of the golf course pond, adding a serene and tranquil backdrop to your daily life.", false);
+               false, "Nice to meet you. I am realtor01 and want to reply about P000006", false);
 
 
             return dt;
         }
+        */
 
         public void CheckMessage(string messageID)
         {
@@ -157,9 +228,10 @@ namespace PMS
             this.IsChecked = true;
         }
 
-        public void SendMessage()
+        public void SendMessage(Message message)
         {
-            //To be implemented
+            DB dB = new DB();
+            dB.AddMessage(message);
         }
 
         public void AlertMessage()

@@ -78,6 +78,15 @@ namespace PMS
         protected global::System.Web.UI.WebControls.LinkButton lbnRegister;
 
         /// <summary>
+        /// ChangePasswordLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink ChangePasswordLink;
+
+        /// <summary>
         /// panelRegister control.
         /// </summary>
         /// <remarks>
@@ -123,22 +132,85 @@ namespace PMS
         protected global::System.Web.UI.WebControls.TextBox txtRegisterEmail;
 
         /// <summary>
-        /// txtRegisterPassword01 control.
+        /// txtRegisterPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRegisterPassword01;
+        protected global::System.Web.UI.WebControls.TextBox txtRegisterPassword;
 
         /// <summary>
-        /// txtRegisterPassword02 control.
+        /// txtConfirmPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRegisterPassword02;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmPassword;
+
+        /// <summary>
+        /// txtRegisterPhone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRegisterPhone;
+
+        /// <summary>
+        /// rblRegisterRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList rblRegisterRole;
+
+        /// <summary>
+        /// lblErrorRegisterFieldsRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorRegisterFieldsRequired;
+
+        /// <summary>
+        /// lblErrorRegisterFail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorRegisterFail;
+
+        /// <summary>
+        /// lblErrorPasswordMismatch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorPasswordMismatch;
+
+        /// <summary>
+        /// lblErrorRoleRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorRoleRequired;
+
+        /// <summary>
+        /// btnRegister control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegister;
 
         /// <summary>
         /// lbnLogin control.
