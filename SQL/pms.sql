@@ -79,7 +79,7 @@ CREATE TABLE `pms_user` (
 --
 
 INSERT INTO `pms_user` (`user_id`, `password`, `first_name`, `last_name`, `email`, `phone`, `role`) VALUES
-('client01', 'password1', 'Client', '01', 'client01@test.com', '10000001', 'client'),
+('client01', 'password', 'Client', '01', 'client01@test.com', '10000001', 'client'),
 ('realtor01', 'password', 'Realtor', '01', 'realtor01@test.com', '20000001', 'realtor');
 
 -- --------------------------------------------------------
