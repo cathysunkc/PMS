@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Cathy\SAIT\2024 Winter\OO3\PMS\PMS\bin\PMS.dll.config
 C:\Cathy\SAIT\2024 Winter\OO3\PMS\PMS\bin\PMS.dll
 C:\Cathy\SAIT\2024 Winter\OO3\PMS\PMS\bin\PMS.pdb
@@ -745,4 +744,3 @@ D:\Semester 3\PMS_20240531_main\PMS\obj\Debug\PMS.csproj.CoreCompileInputs.cache
 D:\Semester 3\PMS_20240531_main\PMS\obj\Debug\PMS.csproj.CopyComplete
 D:\Semester 3\PMS_20240531_main\PMS\obj\Debug\PMS.dll
 D:\Semester 3\PMS_20240531_main\PMS\obj\Debug\PMS.pdb
->>>>>>> main
