@@ -29,20 +29,25 @@
              </asp:Panel>
             <br>
             
-             <asp:ListView ID="listProperty" GroupItemCount="3"  ShowHeader="False" runat="server" AutoGenerateColumns="False">
+             <asp:ListView ID="listProperty" GroupItemCount="3"  ShowHeader="False" runat="server" AutoGenerateColumns="False" OnPagePropertiesChanging="listProperty_PagePropertiesChanging">
             <LayoutTemplate>
                 <table runat="server" id="table1">
                   <tr runat="server" id="groupPlaceholder">
                   </tr>
                 </table>
-
+               <div style="text-align:center">
+                        <asp:DataPager ID="DataPager1" runat="server" PagedControlID="listProperty" PageSize="9">
+                            <Fields>       
+                               <asp:NumericPagerField ButtonType="Link" />
+                            </Fields>
+                        </asp:DataPager>
+               </div>
               </LayoutTemplate>
               <GroupTemplate>
                 <tr runat="server" id="tableRow">
                   <td runat="server" id="itemPlaceholder" />
                 </tr>
-              </GroupTemplate>
-            
+              </GroupTemplate>            
              <ItemTemplate>
                 <td runat="server" style="width: 30%; vertical-align: top; padding: 15px">
                  <asp:Label ID="lblAddress" runat="server" Text='<%#Eval("address")%>' style="white-space:nowrap" Font-Size="X-Large"  /><br/>
@@ -54,6 +59,8 @@ background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("
                  </div>
              </td>
           </ItemTemplate>
-        </asp:ListView>      
+                 
+        </asp:ListView>  
+       
     </main>
 </asp:Content>

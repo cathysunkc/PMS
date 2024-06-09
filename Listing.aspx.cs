@@ -121,5 +121,11 @@ namespace PMS
         {
             Response.Redirect("AddProperty");
         }
+
+        protected void listProperty_PagePropertiesChanging(object sender, PagePropertiesChangingEventArgs e)
+        {
+            (this.listProperty.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
+            this.BindListing();
+        }
     }
 }
