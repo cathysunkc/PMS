@@ -72,6 +72,7 @@ namespace PMS
             DataTable dt = new DataTable();
 
             DataRow[] dr = dtDB.AsEnumerable()
+                .OrderByDescending(row => row["sendout_date"])
                 .GroupBy(row => row["property_id"])
                 .Select(group => group.First())
                 .ToArray();
@@ -125,6 +126,7 @@ namespace PMS
 
             DataRow[] dr = dtDB.AsEnumerable()
                             .Where(row => (string)row["property_id"] == $"{propertyID}")
+                            .OrderBy(row => row["sendout_date"])
                             .ToArray();
 
             if (dr.Length > 0) 

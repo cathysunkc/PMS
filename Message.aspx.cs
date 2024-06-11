@@ -81,6 +81,12 @@ namespace PMS
             DataTable dt = Message.GetMessageByUserIDAndPropID((String)Session["UserID"], propertyID);
             ds.Tables.Add(dt);
 
+            if (dt.Rows.Count == 0)
+            {
+                this.gridMessageNull.Visible = true;
+                this.gridMessageNull.Text = "Please enter message to communicate for " + Property.GetPropertyByID(sendMessage.Value).Address;
+            }
+
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
 

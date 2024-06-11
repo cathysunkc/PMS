@@ -23,7 +23,7 @@
                                     <asp:LinkButton ID="lbnRegister" runat="server" CssClass="chat-message" CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address")%>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
-                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Substring(0,40) %>' Font-Size="x-small"  /><br/>
+                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 40 ? Eval("content").ToString().Substring(0,40) : Eval("content") %>' Font-Size="x-small"  /><br/>
                                     </asp:LinkButton>
                                 </td>
 
@@ -40,6 +40,7 @@
                             <asp:Label ID="lblRecipientEmail" runat="server" Text="Recipient Email:"></asp:Label><br/>
                             <asp:TextBox ID="txtRecipientEmail" runat="server" class="form-input"></asp:TextBox>
                             -->
+                            <h4><asp:Label runat="server" ID="gridMessageNull" CssClass="" Visible="False">Please enter message to communicate</asp:Label></h4>
                             <asp:GridView runat="server" CellPadding="10" ID="gridMessage" CssClass="listing" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
                                 <Columns> 
                                 <asp:TemplateField>
