@@ -11,7 +11,7 @@
              </div>
             </asp:Panel>
              <asp:Panel ID="panelSearch" runat="server">
-                 <asp:Table ID="Table2" runat="server" CellPadding="10" Width="80%">
+                 <asp:Table ID="Table2" runat="server" CellPadding="10" Width="100%">
                      <asp:TableRow>
                          <asp:TableCell Width="30%">
                              <asp:DropDownList ID="ddlTransactionType" AutoPostBack="True"  OnSelectedIndexChanged="TransactionType_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
@@ -22,13 +22,16 @@
                          </asp:TableCell>
                          <asp:TableCell Width="20%">
                            <asp:Button ID="btnReset" CssClass="form-button" runat="server" OnClick="Reset_Click" Text="Reset" Width="80px" /></asp:TableCell>
-
+                        </asp:TableRow>
+                     <asp:TableRow>
+                         <asp:TableCell ColumnSpan="4" Width="100%" HorizontalAlign="Left">
+                             Sort By: &nbsp;<asp:DropDownList ID="ddlSortType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlSortType_SelectedIndexChanged" CssClass="form-input" Width="25%"></asp:DropDownList>
+                         </asp:TableCell>
                      </asp:TableRow>
                  </asp:Table>
                  <asp:Label ID="lblNoPropertyFound" runat="server" Text="No Property Found."></asp:Label>
              </asp:Panel>
             <br>
-            
              <asp:ListView ID="listProperty" GroupItemCount="3"  ShowHeader="False" runat="server" AutoGenerateColumns="False" OnPagePropertiesChanging="listProperty_PagePropertiesChanging">
             <LayoutTemplate>
                 <table runat="server" id="table1">
@@ -55,7 +58,7 @@
                  <div style="min-height: 200px"><a href='<%# "ViewProperty?id=" + Eval("property_id")%>'>
                      <asp:Image ID="imgPropertyImage" style="max-width:100%; height:200px; background-position: center center;
 background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id")  + "01.jpg" %>'/></a></div> 
-                 <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description")%> ' />
+                 <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description") %> ' />
                  </div>
              </td>
           </ItemTemplate>
