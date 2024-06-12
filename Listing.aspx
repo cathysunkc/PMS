@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" Inherits="PMS.Listing" %>
+﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="PMS.Listing" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title" style="min-height:300px">
@@ -25,7 +25,7 @@
                         </asp:TableRow>
                      <asp:TableRow>
                          <asp:TableCell ColumnSpan="4" Width="100%" HorizontalAlign="Left">
-                             Sort By: &nbsp;<asp:DropDownList ID="ddlSortType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlSortType_SelectedIndexChanged" CssClass="form-input" Width="25%"></asp:DropDownList>
+                             Sort By: &nbsp;<asp:DropDownList ID="ddlSortType" runat="server" AutoPostBack="True"  OnSelectedIndexChanged="ddlSortType_SelectedIndexChanged" CssClass="form-input" Width="25%"></asp:DropDownList>
                          </asp:TableCell>
                      </asp:TableRow>
                  </asp:Table>

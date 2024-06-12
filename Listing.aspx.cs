@@ -140,11 +140,16 @@ namespace PMS
 
         protected void Reset_Click(object sender, EventArgs e)
         {
+            //reset dropdownlist
             ddlTransactionType.SelectedIndex = 0;
             ddlBedNum.SelectedIndex = 0;
             ddlBathNum.SelectedIndex = 0;
             ddlSortType.SelectedIndex = 0;
-            BindListing();
+
+            //reset paging
+            DataPager pager = listProperty.FindControl("DataPager1") as DataPager;
+            pager.SetPageProperties(0, pager.PageSize, true);
+            BindListing();            
         }
 
         protected void AddProperty_Click(object sender, EventArgs e)
