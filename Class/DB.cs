@@ -485,5 +485,31 @@ namespace PMS
             return $"P{newNumericPart:D6}"; 
         }
 
-    }
+
+		/************************************
+         * Reporting
+        /************************************/
+
+		//Count sold property number by realtorID
+		public int CountSoldPropertyByID(string realtorID)
+		{
+			//SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1;
+			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1;";
+
+			int count = 0;
+
+			if (OpenConnection() == true)
+			{
+				MySqlCommand cmd = new MySqlCommand(query, connection);
+				object result = cmd.ExecuteScalar();
+				if (result != null)
+				{
+				 	count = Convert.ToInt16(result);
+				}
+				CloseConnection();
+			}
+			return count;
+		}
+
+	}
 }

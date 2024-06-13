@@ -9,12 +9,14 @@ namespace PMS
 {
     public partial class Reporting : Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        Report report = new Report();
+		User user = new User();
+
+		protected void Page_Load(object sender, EventArgs e)
         {
             // Restrict only user with "Realtor" role can view Reporting
-            if (Session["UserID"] != null)
-            {
-                User user = new User();
+            if (Session["UserID"] != null)            {
+                
                 user = user.GetUserByID(Session["UserID"].ToString());
 
                 if (!user.IsRealtor())
@@ -35,8 +37,8 @@ namespace PMS
 
         public string GetPieChartValue()
         {
-           return "[" +
-                "['Sold', 8]," +
+			return "[" +
+                "['Sold', " + report.GetSoldPropertyCount(user.UserID) + "]," +
                 "['Unsold', 12]" + 
                 "]";
         }
