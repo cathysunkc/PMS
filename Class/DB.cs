@@ -490,11 +490,13 @@ namespace PMS
          * Reporting
         /************************************/
 
-		//Count sold property number by realtorID
-		public int CountSoldPropertyByID(string realtorID)
+		//Count sold/unsold property number by realtorID
+		public int GetDBSalesPropertyCount(string realtorID, bool isSold)
 		{
+            //Sample query
 			//SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1;
-			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1;";
+            int isSoldFlag = (isSold? 1: 0);
+			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag};";
 
 			int count = 0;
 
@@ -511,5 +513,112 @@ namespace PMS
 			return count;
 		}
 
-	}
+        //Get sold/unsold property percentage by realtorID
+        public double GetDBSalesPropertyPercentage(string realtorID, bool isSold)
+        {
+            //Sample query
+            //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1)/(select count(1) from properties where realtor_id = 'realtor02') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
+            int isSoldFlag = (isSold ? 1 : 0);
+
+            string query = $"SELECT (select count(1) from properties where realtor_id = '{realtorID}' and is_sold = {isSoldFlag}) / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}') * 100 " +
+                $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
+
+            double percentage = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    percentage = Convert.ToDouble(result);
+                }
+                CloseConnection();
+            }
+            return percentage;
+        }
+
+        //Get property from/to post date by realtorID
+        public DateTime GetDBPropertyPostedDate(string realtorID, bool isFrom)
+        {
+            //Sample query
+            //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02';
+            //SELECT max(posted_date) FROM `properties` WHERE realtor_id='realtor02';
+            string isFromFlag = (isFrom ? "min" : "max");
+
+            string query = $"SELECT {isFromFlag}(posted_date) from properties where realtor_id = '{realtorID}'";
+
+            DateTime date = DateTime.Now;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    date = Convert.ToDateTime(result);
+                }
+                CloseConnection();
+            }
+            return date;
+        }
+
+        //Count sold property number by realtorID and date range
+        public int GetDBSoldPropertyCountByDateRange(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND " + 
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        //Get sold property count by realtorID and group by property type
+        public DataTable GetDBSoldPropertyByPropertyType(string userID)
+        {
+            //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' GROUP BY property_type;
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' GROUP BY property_type";
+
+            DataTable dt = new DataTable();
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                dt.Load(dataReader);
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return table
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+        
+    }
 }
