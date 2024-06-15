@@ -6,7 +6,7 @@
         <!-- Edited by Wilson -->
         <h2><asp:Label ID="lblNote" runat="server" Text="Message"></asp:Label></h2>
 
-        <asp:Table ID="Table2" runat="server" CellPadding="10" Width="100%">
+        <asp:Table ID="Table2" CssClass="chattestcontainer" runat="server" CellPadding="10" Width="100%">
             <asp:TableRow>
                 <asp:TableCell Width="30%">
                     <asp:ListView ID="listMessage" ShowHeader="False" runat="server" AutoGenerateColumns="True">
@@ -19,11 +19,12 @@
                         <ItemTemplate>
                             <tr id="tableRow" runat="server" >
 
-                                <td runat="server">
-                                    <asp:LinkButton ID="lbnRegister" runat="server" CssClass="chat-message" CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
-                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address")%>' Font-Size="medium"  /><br/>
+                                <td runat="server" class='<%# Eval("is_checked").ToString() == "True" ? "" : "chattest" %>'>
+                                    <asp:LinkButton ID="lbnRegister" runat="server" class='<%# Eval("is_checked").ToString() == "True" ? "" : "chattestbutton" %>' CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
+                                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address").ToString().Length > 25 ? Eval("property.Address").ToString().Substring(0,25) : Eval("property.Address") %>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
-                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 40 ? Eval("content").ToString().Substring(0,40) : Eval("content") %>' Font-Size="x-small"  /><br/>
+                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 45 ? Eval("content").ToString().Substring(0,45) : Eval("content") %>' Font-Size="x-small"  /><br/>
+                                        <asp:Label ID="Label53" runat="server" Text='<%# Eval("is_checked") %>' Font-Size="x-small" />
                                     </asp:LinkButton>
                                 </td>
 
@@ -45,8 +46,8 @@
                                 <Columns> 
                                 <asp:TemplateField>
                                     <ItemTemplate > 
-                                        <asp:Panel runat="server" class='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? "another-message" : "user-message" %>'>
-                                            <asp:Label ID="Label4" runat="server" Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>                              
+                                        <asp:Panel runat="server" class='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? "another-message" : "user-message" %>  '>
+                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("is_checked").ToString() == "True" ? "" : "chattestmessage" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>                              
                                         </asp:Panel>
                                     </ItemTemplate> 
                                 </asp:TemplateField>

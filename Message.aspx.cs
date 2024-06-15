@@ -99,6 +99,9 @@ namespace PMS
 
             this.panelSelectMessage.Visible = true;
             sendMessage.Value = (String)e.CommandArgument;
+
+            DB dB = new DB();
+            dB.UpdateMessageClicked((String)Session["UserID"], (String)e.CommandArgument);
         }
 
         protected void Send_Click(object sender, EventArgs e)

@@ -68,7 +68,7 @@ namespace PMS
         public static DataTable GetMessageByUserID(string userID)
         {
             DB dB = new DB();
-            DataTable dtDB = dB.SelectMessageByID(userID);
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
             DataTable dt = new DataTable();
 
             DataRow[] dr = dtDB.AsEnumerable()
@@ -121,7 +121,7 @@ namespace PMS
         public static DataTable GetMessageByUserIDAndPropID(string userID, string propertyID)
         {
             DB dB = new DB();
-            DataTable dtDB = dB.SelectMessageByID(userID);
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
             DataTable dt = new DataTable();
 
             DataRow[] dr = dtDB.AsEnumerable()
