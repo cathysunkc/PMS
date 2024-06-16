@@ -13,14 +13,19 @@ namespace PMS
 
 		public Report() { }
 
-		public int GetSalesPropertyCount(string realtorID, bool isSold)
+        public int GetListingNumber(string realtorID)
+        {
+            return db.GetDBListingNumber(realtorID);
+        }
+
+        public int GetSalesNumber(string realtorID, bool isSold)
 		{
-			return db.GetDBSalesPropertyCount(realtorID,  isSold);
+			return db.GetDBSalesNumber(realtorID,  isSold);
 		}
 
-        public double GetSalesPropertyPercentage(string realtorID, bool isSold)
+        public double GetSalesPercentage(string realtorID, bool isSold)
         {
-            return db.GetDBSalesPropertyPercentage(realtorID, isSold);
+            return db.GetDBSalesPercentage(realtorID, isSold);
         }
 
         public DateTime GetPropertyPostedDate(string realtorID, bool isFrom)
@@ -28,14 +33,18 @@ namespace PMS
             return db.GetDBPropertyPostedDate(realtorID, isFrom);
         }
 
-        public int GetSoldPropertyCountByDateRange(string realtorID, DateTime startDate, DateTime endDate)
+        public int GetSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
-            return db.GetDBSoldPropertyCountByDateRange(realtorID, startDate, endDate);
+            return db.GetDBSalesByPeriod(realtorID, startDate, endDate);
         }
 
-        public DataTable GetSoldPropertyByPropertyType(string realtorID)
+        public DataTable GetSalesByPropertyType(string realtorID)
         {
-            return db.GetDBSoldPropertyByPropertyType(realtorID);
+            return db.GetDBSalesByPropertyType(realtorID);
+        }
+        public double GetSalesPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            return db.GetDBSalesPriceByPeriod(realtorID, startDate, endDate);
         }
     }
 }

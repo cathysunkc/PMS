@@ -27,7 +27,7 @@ namespace PMS
                 }
                 else 
                 {
-                    bindPostedDates();
+                    bindData();
                 }
             }            
             else
@@ -40,32 +40,37 @@ namespace PMS
         {
             Response.Redirect("Login");
         }
-        private void bindPostedDates()
+        private void bindData()
         {
-            this.lblFromDate.Text = report.GetPropertyPostedDate(user.UserID, true).ToString("yyyy-MMM-dd");
-            this.lblToDate.Text = report.GetPropertyPostedDate(user.UserID, false).ToString("yyyy-MMM-dd");
+            DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
+            DateTime endDate = report.GetPropertyPostedDate(user.UserID, false);
+            this.lblStartDate.Text = startDate.ToString("yyyy-MMM-dd");
+            this.lblEndDate.Text = endDate.ToString("yyyy-MMM-dd");
+            this.lblTotalListing.Text = report.GetListingNumber(user.UserID).ToString();
+            this.lblTotalSales.Text = report.GetSalesNumber(user.UserID, true).ToString();
+            this.lblAvgPrice.Text = report.GetSalesPriceByPeriod(user.UserID, startDate, endDate).ToString("$#,###.##");
         }
 
         public string GetSalesTableValue()
         {
             return "[" +
-              $"['Total Sales',  '{report.GetSalesPropertyCount(user.UserID, true)}', '{report.GetSalesPropertyPercentage(user.UserID, true).ToString("F1") + "%"}']," +
-              $"['Active Listings', '{report.GetSalesPropertyCount(user.UserID, false)}', '{report.GetSalesPropertyPercentage(user.UserID, false).ToString("F1") + "%"}']" +
+              $"['Total Sales',  '{report.GetSalesNumber(user.UserID, true)}', '{report.GetSalesPercentage(user.UserID, true).ToString("F1") + "%"}']," +
+              $"['Active Listings', '{report.GetSalesNumber(user.UserID, false)}', '{report.GetSalesPercentage(user.UserID, false).ToString("F1") + "%"}']" +
                 "]";
         }
 
-        public string GetSalesPieChartValue()
+        public string GetSalesPercentValue()
         {
 			return "[" +
                 "['Name', 'Value']," + 
-                $"['Total Sales', {report.GetSalesPropertyCount(user.UserID, true)}]," +
-                $"['Active Listings', {report.GetSalesPropertyCount(user.UserID, false)}]," + 
+                $"['Total Sales', {report.GetSalesNumber(user.UserID, true)}]," +
+                $"['Active Listings', {report.GetSalesNumber(user.UserID, false)}]," + 
                 "]";
         }        
 
-        public string GetSalesPeriodChartValue()
+        public string GetSalesByPeriodValue()
         {
-            string dateFormat = "yyyy MMM dd";
+            string dateFormat = "yyyy MMM";
 
             //Get from posted date and to posted date
             DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
@@ -79,31 +84,31 @@ namespace PMS
             DateTime startDate01 = startDate;
             DateTime endDate01 = startDate01.AddDays(intervalStep);
             string interval01 = startDate01.ToString(dateFormat) + " - " + endDate01.ToString(dateFormat);
-            int count01 = report.GetSoldPropertyCountByDateRange(user.UserID, startDate01, endDate01);
+            int count01 = report.GetSalesByPeriod(user.UserID, startDate01, endDate01);
 
             //Interval 02
             DateTime startDate02 = endDate01.AddDays(1);
             DateTime endDate02 = startDate02.AddDays(intervalStep);
             string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
-            int count02 = report.GetSoldPropertyCountByDateRange(user.UserID, startDate02, endDate02);
+            int count02 = report.GetSalesByPeriod(user.UserID, startDate02, endDate02);
 
             //Interval 03
             DateTime startDate03 = endDate02.AddDays(1);
             DateTime endDate03 = startDate03.AddDays(intervalStep);
             string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
-            int count03 = report.GetSoldPropertyCountByDateRange(user.UserID, startDate03, endDate03);
+            int count03 = report.GetSalesByPeriod(user.UserID, startDate03, endDate03);
 
             //Interval 04
             DateTime startDate04 = endDate03.AddDays(1);
             DateTime endDate04 = startDate04.AddDays(intervalStep);
             string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
-            int count04 = report.GetSoldPropertyCountByDateRange(user.UserID, startDate04, endDate04);
+            int count04 = report.GetSalesByPeriod(user.UserID, startDate04, endDate04);
 
             //Interval 05
             DateTime startDate05 = endDate04.AddDays(1);
             DateTime endDate05 = endDate;
-            string interval05 = startDate04.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
-            int count05 = report.GetSoldPropertyCountByDateRange(user.UserID, startDate04, endDate05);
+            string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
+            int count05 = report.GetSalesByPeriod(user.UserID, startDate05, endDate05);
 
             return "[['Date Range', 'Value']," + 
                 $"['{interval01}', {count01}]," + 
@@ -113,11 +118,11 @@ namespace PMS
                 $"['{interval05}', {count05}]]";
         }
 
-        public string GetPropertyTypeChartValue() 
+        public string GetSalesPropertyTypeValue() 
         {
             string chartValue = "[['Property Type', 'Value',],";
 
-            DataTable dt = report.GetSoldPropertyByPropertyType(user.UserID);
+            DataTable dt = report.GetSalesByPropertyType(user.UserID);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -127,6 +132,56 @@ namespace PMS
             chartValue += "]";
 
             return chartValue;
+        }
+
+        public string GetSalesPriceByPeriodValue()
+        {
+            string dateFormat = "yyyy MMM";
+
+            //Get from posted date and to posted date
+            DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
+            DateTime endDate = report.GetPropertyPostedDate(user.UserID, false);
+
+            //Calculate the report intervals
+            Double interval = (endDate - startDate).TotalDays;
+            Double intervalStep = interval / 6;
+
+            //Interval 01
+            DateTime startDate01 = startDate;
+            DateTime endDate01 = startDate01.AddDays(intervalStep);
+            string interval01 = startDate01.ToString(dateFormat) + " - " + endDate01.ToString(dateFormat);
+            double price01 = report.GetSalesPriceByPeriod(user.UserID, startDate01, endDate01);
+
+            //Interval 02
+            DateTime startDate02 = endDate01.AddDays(1);
+            DateTime endDate02 = startDate02.AddDays(intervalStep);
+            string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
+            double price02 = report.GetSalesPriceByPeriod(user.UserID, startDate02, endDate02);
+
+            //Interval 03
+            DateTime startDate03 = endDate02.AddDays(1);
+            DateTime endDate03 = startDate03.AddDays(intervalStep);
+            string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
+            double price03 = report.GetSalesPriceByPeriod(user.UserID, startDate03, endDate03);
+
+            //Interval 04
+            DateTime startDate04 = endDate03.AddDays(1);
+            DateTime endDate04 = startDate04.AddDays(intervalStep);
+            string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
+            double price04 = report.GetSalesPriceByPeriod(user.UserID, startDate04, endDate04);
+
+            //Interval 05
+            DateTime startDate05 = endDate04.AddDays(1);
+            DateTime endDate05 = endDate;
+            string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
+            double price05 = report.GetSalesPriceByPeriod(user.UserID, startDate05, endDate05);
+
+            return "[['Date Range', 'Value']," +
+                $"['{interval01}', {price01}]," +
+                $"['{interval02}', {price02}]," +
+                $"['{interval03}', {price03}]," +
+                $"['{interval04}', {price04}]," +
+                $"['{interval05}', {price05}]]";
         }
 
     }

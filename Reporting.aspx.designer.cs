@@ -33,13 +33,13 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label lblFrom;
 
         /// <summary>
-        /// lblFromDate control.
+        /// lblStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFromDate;
+        protected global::System.Web.UI.WebControls.Label lblStartDate;
 
         /// <summary>
         /// lblTo control.
@@ -51,12 +51,66 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label lblTo;
 
         /// <summary>
-        /// lblToDate control.
+        /// lblEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblToDate;
+        protected global::System.Web.UI.WebControls.Label lblEndDate;
+
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
+        /// lblTotalListing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalListing;
+
+        /// <summary>
+        /// Label2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label2;
+
+        /// <summary>
+        /// lblTotalSales control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTotalSales;
+
+        /// <summary>
+        /// Label3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
+
+        /// <summary>
+        /// lblAvgPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAvgPrice;
     }
 }
