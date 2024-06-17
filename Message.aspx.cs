@@ -94,7 +94,7 @@ namespace PMS
 
         protected void Message_Click(Object sender, CommandEventArgs e)
         {
-
+            // e.CommandArgument == PropertyID
             BindMessageGrid((String)e.CommandArgument);
 
             this.panelSelectMessage.Visible = true;
