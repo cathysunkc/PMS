@@ -25,8 +25,14 @@ namespace PMS
                 this.lblWelcome.Visible = true;
 				this.lblWelcome.Text = "Welcome, " + user.GetFullName();
 
-				this.lnkDashboard.Visible = true;
-				this.lnkMessage.Visible = true;				
+				this.lnkProfile.Visible = true;
+				this.lnkMessage.Visible = true;
+
+				if (user.IsRealtor())
+				{
+					this.lnkReporting.Visible = true;
+				}
+				
 				this.lbnLogin.Text = "Logout";
 
 			}
@@ -34,8 +40,9 @@ namespace PMS
 			{
 				this.lblWelcome.Visible = false;
 				this.lblWelcome.Text = string.Empty;
-				this.lnkDashboard.Visible = false;
+				this.lnkProfile.Visible = false;
 				this.lnkMessage.Visible = false;
+				this.lnkReporting.Visible = false;
 				this.lbnLogin.Text = "Login";
 			}
 		}

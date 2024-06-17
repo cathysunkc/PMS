@@ -11,88 +11,115 @@ namespace PMS
 {
 
 
-	public partial class SiteMaster
+	public partial class Profile
 	{
 
 		/// <summary>
-		/// HeadContent control.
+		/// lblProfileNote control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+		protected global::System.Web.UI.WebControls.Label lblProfileNote;
 
 		/// <summary>
-		/// lblWelcome control.
+		/// panelAccountInfo control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.Label lblWelcome;
+		protected global::System.Web.UI.WebControls.Panel panelAccountInfo;
 
 		/// <summary>
-		/// lnkDefault control.
+		/// tbAccountInfo control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HyperLink lnkDefault;
+		protected global::System.Web.UI.WebControls.Table tbAccountInfo;
 
 		/// <summary>
-		/// lnkListing control.
+		/// Label1 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HyperLink lnkListing;
+		protected global::System.Web.UI.WebControls.Label Label1;
 
 		/// <summary>
-		/// lnkMessage control.
+		/// lblUserID control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HyperLink lnkMessage;
+		protected global::System.Web.UI.WebControls.Label lblUserID;
 
 		/// <summary>
-		/// lnkReporting control.
+		/// Label2 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HyperLink lnkReporting;
+		protected global::System.Web.UI.WebControls.Label Label2;
 
 		/// <summary>
-		/// lnkProfile control.
+		/// lblFullName control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.HyperLink lnkProfile;
+		protected global::System.Web.UI.WebControls.Label lblFullName;
 
 		/// <summary>
-		/// lbnLogin control.
+		/// Label3 control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.LinkButton lbnLogin;
+		protected global::System.Web.UI.WebControls.Label Label3;
 
 		/// <summary>
-		/// MainContent control.
+		/// lblEmail control.
 		/// </summary>
 		/// <remarks>
 		/// Auto-generated field.
 		/// To modify move field declaration from designer file to code-behind file.
 		/// </remarks>
-		protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+		protected global::System.Web.UI.WebControls.Label lblEmail;
+
+		/// <summary>
+		/// panelListing control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Panel panelListing;
+
+		/// <summary>
+		/// btnAddProperty control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Button btnAddProperty;
+
+		/// <summary>
+		/// panelMessages control.
+		/// </summary>
+		/// <remarks>
+		/// Auto-generated field.
+		/// To modify move field declaration from designer file to code-behind file.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.Panel panelMessages;
 	}
 }

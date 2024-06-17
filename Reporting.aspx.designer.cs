@@ -11,106 +11,106 @@ namespace PMS
 {
 
 
-    public partial class Listing
+    public partial class Reporting
     {
 
         /// <summary>
-        /// panelAddListing control.
+        /// panelReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelAddListing;
+        protected global::System.Web.UI.WebControls.Panel panelReport;
 
         /// <summary>
-        /// btnAddProperty control.
+        /// lblFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddProperty;
+        protected global::System.Web.UI.WebControls.Label lblFrom;
 
         /// <summary>
-        /// panelSearch control.
+        /// lblStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelSearch;
+        protected global::System.Web.UI.WebControls.Label lblStartDate;
 
         /// <summary>
-        /// Table2 control.
+        /// lblTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table2;
+        protected global::System.Web.UI.WebControls.Label lblTo;
 
         /// <summary>
-        /// ddlTransactionType control.
+        /// lblEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlTransactionType;
+        protected global::System.Web.UI.WebControls.Label lblEndDate;
 
         /// <summary>
-        /// ddlBedNum control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBedNum;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// ddlBathNum control.
+        /// lblTotalListing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBathNum;
+        protected global::System.Web.UI.WebControls.Label lblTotalListing;
 
         /// <summary>
-        /// btnReset control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnReset;
+        protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// ddlSortType control.
+        /// lblTotalSales control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSortType;
+        protected global::System.Web.UI.WebControls.Label lblTotalSales;
 
         /// <summary>
-        /// lblNoPropertyFound control.
+        /// Label3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNoPropertyFound;
+        protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// listProperty control.
+        /// lblAvgPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListView listProperty;
+        protected global::System.Web.UI.WebControls.Label lblAvgPrice;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -28,6 +29,7 @@ namespace PMS
             if (!this.IsPostBack)
             {
                 BindDropDownList();
+                BindSortType();
                 BindListing();
             }
 
@@ -74,6 +76,21 @@ namespace PMS
 
         }
 
+        private void BindSortType()
+        {
+            var sortType = new Dictionary<double, string>
+            {
+                { 0, "Newest" },
+                { 1, "Oldest" },
+                { 2, "Lowest Price" },
+                { 3, "Highest Price" },
+            };
+            ddlSortType.DataSource = sortType;
+            ddlSortType.DataValueField = "Key";
+            ddlSortType.DataTextField = "Value";
+            ddlSortType.DataBind();
+        }
+
         private void BindListing()
         {
             DataSet ds = new DataSet();
@@ -89,8 +106,20 @@ namespace PMS
             else
                 this.lblNoPropertyFound.Visible = false;
 
-            ds.Tables.Add(dt);
-            listProperty.DataSource = ds;
+            //check sorting
+            if (ddlSortType.SelectedIndex == 1)
+                dt.DefaultView.Sort = "posted_date ASC";
+            else if (ddlSortType.SelectedIndex == 2)
+                dt.DefaultView.Sort = "price ASC";
+            else if (ddlSortType.SelectedIndex == 3)
+                dt.DefaultView.Sort = "price DESC";
+            else 
+                dt.DefaultView.Sort = "posted_date DESC"; //default            
+
+            dt.AcceptChanges();
+            //ds.Tables.Add(dt);           
+
+            listProperty.DataSource = dt;
             listProperty.DataBind();
         }
 
@@ -111,15 +140,32 @@ namespace PMS
 
         protected void Reset_Click(object sender, EventArgs e)
         {
+            //reset dropdownlist
             ddlTransactionType.SelectedIndex = 0;
             ddlBedNum.SelectedIndex = 0;
             ddlBathNum.SelectedIndex = 0;
-            BindListing();
+            ddlSortType.SelectedIndex = 0;
+
+            //reset paging
+            DataPager pager = listProperty.FindControl("DataPager1") as DataPager;
+            pager.SetPageProperties(0, pager.PageSize, true);
+            BindListing();            
         }
 
         protected void AddProperty_Click(object sender, EventArgs e)
         {
             Response.Redirect("AddProperty");
+        }
+
+        protected void listProperty_PagePropertiesChanging(object sender, PagePropertiesChangingEventArgs e)
+        {
+            (this.listProperty.FindControl("DataPager1") as DataPager).SetPageProperties(e.StartRowIndex, e.MaximumRows, false);
+            this.BindListing();
+        }
+
+        protected void ddlSortType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindListing();
         }
     }
 }
