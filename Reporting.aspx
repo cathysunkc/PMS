@@ -56,13 +56,13 @@
         google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.load('current', { 'packages': ['barChart'] }); 
         /********************************/
-        /* Sales by Period Chart        */
+        /* Sales Period Chart              */
         /********************************/
        
-        google.charts.setOnLoadCallback(drawSalesByPeriodChart);
+        google.charts.setOnLoadCallback(drawSalesPeriodChart);
 
-        function drawSalesByPeriodChart() {
-            var data = google.visualization.arrayToDataTable(<%= GetSalesByPeriodValue() %>);            
+        function drawSalesPeriodChart() {
+            var data = google.visualization.arrayToDataTable(<%= GetSalesPeriodChart() %>);            
 
             var options = {
                 title: "Sales by Period",
@@ -81,19 +81,19 @@
                 },
                 
             };
-            var salesByPeriodChart = new google.visualization.ColumnChart(document.getElementById("sales_period_chart_div"));
-            salesByPeriodChart.draw(data, options);
+            var salesPeriodChart = new google.visualization.ColumnChart(document.getElementById("sales_period_chart_div"));
+            salesPeriodChart.draw(data, options);
         }
 
         /********************************/
         /* Sales by Property Type Chart  */
         /********************************/
         
-        google.charts.setOnLoadCallback(drawSalesByPropertyTypeChart);
+        google.charts.setOnLoadCallback(drawSalesPropertyTypeChart);
 
-        function drawSalesByPropertyTypeChart() {
+        function drawSalesPropertyTypeChart() {
 
-            var data = google.visualization.arrayToDataTable(<%= GetSalesPropertyTypeValue() %>);
+            var data = google.visualization.arrayToDataTable(<%= GetSalesPropertyTypeChart() %>);
 
             var options = {
                 title: 'Sales by Property Type',
@@ -102,19 +102,19 @@
                 legend: 'none',
             };
 
-            var salesByPropertyTypeChart = new google.visualization.BarChart(document.getElementById('property_type_chart_div'));
+            var salesPropertyTypeChart = new google.visualization.BarChart(document.getElementById('property_type_chart_div'));
 
-            salesByPropertyTypeChart.draw(data, options);
+            salesPropertyTypeChart.draw(data, options);
         }
 
         /********************************/
-        /* Sales Price by Period Chart  */
+        /* Sales Price Chart            */
         /********************************/
         
-        google.charts.setOnLoadCallback(drawSalesPropertyPriceChart);
+        google.charts.setOnLoadCallback(drawSalesPriceChart);
 
-        function drawSalesPropertyPriceChart() {
-            var data = google.visualization.arrayToDataTable(<%= GetSalesPriceByPeriodValue() %>);
+        function drawSalesPriceChart() {
+            var data = google.visualization.arrayToDataTable(<%= GetSalesPriceChart() %>);
 
             var options = {
                 title: 'Sales Average Price',
@@ -127,20 +127,20 @@
                 },
             };
 
-            var salesPropertyPriceChart = new google.visualization.LineChart(document.getElementById('property_price_chart_div'));
+            var salesPriceChart = new google.visualization.LineChart(document.getElementById('sales_price_chart_div'));
 
-            salesPropertyPriceChart.draw(data, options);
+            salesPriceChart.draw(data, options);
         }       
         
         /********************************/
         /* Sales Percent Chart          */
         /********************************/
         
-        google.charts.setOnLoadCallback(drawSalesPercentChart);
+        google.charts.setOnLoadCallback(drawSalesPieChart);
 
-        function drawSalesPercentChart() {
+        function drawSalesPieChart() {
 
-            var data = google.visualization.arrayToDataTable(<%= this.GetSalesPercentValue() %>);
+            var data = google.visualization.arrayToDataTable(<%= this.GetSalesPieChart() %>);
 
             var options = {
                 title: 'Sales Ratio',
@@ -153,8 +153,8 @@
 
             };
 
-            var salesPercentChart = new google.visualization.PieChart(document.getElementById('sales_percent_chart_div'));
-            salesPercentChart.draw(data, options);
+            var salesPieChart = new google.visualization.PieChart(document.getElementById('sales_pie_chart_div'));
+            salesPieChart.draw(data, options);
         } 
     </script>
         <asp:Panel ID="panelReport" runat="server">
@@ -189,11 +189,11 @@
                 </div>
                 <br/><br/>
                 <div>
-                    <div id="sales_percent_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
+                    <div id="sales_pie_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
                     <div id="sales_period_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
                </div>
                     <div id="property_type_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
-                   <div id="property_price_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
+                   <div id="sales_price_chart_div" style="float:left;width: 49%; height: 300px; margin-right: 10px;margin-bottom: 20px;"></div>
          </asp:Panel> 
         <br/><br/>
     </main>

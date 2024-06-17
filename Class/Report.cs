@@ -28,9 +28,9 @@ namespace PMS
             return db.GetDBSalesPercentage(realtorID, isSold);
         }
 
-        public DateTime GetPropertyPostedDate(string realtorID, bool isFrom)
+        public DateTime GetListingPostedDate(string realtorID, bool isFrom)
         {
-            return db.GetDBPropertyPostedDate(realtorID, isFrom);
+            return db.GetDBListingPostedDate(realtorID, isFrom);
         }
 
         public int GetSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)

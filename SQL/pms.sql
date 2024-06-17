@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 03:53 PM
+-- Generation Time: Jun 17, 2024 at 06:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -119,7 +119,7 @@ CREATE TABLE `properties` (
 --
 
 INSERT INTO `properties` (`property_id`, `address`, `zip_code`, `city`, `property_type`, `bed_num`, `bath_num`, `area`, `parking_type`, `posted_date`, `available_date`, `description`, `is_featured`, `transaction_type`, `price`, `realtor_id`, `is_sold`, `sold_date`) VALUES
-('P000001', '7038 34 Avenue NW', 'T3B6E8', 'Calgary, AB', 'Single Family', 2, 3, '1386', 'Attached Garage (1)', '2024-04-01 00:00:00', '2024-05-01 00:00:00', 'Welcome to Arrive at Bowness, where innovation meets elegance! This townhouse, honoured with the esteemed 2017 Mayors Urban Design Award for Housing Innovation, is a beacon of contemporary living.', 1, 'S', 99, 'realtor01', 0, NULL),
+('P000001', '7038 34 Avenue NW', 'T3B6E8', 'Calgary, AB', 'Single Family', 2, 3, '1386', 'Attached Garage (1)', '2024-04-01 00:00:00', '2024-05-01 00:00:00', 'Welcome to Arrive at Bowness, where innovation meets elegance! This townhouse, honoured with the esteemed 2017 Mayors Urban Design Award for Housing Innovation, is a beacon of contemporary living.', 1, 'S', 99000, 'realtor01', 0, NULL),
 ('P000002', '7224 Bow Crescent NW', 'T3B2B9', 'Calgary, AB', 'Apartment', 3, 3, '32000', 'Underground', '2024-04-03 00:00:00', '2024-05-05 00:00:00', 'LOCATED IN THE HIGHLY SOUGHT AFTER COMMUNITY OF LAKE MAHOGANY. 2 BED PLUS DEN, 2 BATH, TITLED UNDERGROUND PARKING, AND STORAGE LOCKER!', 1, 'S', 379900, 'realtor01', 0, NULL),
 ('P000003', '56 Martingrove Way NE', 'T3J2T2', 'Calgary, AB', 'Single Family', 4, 2, '1605', 'Attached Garage (2)', '2024-04-02 00:00:00', '2024-05-10 00:00:00', 'Nestled within the vibrant community of Copperfield, this perfectly upgraded END UNIT townhome invites you to indulge in a lifestyle of convenience and style.', 0, 'S', 450000, 'realtor01', 0, NULL),
 ('P000004', '15 Templegreen Road NE', 'T1Y4Y9', 'Calgary, AB', 'Single Family', 4, 4, '1317', 'Detached Garage (2)', '2024-04-02 00:00:00', '2024-05-30 00:00:00', '3 Bed 1.5 Bath House in Temple with Double Car Garage - More Photos Coming Soon!Located in the established community of Temple, this updated 1100+ square foot detached house with a double car garage is the perfect home with a variety of features.', 0, 'R', 2200, 'realtor01', 0, NULL),

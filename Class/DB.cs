@@ -561,8 +561,8 @@ namespace PMS
             return percentage;
         }
 
-        //Get property post date by realtorID
-        public DateTime GetDBPropertyPostedDate(string realtorID, bool isFrom)
+        //Get listing post date by realtorID
+        public DateTime GetDBListingPostedDate(string realtorID, bool isFrom)
         {
             //Sample query
             //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02';

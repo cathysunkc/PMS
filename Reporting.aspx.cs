@@ -42,8 +42,8 @@ namespace PMS
         }
         private void bindData()
         {
-            DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
-            DateTime endDate = report.GetPropertyPostedDate(user.UserID, false);
+            DateTime startDate = report.GetListingPostedDate(user.UserID, true);
+            DateTime endDate = report.GetListingPostedDate(user.UserID, false);
             this.lblStartDate.Text = startDate.ToString("yyyy-MMM-dd");
             this.lblEndDate.Text = endDate.ToString("yyyy-MMM-dd");
             this.lblTotalListing.Text = report.GetListingNumber(user.UserID).ToString();
@@ -59,7 +59,7 @@ namespace PMS
                 "]";
         }
 
-        public string GetSalesPercentValue()
+        public string GetSalesPieChart()
         {
 			return "[" +
                 "['Name', 'Value']," + 
@@ -68,13 +68,13 @@ namespace PMS
                 "]";
         }        
 
-        public string GetSalesByPeriodValue()
+        public string GetSalesPeriodChart()
         {
             string dateFormat = "yyyy MMM";
 
             //Get from posted date and to posted date
-            DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
-            DateTime endDate = report.GetPropertyPostedDate(user.UserID, false);
+            DateTime startDate = report.GetListingPostedDate(user.UserID, true);
+            DateTime endDate = report.GetListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;
@@ -118,7 +118,7 @@ namespace PMS
                 $"['{interval05}', {count05}]]";
         }
 
-        public string GetSalesPropertyTypeValue() 
+        public string GetSalesPropertyTypeChart() 
         {
             string chartValue = "[['Property Type', 'Value',],";
 
@@ -134,13 +134,13 @@ namespace PMS
             return chartValue;
         }
 
-        public string GetSalesPriceByPeriodValue()
+        public string GetSalesPriceChart()
         {
             string dateFormat = "yyyy MMM";
 
             //Get from posted date and to posted date
-            DateTime startDate = report.GetPropertyPostedDate(user.UserID, true);
-            DateTime endDate = report.GetPropertyPostedDate(user.UserID, false);
+            DateTime startDate = report.GetListingPostedDate(user.UserID, true);
+            DateTime endDate = report.GetListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;
