@@ -11,7 +11,7 @@ namespace PMS
         {
             if (!IsPostBack)
             {
-                string propertyID = Request.QueryString["id"]; // Update to check for "id"
+                string propertyID = Request.QueryString["id"]; 
                 if (!string.IsNullOrEmpty(propertyID))
                 {
                     LoadPropertyDetails(propertyID);
