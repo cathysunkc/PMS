@@ -98,11 +98,10 @@ namespace PMS
             return this.Address + "\n" + this.City + "\n" + this.ZipCode;
         }
 
-<<<<<<< HEAD
-=======
+
 
         //Edited by Harry
->>>>>>> main
+
         // New static method to get a property by ID using DB instance
         //Edited by Wilson to minus db argument
         public static Property GetPropertyByID(string propertyID)
