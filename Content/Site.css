@@ -215,16 +215,6 @@ h2, h3 {
 }
 
 .chat-message {
-    background-color: #3CB371;
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-/* 
-.chat-message {
     padding: 10px;
     margin: 5px 0;
     border-radius: 20px;
@@ -232,8 +222,6 @@ h2, h3 {
     max-width: 80%;
     cursor: pointer;
 }
-
-*/
 
 .another-message {
     background-color: #5E2D79; /* Lighter purple for the realtor */
@@ -255,27 +243,6 @@ h2, h3 {
     overflow-y: auto;
 }
 
-.uncheck-msgGroup {
-    background-color: #3CB371;
-    padding: 5px;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
-}
-
-.uncheck-msgGroupbutton {
-    color: white;
-}
-
-.chattestcontainer {
-    border-top: 10px solid;
-    border-bottom: 10px solid;
-    border-color: transparent;
-}
-
-.uncheck-message {
-    color: yellow;
-    text-shadow: 2px 2px #ff0000;
-}
 
 /* Add to your styles.css if not already present */
 .login-section, .signup-section {
@@ -363,16 +330,6 @@ header {
 
 .error-msg {
     color: gold;
-}
-
-.welcome-msg {
-    background-color: #D3CBFF;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-radius: 5px;
-    float: right;
-    color: #2C003E;
 }
 
 .welcome-msg {

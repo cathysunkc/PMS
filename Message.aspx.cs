@@ -37,12 +37,10 @@ namespace PMS
 
                 if (propertyID != null)
                 {
-                    
-                    sendMessage.Value = propertyID;
                     BindMessageGrid(propertyID);
 
-                    this.panelSelectMessageNull.Visible = false;
                     this.panelSelectMessage.Visible = true;
+                    sendMessage.Value = propertyID;
 
                     /* edited by Wilson 
                     //User realtor = new User();
@@ -83,12 +81,6 @@ namespace PMS
             DataTable dt = Message.GetMessageByUserIDAndPropID((String)Session["UserID"], propertyID);
             ds.Tables.Add(dt);
 
-            if (dt.Rows.Count == 0)
-            {
-                this.gridMessageNull.Visible = true;
-                this.gridMessageNull.Text = "Please enter message to communicate for " + Property.GetPropertyByID(sendMessage.Value).Address;
-            }
-
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
 
@@ -96,15 +88,11 @@ namespace PMS
 
         protected void Message_Click(Object sender, CommandEventArgs e)
         {
-            // e.CommandArgument == PropertyID
+
             BindMessageGrid((String)e.CommandArgument);
 
-            this.panelSelectMessageNull.Visible = false;
             this.panelSelectMessage.Visible = true;
             sendMessage.Value = (String)e.CommandArgument;
-
-            DB dB = new DB();
-            dB.UpdateMessageClicked((String)Session["UserID"], (String)e.CommandArgument);
         }
 
         protected void Send_Click(object sender, EventArgs e)

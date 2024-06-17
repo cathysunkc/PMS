@@ -42,15 +42,6 @@ namespace PMS
         protected global::System.Web.UI.WebControls.ListView listMessage;
 
         /// <summary>
-        /// panelSelectMessageNull control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label panelSelectMessageNull;
-
-        /// <summary>
         /// panelSelectMessage control.
         /// </summary>
         /// <remarks>
@@ -94,15 +85,6 @@ namespace PMS
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRecipientEmail;
-
-        /// <summary>
-        /// gridMessageNull control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label gridMessageNull;
 
         /// <summary>
         /// gridMessage control.

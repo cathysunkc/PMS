@@ -373,7 +373,7 @@ namespace PMS
         /************************************/
 
         //Get User by ID from DB
-        public DataTable SelectMessageByUserID(string userID)
+        public DataTable SelectMessageByID(string userID)
         {
             string query = $"SELECT * FROM pms_message WHERE sender_id = '{userID}' OR recipent_id = '{userID}' ;";
 
@@ -429,22 +429,9 @@ namespace PMS
             }
         }
 
-        public void UpdateMessageClicked(string userID, string propertyID)
+        public void UpdateMessage()
         {
-            string query = @"UPDATE pms_message 
-                             SET is_checked = 1 
-                             WHERE recipent_id = @RecipentID
-                             AND property_id = @PropertyID";
-
-            if (OpenConnection() == true)
-            {
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@RecipentID", userID);
-                cmd.Parameters.AddWithValue("@PropertyID", propertyID);
-
-                cmd.ExecuteNonQuery();
-                CloseConnection();
-            }
+            //To be implemented
         }
 
         public void DeleteMessage()
