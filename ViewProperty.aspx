@@ -18,7 +18,7 @@
                 </script>
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" height="550px">
                 <tr>
-                    <td width="30%" valign="top" align="center" >
+                    <td width="29%" valign="top" align="center" >
                         <div id="ImageGallery" style="overflow:auto; max-height: 500px; width:100%; display:inline-block;">
                             <asp:ListView ID="listImages" runat="server" GroupItemCount="2" ShowHeader="False" AutoGenerateColumns="False">
                             <LayoutTemplate>
@@ -30,7 +30,7 @@
                               <GroupTemplate>
                                 <tr runat="server" id="tableRow">
                                   <td runat="server" id="itemPlaceholder" />
-                                </tr>
+                                </tr>   
                               </GroupTemplate>
                              <ItemTemplate>
                                 <td runat="server" style="width:100%; vertical-align: top; padding: 3px">
@@ -41,7 +41,7 @@
                          </div>
                     </td>  
                     <td width="70%" style="vertical-align:top;"> 
-                        <img ID="mainImage" style="width:100%; padding:3px; height:500px; background-position: center center;background-repeat: no-repeat;" />
+                        <img ID="mainImage" style="width:100%; padding:3px; height:85%; background-position: center center;background-repeat: no-repeat;" />
                     </td>
                     </tr>                
                 </table>                        

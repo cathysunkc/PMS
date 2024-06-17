@@ -220,10 +220,11 @@
     <Content Include="Images\P000018\P00001801.jpg" />
     <Content Include="Images\P000019\P00001901.jpg" />
     <Content Include="Images\P000020\P00002001.jpg" />
+    <Content Include="Profile.aspx" />
+    <Content Include="Reporting.aspx" />
     <Content Include="Scripts\map.js" />
     <Content Include="SQL\pms.sql" />
     <Content Include="ViewProperty.aspx" />
-    <Content Include="Dashboard.aspx" />
     <Content Include="AddProperty.aspx" />
     <Content Include="Message.aspx" />
     <Content Include="Login.aspx" />
@@ -320,6 +321,21 @@
     <Compile Include="Class\DB.cs" />
     <Compile Include="Class\Message.cs" />
     <Compile Include="Class\Preference.cs" />
+    <Compile Include="Class\Report.cs" />
+    <Compile Include="Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting.aspx.cs">
+      <DependentUpon>Reporting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reporting.aspx.designer.cs">
+      <DependentUpon>Reporting.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewProperty.aspx.cs">
       <DependentUpon>ViewProperty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -329,13 +345,6 @@
     </Compile>
     <Compile Include="Class\Property.cs" />
     <Compile Include="Class\User.cs" />
-    <Compile Include="Dashboard.aspx.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Dashboard.aspx.designer.cs">
-      <DependentUpon>Dashboard.aspx</DependentUpon>
-    </Compile>
     <Compile Include="AddProperty.aspx.cs">
       <DependentUpon>AddProperty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

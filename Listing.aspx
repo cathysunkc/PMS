@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" Inherits="PMS.Listing" %>
+﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="PMS.Listing" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title" style="min-height:300px">
@@ -11,7 +11,7 @@
              </div>
             </asp:Panel>
              <asp:Panel ID="panelSearch" runat="server">
-                 <asp:Table ID="Table2" runat="server" CellPadding="10" Width="80%">
+                 <asp:Table ID="Table2" runat="server" CellPadding="10" Width="100%">
                      <asp:TableRow>
                          <asp:TableCell Width="30%">
                              <asp:DropDownList ID="ddlTransactionType" AutoPostBack="True"  OnSelectedIndexChanged="TransactionType_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
@@ -22,27 +22,35 @@
                          </asp:TableCell>
                          <asp:TableCell Width="20%">
                            <asp:Button ID="btnReset" CssClass="form-button" runat="server" OnClick="Reset_Click" Text="Reset" Width="80px" /></asp:TableCell>
-
+                        </asp:TableRow>
+                     <asp:TableRow>
+                         <asp:TableCell ColumnSpan="4" Width="100%" HorizontalAlign="Left">
+                             Sort By: &nbsp;<asp:DropDownList ID="ddlSortType" runat="server" AutoPostBack="True"  OnSelectedIndexChanged="ddlSortType_SelectedIndexChanged" CssClass="form-input" Width="25%"></asp:DropDownList>
+                         </asp:TableCell>
                      </asp:TableRow>
                  </asp:Table>
                  <asp:Label ID="lblNoPropertyFound" runat="server" Text="No Property Found."></asp:Label>
              </asp:Panel>
             <br>
-            
-             <asp:ListView ID="listProperty" GroupItemCount="3"  ShowHeader="False" runat="server" AutoGenerateColumns="False">
+             <asp:ListView ID="listProperty" GroupItemCount="3"  ShowHeader="False" runat="server" AutoGenerateColumns="False" OnPagePropertiesChanging="listProperty_PagePropertiesChanging">
             <LayoutTemplate>
                 <table runat="server" id="table1">
                   <tr runat="server" id="groupPlaceholder">
                   </tr>
                 </table>
-
+               <div style="text-align:center">
+                        <asp:DataPager ID="DataPager1" runat="server" PagedControlID="listProperty" PageSize="9">
+                            <Fields>       
+                               <asp:NumericPagerField ButtonType="Link" />
+                            </Fields>
+                        </asp:DataPager>
+               </div>
               </LayoutTemplate>
               <GroupTemplate>
                 <tr runat="server" id="tableRow">
                   <td runat="server" id="itemPlaceholder" />
                 </tr>
-              </GroupTemplate>
-            
+              </GroupTemplate>            
              <ItemTemplate>
                 <td runat="server" style="width: 30%; vertical-align: top; padding: 15px">
                  <asp:Label ID="lblAddress" runat="server" Text='<%#Eval("address")%>' style="white-space:nowrap" Font-Size="X-Large"  /><br/>
@@ -50,10 +58,12 @@
                  <div style="min-height: 200px"><a href='<%# "ViewProperty?id=" + Eval("property_id")%>'>
                      <asp:Image ID="imgPropertyImage" style="max-width:100%; height:200px; background-position: center center;
 background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id")  + "01.jpg" %>'/></a></div> 
-                 <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description")%> ' />
+                 <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description") %> ' />
                  </div>
              </td>
           </ItemTemplate>
-        </asp:ListView>      
+                 
+        </asp:ListView>  
+       
     </main>
 </asp:Content>
