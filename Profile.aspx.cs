@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace PMS
 {
-    public partial class Dashboard : Page
+    public partial class Profile : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,14 +19,12 @@ namespace PMS
                 if (user.IsRealtor())
                 {
                     this.panelListing.Visible = true;
-                    this.panelReports.Visible = true;
-                    this.lblDashboardNote.Text = "Realtor Dashboard";
+                    this.lblProfileNote.Text = "Realtor Profile";
                 }
                 else if (user.IsClient())
                 {
                     this.panelListing.Visible = false;
-                    this.panelReports.Visible = false;
-                    this.lblDashboardNote.Text = "Client Dashboard";
+                    this.lblProfileNote.Text = "Client Profile";
                 }
 
                 this.lblUserID.Text = user.UserID;

@@ -13,7 +13,7 @@ namespace PMS
         {
             if (Session["UserID"] != null)
             {
-                Response.Redirect("Dashboard");
+                Response.Redirect("Profile");
             }
         }
 

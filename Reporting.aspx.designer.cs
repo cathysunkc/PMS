@@ -11,35 +11,53 @@ namespace PMS
 {
 
 
-    public partial class Dashboard
+    public partial class Reporting
     {
 
         /// <summary>
-        /// lblDashboardNote control.
+        /// panelReport control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDashboardNote;
+        protected global::System.Web.UI.WebControls.Panel panelReport;
 
         /// <summary>
-        /// panelAccountInfo control.
+        /// lblFrom control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelAccountInfo;
+        protected global::System.Web.UI.WebControls.Label lblFrom;
 
         /// <summary>
-        /// tbAccountInfo control.
+        /// lblStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tbAccountInfo;
+        protected global::System.Web.UI.WebControls.Label lblStartDate;
+
+        /// <summary>
+        /// lblTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTo;
+
+        /// <summary>
+        /// lblEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEndDate;
 
         /// <summary>
         /// Label1 control.
@@ -51,13 +69,13 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// lblUserID control.
+        /// lblTotalListing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUserID;
+        protected global::System.Web.UI.WebControls.Label lblTotalListing;
 
         /// <summary>
         /// Label2 control.
@@ -69,13 +87,13 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// lblFullName control.
+        /// lblTotalSales control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFullName;
+        protected global::System.Web.UI.WebControls.Label lblTotalSales;
 
         /// <summary>
         /// Label3 control.
@@ -87,48 +105,12 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label Label3;
 
         /// <summary>
-        /// lblEmail control.
+        /// lblAvgPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEmail;
-
-        /// <summary>
-        /// panelListing control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelListing;
-
-        /// <summary>
-        /// btnAddProperty control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddProperty;
-
-        /// <summary>
-        /// panelMessages control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelMessages;
-
-        /// <summary>
-        /// panelReports control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelReports;
+        protected global::System.Web.UI.WebControls.Label lblAvgPrice;
     }
 }

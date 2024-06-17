@@ -1,10 +1,10 @@
-﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="PMS.Dashboard" %>
+﻿<%@ Page Title="Profile" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="PMS.Profile" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
-            <h2><asp:Label ID="lblDashboardNote" runat="server" Text="Dashboard"></asp:Label></h2>
+            <h2><asp:Label ID="lblProfileNote" runat="server" Text="Profile"></asp:Label></h2>
         <asp:Panel ID="panelAccountInfo" runat="server">
-            <div class="dashboard-section">
+            <div class="profile-section">
                 <h4>Account Information</h4>
                 <asp:Table ID="tbAccountInfo" runat="server">
                     <asp:TableRow>
@@ -37,13 +37,6 @@
                 <p>No new messages.</p>
             </div>
         </asp:Panel>
-        <asp:Panel ID="panelReports" runat="server" Visible="false">
-            <div class="dashboard-section">
-                <h4>Reports</h4>
-                <!-- Placeholder for analytics/metrics -->
-                <p>To be implemented.</p>
-            </div>
-        </asp:Panel>    
-            
+       
     </main>
 </asp:Content>
