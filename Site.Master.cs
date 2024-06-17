@@ -27,8 +27,13 @@ namespace PMS
 
 				this.lnkProfile.Visible = true;
 				this.lnkMessage.Visible = true;
+				if (Message.AlertMessage(Session["UserID"].ToString()) != 0)  
+				{ 
+					this.lblMsgCount.Text = "(" + Message.AlertMessage(Session["UserID"].ToString()) + ")"; 
+				}
+                
 
-				if (user.IsRealtor())
+                if (user.IsRealtor())
 				{
 					this.lnkReporting.Visible = true;
 				}
