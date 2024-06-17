@@ -19,8 +19,8 @@
                         <ItemTemplate>
                             <tr id="tableRow" runat="server" >
 
-                                <td runat="server" class='<%# Eval("is_checked").ToString() == "True" ? "" : "chattest" %>'>
-                                    <asp:LinkButton ID="lbnRegister" runat="server" class='<%# Eval("is_checked").ToString() == "True" ? "" : "chattestbutton" %>' CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
+                                <td runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-msgGroup" : "" %>'>
+                                    <asp:LinkButton ID="lbnRegister" runat="server" class='<%# Eval("is_checked").ToString() == "True" ? "" : "uncheck-msgGroupbutton" %>' CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address").ToString().Length > 25 ? Eval("property.Address").ToString().Substring(0,25) : Eval("property.Address") %>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
                                         <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 45 ? Eval("content").ToString().Substring(0,45) : Eval("content") %>' Font-Size="x-small"  /><br/>
@@ -33,6 +33,7 @@
                     </asp:ListView> 
                 </asp:TableCell>
                 <asp:TableCell Width="70%" VerticalAlign="Top">
+                    <h4><asp:Label runat="server" ID="panelSelectMessageNull" CssClass="" Visible="True">Please select message to communicate</asp:Label></h4>
                     <asp:Panel ID="panelSelectMessage" runat="server" Visible="false">
                         <div class="chat-container" style="height: 300px; width:100%; overflow-y: auto;">
                             <!-- Hidden 
@@ -46,8 +47,8 @@
                                 <Columns> 
                                 <asp:TemplateField>
                                     <ItemTemplate > 
-                                        <asp:Panel runat="server" class='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? "another-message" : "user-message" %>  '>
-                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("is_checked").ToString() == "True" ? "" : "chattestmessage" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>                              
+                                        <asp:Panel runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>  '>
+                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>                              
                                         </asp:Panel>
                                     </ItemTemplate> 
                                 </asp:TemplateField>

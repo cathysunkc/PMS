@@ -255,16 +255,15 @@ h2, h3 {
     overflow-y: auto;
 }
 
-.chattest {
+.uncheck-msgGroup {
     background-color: #3CB371;
     padding: 5px;
-
     border: 1px solid #1A1A1A;
     border-radius: 20px;
 }
 
-.chattestbutton {
-    color:white;
+.uncheck-msgGroupbutton {
+    color: white;
 }
 
 .chattestcontainer {
@@ -273,7 +272,7 @@ h2, h3 {
     border-color: transparent;
 }
 
-.chattestmessage {
+.uncheck-message {
     color: yellow;
     text-shadow: 2px 2px #ff0000;
 }
@@ -364,6 +363,16 @@ header {
 
 .error-msg {
     color: gold;
+}
+
+.welcome-msg {
+    background-color: #D3CBFF;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    float: right;
+    color: #2C003E;
 }
 
 .welcome-msg {

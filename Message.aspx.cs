@@ -37,10 +37,12 @@ namespace PMS
 
                 if (propertyID != null)
                 {
+                    
+                    sendMessage.Value = propertyID;
                     BindMessageGrid(propertyID);
 
+                    this.panelSelectMessageNull.Visible = false;
                     this.panelSelectMessage.Visible = true;
-                    sendMessage.Value = propertyID;
 
                     /* edited by Wilson 
                     //User realtor = new User();
@@ -97,6 +99,7 @@ namespace PMS
             // e.CommandArgument == PropertyID
             BindMessageGrid((String)e.CommandArgument);
 
+            this.panelSelectMessageNull.Visible = false;
             this.panelSelectMessage.Visible = true;
             sendMessage.Value = (String)e.CommandArgument;
 

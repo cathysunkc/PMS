@@ -433,7 +433,7 @@ namespace PMS
         {
             string query = @"UPDATE pms_message 
                              SET is_checked = 1 
-                             WHERE ( sender_id = @RecipentID OR recipent_id = @RecipentID )
+                             WHERE recipent_id = @RecipentID
                              AND property_id = @PropertyID";
 
             if (OpenConnection() == true)

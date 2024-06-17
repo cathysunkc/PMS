@@ -236,9 +236,14 @@ namespace PMS
             dB.AddMessage(message);
         }
 
-        public void AlertMessage()
+        public static int? AlertMessage(string userID)
         {
-            //To be implemented
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
+            DataRow[] dr = dtDB.AsEnumerable()
+                .Where(row => (bool)row["is_checked"] == false && (string)row["recipent_id"] == $"{userID}")
+                .ToArray();
+            return dr.Length;
         }
     }
 }
