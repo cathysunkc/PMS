@@ -11,17 +11,26 @@ namespace PMS
 {
 
 
-    public partial class AddProperty
+    public partial class EditProperty
     {
 
         /// <summary>
-        /// addPropertyPanel control.
+        /// editPropertyPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel addPropertyPanel;
+        protected global::System.Web.UI.WebControls.Panel editPropertyPanel;
+
+        /// <summary>
+        /// lblErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorMessage;
 
         /// <summary>
         /// rfvPropertyName control.
@@ -465,21 +474,12 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Label lblErrorAvailableDate;
 
         /// <summary>
-        /// submitBtn control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button submitBtn;
-
-        /// <summary>
-        /// lblErrorMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMessage;
+        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

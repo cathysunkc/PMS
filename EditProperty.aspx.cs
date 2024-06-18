@@ -5,12 +5,21 @@ using System.Web.UI.WebControls;
 
 namespace PMS
 {
-    public partial class AddProperty : Page
+    public partial class EditProperty : Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        { }
+        {
+            if (!IsPostBack)
+            {
+                string propertyID = Request.QueryString["id"]; 
+                if (!string.IsNullOrEmpty(propertyID))
+                {
+                    LoadPropertyDetails(propertyID);
+                }
+            }
+        }
 
-        protected void SubmitBtn_Click(object sender, EventArgs e)
+        protected void SaveChanges_Click(object sender, EventArgs e)
         {
             lblErrorMessage.Visible = false;
 
@@ -59,7 +68,7 @@ namespace PMS
 
                 Property property = new Property
                 {
-                    PropertyID = db.GenerateNewPropertyID(),
+                    PropertyID = Request.QueryString["id"], // Update to check for "id"
                     Address = txtPropertyName.Text,
                     City = txtPropertyCity.Text,
                     ZipCode = txtPropertyZip.Text,
@@ -78,9 +87,31 @@ namespace PMS
                     RealtorID = realtorID
                 };
 
-                db.AddProperty(property);
+                db.UpdateProperty(property);
 
-                Response.Redirect("ViewProperty.aspx");
+                Response.Redirect("ViewProperty.aspx?id=" + property.PropertyID); // Update to pass "id"
+            }
+        }
+
+        private void LoadPropertyDetails(string propertyID)
+        {
+            DB db = new DB();
+            Property property = db.GetPropertyByID(propertyID);
+            if (property != null)
+            {
+                txtPropertyName.Text = property.Address;
+                txtPropertyCity.Text = property.City;
+                txtPropertyZip.Text = property.ZipCode;
+                txtPropertyType.Text = property.PropertyType;
+                txtDescription.Text = property.Description;
+                txtArea.Text = property.Area;
+                txtBedNum.Text = property.BedNum.ToString();
+                txtBathNum.Text = property.BathNum.ToString();
+                txtParkingType.Text = property.ParkingType;
+                RadioButton1.Checked = property.TransactionType == 'R';
+                RadioButton2.Checked = property.TransactionType == 'S';
+                txtPrice.Text = property.Price.ToString();
+                txtAvailableDate.Text = property.AvailableDate.ToString("yyyy-MM-dd");
             }
         }
 

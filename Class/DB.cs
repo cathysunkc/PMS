@@ -143,10 +143,45 @@ namespace PMS
 
 
 
-        public void UpdateProperty()
-        {   
-            //To be implemented
+        public void UpdateProperty(Property property)
+        {
+            string query = @"UPDATE Properties 
+                    SET address = @Address, 
+                        zip_code = @ZipCode, 
+                        city = @City, 
+                        property_type = @PropertyType, 
+                        bed_num = @BedNum, 
+                        bath_num = @BathNum, 
+                        area = @Area, 
+                        parking_type = @ParkingType, 
+                        available_date = @AvailableDate, 
+                        description = @Description, 
+                        transaction_type = @TransactionType, 
+                        price = @Price 
+                    WHERE property_id = @PropertyID";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@PropertyID", property.PropertyID);
+                cmd.Parameters.AddWithValue("@Address", property.Address);
+                cmd.Parameters.AddWithValue("@ZipCode", property.ZipCode);
+                cmd.Parameters.AddWithValue("@City", property.City);
+                cmd.Parameters.AddWithValue("@PropertyType", property.PropertyType);
+                cmd.Parameters.AddWithValue("@BedNum", property.BedNum);
+                cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
+                cmd.Parameters.AddWithValue("@Area", property.Area);
+                cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
+                cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
+                cmd.Parameters.AddWithValue("@Description", property.Description);
+                cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
+                cmd.Parameters.AddWithValue("@Price", property.Price);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
+
 
         public void DeleteProperty()
         {

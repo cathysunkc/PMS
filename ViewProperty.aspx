@@ -85,7 +85,8 @@
                         <td style="padding-left:10px;width: 25%"></td>
                         <td style="padding-left:10px;width: 25%">
                             <asp:Button ID="btnContactRealtor" runat="server" OnClick="ContactReatlor_Click" CssClass="form-button"  Text="Contact Realtor" />
-                            <asp:Button ID="btnEditProperty" runat="server" CssClass="form-button"  Text="Edit Property"/>
+                            <asp:Button ID="btnEditProperty" runat="server" CssClass="form-button"  Text="Edit Property" OnClick="btnEditProperty_Click"/>
+
                         </td>
                     </tr>                     
                 </table>

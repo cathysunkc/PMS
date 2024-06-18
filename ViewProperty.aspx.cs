@@ -106,5 +106,14 @@ namespace PMS
             listImages.DataBind();
         }
 
+        // redirect to editproperty page
+        protected void btnEditProperty_Click(object sender, EventArgs e)
+        {
+            string propertyID = Request.QueryString["id"];
+            if (!string.IsNullOrEmpty(propertyID))
+            {
+                Response.Redirect($"EditProperty.aspx?id={propertyID}"); 
+            }
+        }
     }
 }
