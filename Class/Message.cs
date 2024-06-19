@@ -68,10 +68,11 @@ namespace PMS
         public static DataTable GetMessageByUserID(string userID)
         {
             DB dB = new DB();
-            DataTable dtDB = dB.SelectMessageByID(userID);
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
             DataTable dt = new DataTable();
 
             DataRow[] dr = dtDB.AsEnumerable()
+                .OrderByDescending(row => row["sendout_date"])
                 .GroupBy(row => row["property_id"])
                 .Select(group => group.First())
                 .ToArray();
@@ -120,11 +121,12 @@ namespace PMS
         public static DataTable GetMessageByUserIDAndPropID(string userID, string propertyID)
         {
             DB dB = new DB();
-            DataTable dtDB = dB.SelectMessageByID(userID);
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
             DataTable dt = new DataTable();
 
             DataRow[] dr = dtDB.AsEnumerable()
                             .Where(row => (string)row["property_id"] == $"{propertyID}")
+                            .OrderBy(row => row["sendout_date"])
                             .ToArray();
 
             if (dr.Length > 0) 
@@ -234,9 +236,14 @@ namespace PMS
             dB.AddMessage(message);
         }
 
-        public void AlertMessage()
+        public static int? AlertMessage(string userID)
         {
-            //To be implemented
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
+            DataRow[] dr = dtDB.AsEnumerable()
+                .Where(row => (bool)row["is_checked"] == false && (string)row["recipent_id"] == $"{userID}")
+                .ToArray();
+            return dr.Length;
         }
     }
 }

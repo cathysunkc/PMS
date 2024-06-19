@@ -22,8 +22,9 @@
                 <nav>
                     <asp:HyperLink ID="lnkDefault" NavigateUrl="Default" runat="server">Home</asp:HyperLink>
                     <asp:HyperLink ID="lnkListing" NavigateUrl="Listing" runat="server">Listings</asp:HyperLink>
-                    <asp:HyperLink ID="lnkMessage" NavigateUrl="Message" runat="server">Message</asp:HyperLink>
-                    <asp:HyperLink ID="lnkDashboard" NavigateUrl="Dashboard" runat="server">Dashboard</asp:HyperLink>
+                    <asp:HyperLink ID="lnkMessage" NavigateUrl="Message" runat="server">Message<asp:Label runat="server" Text="" ID="lblMsgCount"></asp:Label></asp:HyperLink>
+                    <asp:HyperLink ID="lnkReporting" NavigateUrl="Reporting" runat="server">Reporting</asp:HyperLink>
+                    <asp:HyperLink ID="lnkProfile" NavigateUrl="Profile" runat="server">Profile</asp:HyperLink>
                     <asp:LinkButton ID="lbnLogin" runat="server" OnClick="Login_Click">Login</asp:LinkButton>
                 </nav>
             </div>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics.Metrics;
+using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 
@@ -95,9 +96,69 @@ namespace PMS
         public void AddProperty(Property property)
         {
             string query = @"INSERT INTO Properties 
-                    (property_id, address, zip_code, city, property_type, bed_num, bath_num, area, parking_type, posted_date, available_date, description, is_featured, transaction_type, price, realtor_id, is_sold) 
-                    VALUES 
-                    (@PropertyID, @Address, @ZipCode, @City, @PropertyType, @BedNum, @BathNum, @Area, @ParkingType, @PostedDate, @AvailableDate, @Description, @IsFeatured, @TransactionType, @Price, @RealtorID, @IsSold)";
+            (property_id, address, zip_code, city, property_type, bed_num, bath_num, area, parking_type, posted_date, available_date, description, is_featured, transaction_type, price, realtor_id, is_sold) 
+            VALUES 
+            (@PropertyID, @Address, @ZipCode, @City, @PropertyType, @BedNum, @BathNum, @Area, @ParkingType, @PostedDate, @AvailableDate, @Description, @IsFeatured, @TransactionType, @Price, @RealtorID, @IsSold)";
+
+            if (OpenConnection() == true)
+            {
+                try
+                {
+                    MySqlCommand cmd = new MySqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@PropertyID", property.PropertyID);
+                    cmd.Parameters.AddWithValue("@Address", property.Address);
+                    cmd.Parameters.AddWithValue("@ZipCode", property.ZipCode);
+                    cmd.Parameters.AddWithValue("@City", property.City);
+                    cmd.Parameters.AddWithValue("@PropertyType", property.PropertyType);
+                    cmd.Parameters.AddWithValue("@BedNum", property.BedNum);
+                    cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
+                    cmd.Parameters.AddWithValue("@Area", property.Area);
+                    cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
+                    cmd.Parameters.AddWithValue("@PostedDate", property.PostedDate);
+                    cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
+                    cmd.Parameters.AddWithValue("@Description", property.Description);
+                    cmd.Parameters.AddWithValue("@IsFeatured", property.IsFeatured);
+                    cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
+                    cmd.Parameters.AddWithValue("@Price", property.Price);
+                    cmd.Parameters.AddWithValue("@RealtorID", property.RealtorID);
+                    cmd.Parameters.AddWithValue("@IsSold", property.IsSold);
+
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Property added successfully");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error adding property: " + ex.Message);
+                }
+                finally
+                {
+                    CloseConnection();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Unable to open database connection");
+            }
+        }
+
+
+
+        public void UpdateProperty(Property property)
+        {
+            string query = @"UPDATE Properties 
+                    SET address = @Address, 
+                        zip_code = @ZipCode, 
+                        city = @City, 
+                        property_type = @PropertyType, 
+                        bed_num = @BedNum, 
+                        bath_num = @BathNum, 
+                        area = @Area, 
+                        parking_type = @ParkingType, 
+                        available_date = @AvailableDate, 
+                        description = @Description, 
+                        transaction_type = @TransactionType, 
+                        price = @Price 
+                    WHERE property_id = @PropertyID";
 
             if (OpenConnection() == true)
             {
@@ -111,24 +172,16 @@ namespace PMS
                 cmd.Parameters.AddWithValue("@BathNum", property.BathNum);
                 cmd.Parameters.AddWithValue("@Area", property.Area);
                 cmd.Parameters.AddWithValue("@ParkingType", property.ParkingType);
-                cmd.Parameters.AddWithValue("@PostedDate", property.PostedDate);
                 cmd.Parameters.AddWithValue("@AvailableDate", property.AvailableDate);
                 cmd.Parameters.AddWithValue("@Description", property.Description);
-                cmd.Parameters.AddWithValue("@IsFeatured", property.IsFeatured);
                 cmd.Parameters.AddWithValue("@TransactionType", property.TransactionType);
                 cmd.Parameters.AddWithValue("@Price", property.Price);
-                cmd.Parameters.AddWithValue("@RealtorID", property.RealtorID);
-                cmd.Parameters.AddWithValue("@IsSold", property.IsSold);
 
                 cmd.ExecuteNonQuery();
                 CloseConnection();
             }
         }
 
-        public void UpdateProperty()
-        {
-            //To be implemented
-        }
 
         public void DeleteProperty()
         {
@@ -137,7 +190,6 @@ namespace PMS
 
         //The following property listings were generated by ChatGPT, an AI language model developed by OpenAI. These listings are fictional and provided as sample data for demonstration purposes.
         //images of listing is from https://pixabay.com/images/search/
-        //Edited by Harry
         // New method to get a property by ID
         //Edited by Wilson to change as static method
         public Property GetPropertyByID(string propertyID)
@@ -185,7 +237,6 @@ namespace PMS
             return property;
         }
 
-        //Edited by Harry
         // New method to get featured properties
         public DataTable GetFeaturedProperty()
         {
@@ -205,23 +256,22 @@ namespace PMS
             return dt;
         }
 
-        //Edited by Harry
         // New method to find properties based on criteria
         public DataTable FindProperty(char transactionType, double bedNum, double bathNum)
         {
             string query = "SELECT * FROM Properties WHERE is_sold = 0";
-            
+
             if (transactionType != ' ')
             {
-                query += " AND p.transaction_type = @transaction_type";
+                query += " AND transaction_type = @transaction_type";
             }
             if (bedNum != 0)
             {
-                query += " AND p.bed_num = @bed_num";
+                query += " AND bed_num = @bed_num";
             }
             if (bathNum != 0)
             {
-                query += " AND p.bath_num = @bath_num";
+                query += " AND bath_num = @bath_num";
             }
 
             DataTable dt = new DataTable();
@@ -342,18 +392,13 @@ namespace PMS
             }
         }
     
-        // esak
+
         public void UpdateUser()
-
-            // public bool UpdateUser (User user)
-            // 
-
         {
             //To be implemented
         }
 
         public void DeleteUser()
-            // dont delete just void it so that the data will stilll ve there but they cant access there account anymore.
         {
             //To be implemented
         }
@@ -363,7 +408,7 @@ namespace PMS
         /************************************/
 
         //Get User by ID from DB
-        public DataTable SelectMessageByID(string userID)
+        public DataTable SelectMessageByUserID(string userID)
         {
             string query = $"SELECT * FROM pms_message WHERE sender_id = '{userID}' OR recipent_id = '{userID}' ;";
 
@@ -418,17 +463,30 @@ namespace PMS
                 CloseConnection();
             }
         }
-        // harry
-        public void UpdateMessage()
+
+        public void UpdateMessageClicked(string userID, string propertyID)
         {
-            //To be implemented
+            string query = @"UPDATE pms_message 
+                             SET is_checked = 1 
+                             WHERE recipent_id = @RecipentID
+                             AND property_id = @PropertyID";
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@RecipentID", userID);
+                cmd.Parameters.AddWithValue("@PropertyID", propertyID);
+
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
         }
 
         public void DeleteMessage()
         {
             //To be implemented
         }
-        // wilson
+
         public void AddPreference()
         {
             //To be implemented
@@ -444,5 +502,217 @@ namespace PMS
             //To be implemented
         }
 
+        public string GetLastPropertyID()
+        {
+            string query = "SELECT property_id FROM Properties ORDER BY property_id DESC LIMIT 1";
+            string lastPropertyID = string.Empty;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    lastPropertyID = result.ToString();
+                }
+                CloseConnection();
+            }
+            return lastPropertyID;
+        }
+
+        public string GenerateNewPropertyID()
+        {
+            string lastPropertyID = GetLastPropertyID();
+            int numericPart = 0;
+
+            if (!string.IsNullOrEmpty(lastPropertyID))
+            {
+                numericPart = int.Parse(lastPropertyID.Substring(1)); // Extract numeric part from "P000020"
+            }
+
+            int newNumericPart = numericPart + 1;
+            return $"P{newNumericPart:D6}"; 
+        }
+
+
+        /************************************
+         * Reporting
+        /************************************/
+        //Get Listing number by realtorID
+        public int GetDBListingNumber(string realtorID)
+        {
+            //Sample query
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}';";
+
+            int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        //Get sales number by realtorID
+        public int GetDBSalesNumber(string realtorID, bool isSold)
+		{
+            //Sample query
+			//SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1;
+            int isSoldFlag = (isSold? 1: 0);
+			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag};";
+
+			int count = 0;
+
+			if (OpenConnection() == true)
+			{
+				MySqlCommand cmd = new MySqlCommand(query, connection);
+				object result = cmd.ExecuteScalar();
+				if (result != null)
+				{
+				 	count = Convert.ToInt16(result);
+				}
+				CloseConnection();
+			}
+			return count;
+		}
+
+        //Get sales percentage by realtorID
+        public double GetDBSalesPercentage(string realtorID, bool isSold)
+        {
+            //Sample query
+            //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1)/(select count(1) from properties where realtor_id = 'realtor02') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
+            int isSoldFlag = (isSold ? 1 : 0);
+
+            string query = $"SELECT (select count(1) from properties where realtor_id = '{realtorID}' and is_sold = {isSoldFlag}) / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}') * 100 " +
+                $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
+
+            double percentage = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    percentage = Convert.ToDouble(result);
+                }
+                CloseConnection();
+            }
+            return percentage;
+        }
+
+        //Get listing post date by realtorID
+        public DateTime GetDBListingPostedDate(string realtorID, bool isFrom)
+        {
+            //Sample query
+            //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02';
+            //SELECT max(posted_date) FROM `properties` WHERE realtor_id='realtor02';
+            string isFromFlag = (isFrom ? "min" : "max");
+
+            string query = $"SELECT {isFromFlag}(posted_date) from properties where realtor_id = '{realtorID}'";
+
+            DateTime date = DateTime.Now;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    date = Convert.ToDateTime(result);
+                }
+                CloseConnection();
+            }
+            return date;
+        }
+
+        //Get sales number by realtorID and date range
+        public int GetDBSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND " + 
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        //Get sales by realtorID and group by property type
+        public DataTable GetDBSalesByPropertyType(string userID)
+        {
+            //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' GROUP BY property_type;
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' GROUP BY property_type";
+
+            DataTable dt = new DataTable();
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                dt.Load(dataReader);
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return table
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        //Get sales price by realtorID and date range
+        public double GetDBSalesPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND " +
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            double price = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    price = Convert.ToDouble(result);
+                }
+                CloseConnection();
+            }
+            return price;
+        }
+
+        
     }
 }
