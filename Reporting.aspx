@@ -62,7 +62,7 @@
         google.charts.setOnLoadCallback(drawSalesPeriodChart);
 
         function drawSalesPeriodChart() {
-            var data = google.visualization.arrayToDataTable(<%= GetSalesPeriodChart() %>);            
+            var data = google.visualization.arrayToDataTable(<%= this.GetSalesPeriodChart() %>);            
 
             var options = {
                 title: "Sales by Period",
@@ -93,7 +93,7 @@
 
         function drawSalesPropertyTypeChart() {
 
-            var data = google.visualization.arrayToDataTable(<%= GetSalesPropertyTypeChart() %>);
+            var data = google.visualization.arrayToDataTable(<%= this.GetSalesPropertyTypeChart() %>);
 
             var options = {
                 title: 'Sales by Property Type',
@@ -114,7 +114,7 @@
         google.charts.setOnLoadCallback(drawSalesPriceChart);
 
         function drawSalesPriceChart() {
-            var data = google.visualization.arrayToDataTable(<%= GetSalesPriceChart() %>);
+            var data = google.visualization.arrayToDataTable(<%= this.GetSalesPriceChart() %>);
 
             var options = {
                 title: 'Sales Average Price',
