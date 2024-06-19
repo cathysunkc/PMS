@@ -342,13 +342,18 @@ namespace PMS
             }
         }
     
-
+        // esak
         public void UpdateUser()
+
+            // public bool UpdateUser (User user)
+            // 
+
         {
             //To be implemented
         }
 
         public void DeleteUser()
+            // dont delete just void it so that the data will stilll ve there but they cant access there account anymore.
         {
             //To be implemented
         }
@@ -413,7 +418,7 @@ namespace PMS
                 CloseConnection();
             }
         }
-
+        // harry
         public void UpdateMessage()
         {
             //To be implemented
@@ -423,7 +428,7 @@ namespace PMS
         {
             //To be implemented
         }
-
+        // wilson
         public void AddPreference()
         {
             //To be implemented
