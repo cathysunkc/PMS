@@ -369,7 +369,6 @@ namespace PMS
         /************************************
          * User section
         /************************************/
-
         public bool AddUser(User user)
         {
             string query = "INSERT INTO pms_user (user_id, password, first_name, last_name, email, phone, role) VALUES (@userID, @password, @firstName, @lastName, @Email, @Phone, @Role)";
