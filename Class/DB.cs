@@ -366,6 +366,9 @@ namespace PMS
             }
         }
 
+        /************************************
+         * User section
+        /************************************/
 
         public bool AddUser(User user)
         {
@@ -391,12 +394,37 @@ namespace PMS
                 return false;
             }
         }
-    
 
-        public void UpdateUser()
+        /************************************
+        * updating user account
+       /************************************/
+
+        public bool UpdateUser(User user)
         {
-            //To be implemented
+            string query = "UPDATE pms_user SET password = @password, first_name = @firstName, last_name = @lastName, email = @Email, phone = @Phone, role = @Role WHERE user_id = @userID";
+
+            if (this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@userID", user.UserID);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", user.LastName);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Phone", user.Phone);
+                cmd.Parameters.AddWithValue("@Role", user.Role);
+
+                int result = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
+
+
 
         public void DeleteUser()
         {
