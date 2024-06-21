@@ -337,6 +337,7 @@ namespace PMS
 
         protected void rbReportType_CheckedChanged(object sender, EventArgs e)
         {
+            // hide or show panel according to selected report type
             if (rbForRent.Checked == true)
             {
                 this.panelSalesReport.Visible = false;

@@ -847,7 +847,7 @@ namespace PMS
         public double GetDBSalesPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
-            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
+            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='S' AND posted_date between '2023-05-01' AND '2024-04-30';
             string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND transaction_type='S' AND " +
                 $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
@@ -870,7 +870,7 @@ namespace PMS
         public double GetDBRentPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
-            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
+            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='R' AND posted_date between '2023-05-01' AND '2024-04-30';
             string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND transaction_type='R' AND " +
                 $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
