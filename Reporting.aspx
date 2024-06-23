@@ -16,7 +16,10 @@
         }
         header, #tableSelect01, #mainReportHeader {
             display: none;
-        }       
+        }      
+        .container {
+            width: 100%;
+        }
     </style>
     <style type="text/css">
         input[type="radio"] {
@@ -198,7 +201,7 @@
             var data = google.visualization.arrayToDataTable(<%= this.GetSalesPriceChart() %>);
 
             var options = {
-                title: 'Sales Average Price',
+                title: 'Avg. Sales Price by Period',
                 colors: ['#5E2D79'],
                 curveType: 'function',
                 height: 300,  
@@ -223,7 +226,7 @@
             var data = google.visualization.arrayToDataTable(<%= this.GetRentPriceChart() %>);
 
             var options = {
-                title: 'Rent Average Price',
+                title: 'Avg. Rent Price by Period',
                 colors: ['#5E2D79'],
                 curveType: 'function',
                 height: 300,
