@@ -31,25 +31,26 @@ namespace PMS
 
         public bool IsChecked { get; set; }
 
-        // initial messages are before 20
-        private static int MessageINT = 20;
-
         //Constructors
         public Message() 
         {
-            this.MessageID = "M" + MessageINT.ToString("D6");
-            MessageINT++;
+            string lastStringId = Message.GetMessageLastID();
+            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
+            this.MessageID = "M" + lastIntId.ToString("D6");
         }
 
         public Message(string messageID) 
-        { 
-            this.MessageID = "M" + MessageINT.ToString("D6");
-            MessageINT++;
+        {
+            string lastStringId = Message.GetMessageLastID();
+            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
+            this.MessageID = "M" + lastIntId.ToString("D6");
         }
 
         public Message(string senderID, string recipentID, string propertyID, string SendOutDate, bool IsImportant, string content, bool isChecked)
         {
-            this.MessageID = "M" + MessageINT.ToString("D6");
+            string lastStringId = Message.GetMessageLastID();
+            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
+            this.MessageID = "M" + lastIntId.ToString("D6");
             this.SenderID = senderID;
             this.RecipentID = recipentID;
             this.PropertyID = propertyID;
@@ -57,7 +58,6 @@ namespace PMS
             this.IsImportant = IsImportant;
             this.Content = content;
             this.IsChecked = isChecked;
-            MessageINT++;
         }
 
         //Methods
@@ -65,6 +65,12 @@ namespace PMS
         {
             //To be implemented
             return null;
+        }
+
+        public static string GetMessageLastID()
+        {
+            DB dB = new DB();
+            return dB.SelectMessageLastID();
         }
 
         public static DataTable GetMessageByUserID(string userID)

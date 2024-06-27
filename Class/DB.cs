@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics.Metrics;
+using System.Web.Services.Description;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
@@ -372,7 +373,40 @@ namespace PMS
          * Message
         /************************************/
 
-        //Get User by ID from DB
+        public string SelectMessageLastID()
+        {
+            string query = $"SELECT message_id FROM pms_message ORDER BY sendout_date DESC LIMIT 1 ;";
+
+            string messageId = null;
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    messageId = dataReader["message_id"].ToString();
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return user
+                return messageId;
+            }
+            else
+            {
+                return messageId;
+            }
+        }
+
         public DataTable SelectMessageByUserID(string userID)
         {
             string query = $"SELECT * FROM pms_message WHERE sender_id = '{userID}' OR recipent_id = '{userID}' ;";
