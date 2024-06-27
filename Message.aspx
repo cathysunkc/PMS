@@ -8,6 +8,17 @@
 
         <asp:Table ID="Table2" CssClass="chattestcontainer" runat="server" CellPadding="10" Width="100%">
             <asp:TableRow>
+                    <asp:TableCell Width="30%">
+                        <asp:DropDownList ID="ddlTransactionType" AutoPostBack="True"  OnSelectedIndexChanged="TransactionType_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
+                    <asp:TableCell Width="25%">
+                        <asp:DropDownList ID="ddlBedNum" AutoPostBack="True"  OnSelectedIndexChanged="BedNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
+                    <asp:TableCell Width="25%">
+                        <asp:DropDownList ID="ddlBathNum" AutoPostBack="True"  OnSelectedIndexChanged="BathNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
+                    <asp:TableCell Width="20%">
+                    <asp:Button ID="btnReset" CssClass="form-button" runat="server" OnClick="Reset_Click" Text="Reset" Width="80px" /></asp:TableCell>
+            </asp:TableRow>
+
+            <asp:TableRow>
                 <asp:TableCell Width="30%">
                     <asp:ListView ID="listMessage" ShowHeader="False" runat="server" AutoGenerateColumns="True">
                         <LayoutTemplate>
@@ -24,7 +35,6 @@
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address").ToString().Length > 25 ? Eval("property.Address").ToString().Substring(0,25) : Eval("property.Address") %>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
                                         <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 45 ? Eval("content").ToString().Substring(0,45) : Eval("content") %>' Font-Size="x-small"  /><br/>
-                                        <asp:Label ID="Label53" runat="server" Text='<%# Eval("is_checked") %>' Font-Size="x-small" />
                                     </asp:LinkButton>
                                 </td>
 
@@ -32,7 +42,8 @@
                         </ItemTemplate>
                     </asp:ListView> 
                 </asp:TableCell>
-                <asp:TableCell Width="70%" VerticalAlign="Top">
+
+                <asp:TableCell Width="70%" ColumnSpan="3" VerticalAlign="Top">
                     <h4><asp:Label runat="server" ID="panelSelectMessageNull" CssClass="" Visible="True">Please select message to communicate</asp:Label></h4>
                     <asp:Panel ID="panelSelectMessage" runat="server" Visible="false">
                         <div class="chat-container" style="height: 300px; width:100%; overflow-y: auto;">
@@ -64,7 +75,6 @@
                             <asp:Button ID="btnSend" CssClass="form-button" runat="server" OnClick="Send_Click" Text="Send" Width="80px" />
                         </div>
                     </asp:Panel>
-
                 </asp:TableCell>
             </asp:TableRow>
         </asp:Table>
