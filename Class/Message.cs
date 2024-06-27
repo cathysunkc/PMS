@@ -3,6 +3,7 @@ using MySqlX.XDevAPI.Relational;
 using System;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Web.DynamicData;
 using System.Web.UI.WebControls;
@@ -59,7 +60,8 @@ namespace PMS
         public static string GererateMessageID()
         {
             // example: last message ID "M000001", new message ID "M000002"
-            string lastStringId = Message.GetMessageLastID();
+            DB dB = new DB();
+            string lastStringId = dB.SelectMessageLastID();
             int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
             return "M" + lastIntId.ToString("D6");
         }
@@ -68,12 +70,6 @@ namespace PMS
         {
             //To be implemented
             return null;
-        }
-
-        public static string GetMessageLastID()
-        {
-            DB dB = new DB();
-            return dB.SelectMessageLastID();
         }
 
         public static DataTable GetMessageByUserID(string userID)
@@ -205,25 +201,30 @@ namespace PMS
                 DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
                 DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
                 DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                DataColumn tempColSendout = new DataColumn("tempSendOut", typeof(DateTime));
                 dt.Columns.Add(tempColSend);
                 dt.Columns.Add(tempColRecip);
                 dt.Columns.Add(tempColProp);
+                dt.Columns.Add(tempColSendout);
                 foreach (DataRow row in dt.Rows)
                 {
                     row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
                     row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
                     row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID(propertyID), typeof(Property));
+                    row["tempSendOut"] = Convert.ChangeType(row["sendout_date"], typeof(DateTime));
                 }
                 tempColSend.SetOrdinal(1);
                 tempColRecip.SetOrdinal(2);
                 tempColProp.SetOrdinal(3);
+                tempColSendout.SetOrdinal(4);
                 dt.Columns.Remove("sender_id");
                 dt.Columns.Remove("recipent_id");
                 dt.Columns.Remove("property_id");
+                dt.Columns.Remove("sendout_date");
                 tempColSend.ColumnName = "sender";
                 tempColRecip.ColumnName = "recipent";
                 tempColProp.ColumnName = "property";
-
+                tempColSendout.ColumnName = "sendout_date";
             }
             else if (dr.Length == 0)
                 dt = new DataTable();

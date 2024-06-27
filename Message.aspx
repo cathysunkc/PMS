@@ -59,8 +59,10 @@
                                 <asp:TemplateField>
                                     <ItemTemplate > 
                                         <asp:Panel runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>  '>
-                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>                              
+                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>
+                                            
                                         </asp:Panel>
+                                        <asp:Label ID="Label5" runat="server" CssClass="message-time" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>'  />
                                     </ItemTemplate> 
                                 </asp:TemplateField>
                                 </Columns>
