@@ -34,23 +34,17 @@ namespace PMS
         //Constructors
         public Message() 
         {
-            string lastStringId = Message.GetMessageLastID();
-            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
-            this.MessageID = "M" + lastIntId.ToString("D6");
+            this.MessageID = Message.GererateMessageID();
         }
 
         public Message(string messageID) 
         {
-            string lastStringId = Message.GetMessageLastID();
-            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
-            this.MessageID = "M" + lastIntId.ToString("D6");
+            this.MessageID = Message.GererateMessageID();
         }
 
         public Message(string senderID, string recipentID, string propertyID, string SendOutDate, bool IsImportant, string content, bool isChecked)
         {
-            string lastStringId = Message.GetMessageLastID();
-            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
-            this.MessageID = "M" + lastIntId.ToString("D6");
+            this.MessageID = Message.GererateMessageID();
             this.SenderID = senderID;
             this.RecipentID = recipentID;
             this.PropertyID = propertyID;
@@ -61,6 +55,15 @@ namespace PMS
         }
 
         //Methods
+
+        public static string GererateMessageID()
+        {
+            // example: last message ID "M000001", new message ID "M000002"
+            string lastStringId = Message.GetMessageLastID();
+            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
+            return "M" + lastIntId.ToString("D6");
+        }
+
         public Message GetMessageByID(string messageID)
         {
             //To be implemented
