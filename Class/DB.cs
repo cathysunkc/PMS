@@ -539,13 +539,14 @@ namespace PMS
          * Reporting
         /************************************/
         //Get Listing number by realtorID
-        public int GetDBSalesListingNumber(string realtorID)
+        public int GetDBSalesListingNumber(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
             //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND transaction_type='S';
-            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='S';";
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='S' AND " +
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'; ";
 
-            int count = 0;
+			int count = 0;
 
             if (OpenConnection() == true)
             {
@@ -560,12 +561,13 @@ namespace PMS
             return count;
         }
 
-        public int GetDBRentListingNumber(string realtorID)
+        public int GetDBRentListingNumber(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
             //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND transaction_type='R';
-            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='R';";
-
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+			
             int count = 0;
 
             if (OpenConnection() == true)
@@ -582,13 +584,13 @@ namespace PMS
         }
 
         //Get sales number by realtorID
-        public int GetDBSalesNumber(string realtorID, bool isSold)
+        public int GetDBSalesNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
 		{
             //Sample query
             //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1  AND transaction_type='S';
             int isSoldFlag = (isSold? 1: 0);
-			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S'";
-
+			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
             int count = 0;
 
@@ -606,13 +608,13 @@ namespace PMS
 		}
 
         //Get sales number by realtorID
-        public int GetDBRentNumber(string realtorID, bool isSold)
-        {
+        public int GetDBRentNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
             //Sample query
             //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1  AND transaction_type='R';
             int isSoldFlag = (isSold ? 1 : 0);
-            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R'";
-
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
             int count = 0;
 
@@ -630,14 +632,18 @@ namespace PMS
         }
 
         //Get sales percentage by realtorID
-        public double GetDBSalesPercentage(string realtorID, bool isSold)
-        {
+        public double GetDBSalesPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
             //Sample query
             //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1 AND transaction_type='S')/(select count(1) from properties where realtor_id = 'realtor02' AND transaction_type='S') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
             int isSoldFlag = (isSold ? 1 : 0);
 
-            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S') / " +
-                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='S') * 100 " +
+            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " + 
+			    ") / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") * 100 " +
                 $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
 
             double percentage = 0;
@@ -646,7 +652,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (!Convert.IsDBNull(result))
                 {
                     percentage = Convert.ToDouble(result);
                 }
@@ -656,14 +662,18 @@ namespace PMS
         }
 
         //Get rent percentage by realtorID
-        public double GetDBRentPercentage(string realtorID, bool isSold)
-        {
+        public double GetDBRentPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
             //Sample query
             //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1 AND transaction_type='R')/(select count(1) from properties where realtor_id = 'realtor02' AND transaction_type='R') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
             int isSoldFlag = (isSold ? 1 : 0);
 
-            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R') / " +
-                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='R') * 100 " +
+            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") * 100 " +
                 $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
 
             double percentage = 0;
@@ -778,10 +788,12 @@ namespace PMS
         }
 
         //Get sales by realtorID and group by property type
-        public DataTable GetDBSalesByPropertyType(string userID)
-        {
+        public DataTable GetDBSalesByPropertyType(string userID, DateTime startDate, DateTime endDate)
+		{
             //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' AND transaction_type='S' GROUP BY property_type;
-            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='S' GROUP BY property_type";
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " + 
+			    " GROUP BY property_type";
 
             DataTable dt = new DataTable();
 
@@ -811,10 +823,12 @@ namespace PMS
         }
 
         //Get rent by realtorID and group by property type
-        public DataTable GetDBRentByPropertyType(string userID)
-        {
+        public DataTable GetDBRentByPropertyType(string userID, DateTime startDate, DateTime endDate)
+		{
             //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' AND transaction_type='R' GROUP BY property_type;
-            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='R' GROUP BY property_type";
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				" GROUP BY property_type";
 
             DataTable dt = new DataTable();
 

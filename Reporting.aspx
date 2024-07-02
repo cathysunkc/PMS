@@ -20,6 +20,7 @@
         .container {
             width: 100%;
         }
+        
     </style>
     <style type="text/css">
         input[type="radio"] {
@@ -31,7 +32,7 @@
             padding-top:0.7em;
             padding-bottom:0.7em;
             margin: 0px;
-            width: 10em;
+            width: 8em;
             border-radius: 1em;
             text-align: center;
             font-weight: bold;
@@ -300,8 +301,17 @@
                                 <asp:RadioButton ID="rbForSales" OnCheckedChanged="rbReportType_CheckedChanged"  AutoPostBack="true"   Checked="true" CssClass="radion-button"  GroupName="reportType" runat="server" Text="Sales Report" />&nbsp;&nbsp;
                                 <asp:RadioButton ID="rbForRent" OnCheckedChanged="rbReportType_CheckedChanged" AutoPostBack="true"    CssClass="radion-button" GroupName="reportType" runat="server" Text="Rent Report" />  
                              </td>
-                         <td style="width: 20%"><button onclick="window.print()" id="btnPrint" class="form-button" style="width:120px; float: right; vertical-align:top;">Print Report</button></td>
-                     </tr>                                       
+                         <td style="width: 20%"><button onclick="window.scrollTo(0, 0); window.print()" id="btnPrint" class="form-button" style="width:120px; float: right; vertical-align:top;">Print Report</button></td>
+                     </tr>   
+                     <tr>
+                        <td style="width: 100%;">
+                                <asp:RadioButton ID="rbAllTime" OnCheckedChanged="rbReportPeriod_CheckedChanged"  AutoPostBack="true"  Checked="true" CssClass="radion-button"  GroupName="reportPeriod" runat="server" Text="All Time" />&nbsp;&nbsp;
+                                <asp:RadioButton ID="rbLastYear" OnCheckedChanged="rbReportPeriod_CheckedChanged" AutoPostBack="true"    CssClass="radion-button" GroupName="reportPeriod" runat="server" Text="Last Year" />     
+                                <asp:RadioButton ID="rbLastMonth" OnCheckedChanged="rbReportPeriod_CheckedChanged" AutoPostBack="true"    CssClass="radion-button" GroupName="reportPeriod" runat="server" Text="Last Month" />  
+                                <asp:RadioButton ID="rbLastWeek" OnCheckedChanged="rbReportPeriod_CheckedChanged" AutoPostBack="true"    CssClass="radion-button" GroupName="reportPeriod" runat="server" Text="Last Week" />  
+                        </td>
+                       
+                    </tr>  
                  </table>                 
                <hr/>
             </asp:Panel>
@@ -312,7 +322,7 @@
                 <table style="width: 100%; margin-bottom: 1em">
                     <tr>
                         <td>
-                            <asp:Label ID="Label5" runat="server" Text="Posted Date:" Font-Bold="true"></asp:Label>&nbsp;&nbsp;&nbsp;
+                            <asp:Label ID="Label5" runat="server" Text="Date:" Font-Bold="true"></asp:Label>&nbsp;&nbsp;&nbsp;
                             <asp:Label ID="lblSalesStartDate" runat="server" Text="StartDate"></asp:Label>
                             <asp:Label ID="Label7" runat="server" Text=" to " Font-Bold="true"></asp:Label>
                             <asp:Label ID="lblSalesEndDate" runat="server" Text="EndDate"></asp:Label>      

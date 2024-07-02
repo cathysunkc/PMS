@@ -44,70 +44,131 @@ namespace PMS
         }
         private void bindData()
         {
-            //For Sales Report
-            DateTime salesStartDate = report.GetSalesListingPostedDate(user.UserID, true);
-            DateTime salesEndDate = report.GetSalesListingPostedDate(user.UserID, false);
-            this.lblSalesStartDate.Text = salesStartDate.ToString("yyyy-MMM-dd");
-            this.lblSalesEndDate.Text = salesEndDate.ToString("yyyy-MMM-dd");
-            this.lblSalesTotalListing.Text = report.GetSalesListingNumber(user.UserID).ToString();
-            this.lblSalesTotalSales.Text = report.GetSalesNumber(user.UserID, true).ToString();
-            this.lblSalesAvgPrice.Text = report.GetSalesPriceByPeriod(user.UserID, salesStartDate, salesEndDate).ToString("$#,###.##");
+			DateTime startDate = this.GetStartDate();      //report.GetSalesListingPostedDate(user.UserID, true);
+			DateTime endDate = this.GetEndDate();          //report.GetSalesListingPostedDate(user.UserID, false);
+
+
+			//For Sales Report
+			this.lblSalesStartDate.Text = startDate.ToString("yyyy-MMM-dd");
+            this.lblSalesEndDate.Text = endDate.ToString("yyyy-MMM-dd");
+            this.lblSalesTotalListing.Text = report.GetSalesListingNumber(user.UserID, startDate, endDate).ToString();
+            this.lblSalesTotalSales.Text = report.GetSalesNumber(user.UserID, true, startDate, endDate).ToString();
+            this.lblSalesAvgPrice.Text = report.GetSalesPriceByPeriod(user.UserID, startDate, endDate).ToString("$#,###.##");
 
             //For Rent Report
-            DateTime rentStartDate = report.GetRentListingPostedDate(user.UserID, true);
-            DateTime rentEndDate = report.GetRentListingPostedDate(user.UserID, false);
-            this.lblRentStartDate.Text = rentStartDate.ToString("yyyy-MMM-dd");
-            this.lblRentEndDate.Text = rentEndDate.ToString("yyyy-MMM-dd");
-            this.lblRentTotalListing.Text = report.GetRentListingNumber(user.UserID).ToString();
-            this.lblRentTotalSales.Text = report.GetRentNumber(user.UserID, true).ToString();
-            this.lblRentAvgPrice.Text = report.GetRentPriceByPeriod(user.UserID, rentStartDate, rentEndDate).ToString("$#,###.##");
+            this.lblRentStartDate.Text = startDate.ToString("yyyy-MMM-dd");
+            this.lblRentEndDate.Text = endDate.ToString("yyyy-MMM-dd");
+            this.lblRentTotalListing.Text = report.GetRentListingNumber(user.UserID, startDate, endDate).ToString();
+            this.lblRentTotalSales.Text = report.GetRentNumber(user.UserID, true, startDate, endDate).ToString();
+            this.lblRentAvgPrice.Text = report.GetRentPriceByPeriod(user.UserID, startDate, endDate).ToString("$#,###.##");
+
+        }
+
+        public DateTime GetStartDate()
+        {
+            if (rbLastYear.Checked)
+            {
+                return DateTime.Now.AddYears(-1);
+            }
+            else if (rbLastMonth.Checked)
+            {
+                return DateTime.Now.AddMonths(-1);
+            }
+            else if (rbLastWeek.Checked)
+            {
+                return DateTime.Now.AddDays(-7);
+            }
+            else 
+            {
+                if (rbForSales.Checked)
+                {
+					return report.GetSalesListingPostedDate(user.UserID, true);
+				}
+                else
+                {
+					return report.GetRentListingPostedDate(user.UserID, true);
+				}
+				
+			}
+
+        }
+
+        public DateTime GetEndDate()
+        {
+            if (rbAllTime.Checked)
+            {
+				if (rbForSales.Checked)
+				{
+					return report.GetSalesListingPostedDate(user.UserID, false);
+				}
+				else
+				{
+					return report.GetRentListingPostedDate(user.UserID, false);
+				}
+			}
+            else 
+            {
+				return DateTime.Now;				
+			}
 
         }
 
         // Table Value
         public string GetSalesTableValue()
         {
-            return "[" +
-              $"['Total Sales',  '{report.GetSalesNumber(user.UserID, true)}', '{report.GetSalesPercentage(user.UserID, true).ToString("F1") + "%"}']," +
-              $"['Active Listings', '{report.GetSalesNumber(user.UserID, false)}', '{report.GetSalesPercentage(user.UserID, false).ToString("F1") + "%"}']" +
+			DateTime startDate = this.GetStartDate();      
+			DateTime endDate = this.GetEndDate();
+
+			return "[" +
+              $"['Total Sales',  '{report.GetSalesNumber(user.UserID, true, startDate, endDate)}', '{report.GetSalesPercentage(user.UserID, true, startDate, endDate).ToString("F1") + "%"}']," +
+              $"['Active Listings', '{report.GetSalesNumber(user.UserID, false, startDate, endDate)}', '{report.GetSalesPercentage(user.UserID, false, startDate, endDate).ToString("F1") + "%"}']" +
                 "]";
         }
 
         public string GetRentTableValue()
         {
-            return "[" +
-              $"['Total Rent',  '{report.GetRentNumber(user.UserID, true)}', '{report.GetRentPercentage(user.UserID, true).ToString("F1") + "%"}']," +
-              $"['Active Listings', '{report.GetRentNumber(user.UserID, false)}', '{report.GetRentPercentage(user.UserID, false).ToString("F1") + "%"}']" +
+			DateTime startDate = this.GetStartDate();
+			DateTime endDate = this.GetEndDate();
+
+			return "[" +
+              $"['Total Rent',  '{report.GetRentNumber(user.UserID, true, startDate, endDate)}', '{report.GetRentPercentage(user.UserID, true, startDate, endDate).ToString("F1") + "%"}']," +
+              $"['Active Listings', '{report.GetRentNumber(user.UserID, false, startDate, endDate)}', '{report.GetRentPercentage(user.UserID, false, startDate, endDate).ToString("F1") + "%"}']" +
                 "]";
         }
 
         // Pie Chart
         public string GetSalesPieChart()
         {
+			DateTime startDate = this.GetStartDate();
+			DateTime endDate = this.GetEndDate();
+
 			return "[" +
                 "['Name', 'Value']," + 
-                $"['Total Sales', {report.GetSalesNumber(user.UserID, true)}]," +
-                $"['Active Listings', {report.GetSalesNumber(user.UserID, false)}]," + 
+                $"['Total Sales', {report.GetSalesNumber(user.UserID, true, startDate, endDate)}]," +
+                $"['Active Listings', {report.GetSalesNumber(user.UserID, false, startDate, endDate)}]," + 
                 "]";
         }
 
         public string GetRentPieChart()
         {
-            return "[" +
+			DateTime startDate = this.GetStartDate();
+			DateTime endDate = this.GetEndDate();
+
+			return "[" +
                 "['Name', 'Value']," +
-                $"['Total Rent', {report.GetRentNumber(user.UserID, true)}]," +
-                $"['Active Listings', {report.GetRentNumber(user.UserID, false)}]," +
+                $"['Total Rent', {report.GetRentNumber(user.UserID, true, startDate, endDate)}]," +
+                $"['Active Listings', {report.GetRentNumber(user.UserID, false, startDate, endDate)}]," +
                 "]";
         }
 
         // Period Chart
         public string GetSalesPeriodChart()
         {
-            string dateFormat = "yyyy MMM";
+            string dateFormat = "yyyy MMM dd";
 
-            //Get from posted date and to posted date
-            DateTime startDate = report.GetSalesListingPostedDate(user.UserID, true);
-            DateTime endDate = report.GetSalesListingPostedDate(user.UserID, false);
+			//Get from posted date and to posted date
+			DateTime startDate = this.GetStartDate();   //report.GetSalesListingPostedDate(user.UserID, true);
+            DateTime endDate = this.GetEndDate();       // report.GetSalesListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;
@@ -153,10 +214,10 @@ namespace PMS
 
         public string GetRentPeriodChart()
         {
-            string dateFormat = "yyyy MMM";
+            string dateFormat = "yyyy MMM dd";
 
-            //Get from posted date and to posted date
-            DateTime startDate = report.GetRentListingPostedDate(user.UserID, true);
+			//Get from posted date and to posted date
+			DateTime startDate = report.GetRentListingPostedDate(user.UserID, true);
             DateTime endDate = report.GetRentListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
@@ -204,9 +265,11 @@ namespace PMS
         // Property Type Chart
         public string GetSalesPropertyTypeChart() 
         {
-            string chartValue = "[['Property Type', 'Value',],";
+			DateTime startDate = this.GetStartDate(); 
+			DateTime endDate = this.GetEndDate();     
+			string chartValue = "[['Property Type', 'Value',],";
 
-            DataTable dt = report.GetSalesByPropertyType(user.UserID);
+            DataTable dt = report.GetSalesByPropertyType(user.UserID, startDate, endDate);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -220,9 +283,11 @@ namespace PMS
 
         public string GetRentPropertyTypeChart()
         {
-            string chartValue = "[['Property Type', 'Value',],";
+			DateTime startDate = this.GetStartDate();
+			DateTime endDate = this.GetEndDate();
+			string chartValue = "[['Property Type', 'Value',],";
 
-            DataTable dt = report.GetRentByPropertyType(user.UserID);
+            DataTable dt = report.GetRentByPropertyType(user.UserID, startDate, endDate);
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -237,11 +302,11 @@ namespace PMS
         // Price Chart
         public string GetSalesPriceChart()
         {
-            string dateFormat = "yyyy MMM";
+            string dateFormat = "yyyy MMM dd";
 
             //Get from posted date and to posted date
-            DateTime startDate = report.GetSalesListingPostedDate(user.UserID, true);
-            DateTime endDate = report.GetSalesListingPostedDate(user.UserID, false);
+            DateTime startDate = this.GetStartDate();   // report.GetSalesListingPostedDate(user.UserID, true);
+            DateTime endDate = this.GetEndDate();       // report.GetSalesListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;
@@ -287,11 +352,11 @@ namespace PMS
 
         public string GetRentPriceChart()
         {
-            string dateFormat = "yyyy MMM";
+            string dateFormat = "yyyy MMM dd";
 
-            //Get from posted date and to posted date
-            DateTime startDate = report.GetRentListingPostedDate(user.UserID, true);
-            DateTime endDate = report.GetRentListingPostedDate(user.UserID, false);
+			//Get from posted date and to posted date
+			DateTime startDate = this.GetStartDate();   // report.GetRentListingPostedDate(user.UserID, true);
+            DateTime endDate = this.GetEndDate();       // report.GetRentListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;
@@ -337,18 +402,43 @@ namespace PMS
 
         protected void rbReportType_CheckedChanged(object sender, EventArgs e)
         {
-            // hide or show panel according to selected report type
-            if (rbForRent.Checked == true)
-            {
-                this.panelSalesReport.Visible = false;
-                this.panelRentReport.Visible = true;
-            }
-            else
-            {
-                this.panelSalesReport.Visible = true;
-                this.panelRentReport.Visible = false;
-            }
+            LoadReportType();
+		}
 
-        }
+        private void LoadReportType()
+        {
+			// hide or show panel according to selected report type
+			if (rbForRent.Checked == true)
+			{
+				this.panelSalesReport.Visible = false;
+				this.panelRentReport.Visible = true;
+			}
+			else 
+			{
+				this.panelSalesReport.Visible = true;
+				this.panelRentReport.Visible = false;
+			}
+		}
+
+
+        protected void rbReportPeriod_CheckedChanged(object sender, EventArgs e)
+        {
+            //re-bind data when report period change
+            bindData();
+
+            //sales reports
+            GetSalesPeriodChart();
+            GetSalesPropertyTypeChart();
+			GetSalesPriceChart();
+            GetSalesPieChart();
+
+            //rent reports
+			GetRentPeriodChart();
+			GetRentPropertyTypeChart();            
+			GetRentPriceChart();
+			GetRentPieChart();
+
+
+		}
     }
 }

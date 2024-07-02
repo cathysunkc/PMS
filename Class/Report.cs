@@ -14,24 +14,25 @@ namespace PMS
 		public Report() { }
 
         // For Sales
-        public int GetSalesListingNumber(string realtorID)
-        {
-            return db.GetDBSalesListingNumber(realtorID);
-        }
-
-        public int GetSalesNumber(string realtorID, bool isSold)
+        public int GetSalesListingNumber(string realtorID, DateTime startDate, DateTime endDate)
 		{
-			return db.GetDBSalesNumber(realtorID,  isSold);
+            return db.GetDBSalesListingNumber(realtorID, startDate, endDate);
+
 		}
 
-        public double GetSalesPercentage(string realtorID, bool isSold)
-        {
-            return db.GetDBSalesPercentage(realtorID, isSold);
-        }
+        public int GetSalesNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+			return db.GetDBSalesNumber(realtorID,  isSold, startDate, endDate);
+		}
 
-        public DateTime GetSalesListingPostedDate(string realtorID, bool isFrom)
+        public double GetSalesPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+            return db.GetDBSalesPercentage(realtorID, isSold, startDate, endDate);
+		}
+
+        public DateTime GetSalesListingDate(string realtorID, bool isFrom)
         {
-            return db.GetDBSalesListingPostedDate(realtorID, isFrom);
+            return db.GetDBSalesListingDate(realtorID, isFrom);
         }
 
         public int GetSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)
@@ -39,34 +40,34 @@ namespace PMS
             return db.GetDBSalesByPeriod(realtorID, startDate, endDate);
         }
 
-        public DataTable GetSalesByPropertyType(string realtorID)
-        {
-            return db.GetDBSalesByPropertyType(realtorID);
-        }
+        public DataTable GetSalesByPropertyType(string realtorID, DateTime startDate, DateTime endDate)
+		{
+            return db.GetDBSalesByPropertyType(realtorID, startDate, endDate);
+		}
         public double GetSalesPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             return db.GetDBSalesPriceByPeriod(realtorID, startDate, endDate);
         }
 
         // For Rent
-        public int GetRentListingNumber(string realtorID)
-        {
-            return db.GetDBRentListingNumber(realtorID);
+        public int GetRentListingNumber(string realtorID, DateTime startDate, DateTime endDate)
+		{			
+            return db.GetDBRentListingNumber(realtorID, startDate, endDate);
+		}
+
+        public int GetRentNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+            return db.GetDBRentNumber(realtorID, isSold, startDate, endDate);
+		}
+
+        public double GetRentPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+            return db.GetDBRentPercentage(realtorID, isSold, startDate, endDate);
         }
 
-        public int GetRentNumber(string realtorID, bool isSold)
+        public DateTime GetRentListingDate(string realtorID, bool isFrom)
         {
-            return db.GetDBRentNumber(realtorID, isSold);
-        }
-
-        public double GetRentPercentage(string realtorID, bool isSold)
-        {
-            return db.GetDBRentPercentage(realtorID, isSold);
-        }
-
-        public DateTime GetRentListingPostedDate(string realtorID, bool isFrom)
-        {
-            return db.GetDBRentListingPostedDate(realtorID, isFrom);
+            return db.GetDBRentListingDate(realtorID, isFrom);
         }
 
         public int GetRentByPeriod(string realtorID, DateTime startDate, DateTime endDate)
@@ -74,10 +75,10 @@ namespace PMS
             return db.GetDBRentByPeriod(realtorID, startDate, endDate);
         }
 
-        public DataTable GetRentByPropertyType(string realtorID)
+        public DataTable GetRentByPropertyType(string realtorID, DateTime startDate, DateTime endDate)
         {
-            return db.GetDBRentByPropertyType(realtorID);
-        }
+            return db.GetDBRentByPropertyType(realtorID, startDate, endDate);
+		}
         public double GetRentPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             return db.GetDBRentPriceByPeriod(realtorID, startDate, endDate);
