@@ -552,7 +552,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -574,7 +574,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -598,8 +598,8 @@ namespace PMS
 			{
 				MySqlCommand cmd = new MySqlCommand(query, connection);
 				object result = cmd.ExecuteScalar();
-				if (result != null)
-				{
+                if (result != DBNull.Value)
+                {
 				 	count = Convert.ToInt16(result);
 				}
 				CloseConnection();
@@ -622,7 +622,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -652,7 +652,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (!Convert.IsDBNull(result))
+                if (result != DBNull.Value)
                 {
                     percentage = Convert.ToDouble(result);
                 }
@@ -682,7 +682,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (!Convert.IsDBNull(result))
                 {
                     percentage = Convert.ToDouble(result);
                 }
@@ -707,7 +707,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     date = Convert.ToDateTime(result);
                 }
@@ -732,7 +732,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     date = Convert.ToDateTime(result);
                 }
@@ -755,7 +755,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -778,7 +778,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
