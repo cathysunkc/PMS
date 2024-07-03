@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Reporting" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="Reporting.aspx.cs" Inherits="PMS.Reporting" %>
+﻿<%@ Page Title="Reporting" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"  CodeBehind="Reporting.aspx.cs" Inherits="PMS.Reporting" %>
 
 <asp:Content ID="HeadContent" ContentPlaceHolderID="HeadContent" runat="server">
     <title>Reporting</title>
@@ -322,7 +322,7 @@
                 <table style="width: 100%; margin-bottom: 1em">
                     <tr>
                         <td>
-                            <asp:Label ID="Label5" runat="server" Text="Date:" Font-Bold="true"></asp:Label>&nbsp;&nbsp;&nbsp;
+                            <asp:Label ID="Label5" runat="server" Text="Posted Date:" Font-Bold="true"></asp:Label>&nbsp;&nbsp;&nbsp;
                             <asp:Label ID="lblSalesStartDate" runat="server" Text="StartDate"></asp:Label>
                             <asp:Label ID="Label7" runat="server" Text=" to " Font-Bold="true"></asp:Label>
                             <asp:Label ID="lblSalesEndDate" runat="server" Text="EndDate"></asp:Label>      

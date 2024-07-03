@@ -216,9 +216,9 @@ namespace PMS
         {
             string dateFormat = "yyyy MMM dd";
 
-			//Get from posted date and to posted date
-			DateTime startDate = report.GetRentListingPostedDate(user.UserID, true);
-            DateTime endDate = report.GetRentListingPostedDate(user.UserID, false);
+            //Get from posted date and to posted date
+            DateTime startDate = this.GetStartDate();   // report.GetRentListingPostedDate(user.UserID, true);
+            DateTime endDate = this.GetEndDate();       // report.GetRentListingPostedDate(user.UserID, false);
 
             //Calculate the report intervals
             Double interval = (endDate - startDate).TotalDays;

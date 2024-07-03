@@ -30,9 +30,9 @@ namespace PMS
             return db.GetDBSalesPercentage(realtorID, isSold, startDate, endDate);
 		}
 
-        public DateTime GetSalesListingDate(string realtorID, bool isFrom)
+        public DateTime GetSalesListingPostedDate(string realtorID, bool isFrom)
         {
-            return db.GetDBSalesListingDate(realtorID, isFrom);
+            return db.GetDBSalesListingPostedDate(realtorID, isFrom);
         }
 
         public int GetSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)
@@ -65,9 +65,9 @@ namespace PMS
             return db.GetDBRentPercentage(realtorID, isSold, startDate, endDate);
         }
 
-        public DateTime GetRentListingDate(string realtorID, bool isFrom)
+        public DateTime GetRentListingPostedDate(string realtorID, bool isFrom)
         {
-            return db.GetDBRentListingDate(realtorID, isFrom);
+            return db.GetDBRentListingPostedDate(realtorID, isFrom);
         }
 
         public int GetRentByPeriod(string realtorID, DateTime startDate, DateTime endDate)
