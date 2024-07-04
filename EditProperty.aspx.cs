@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static PMS.Property;
 
 namespace PMS
 {
@@ -15,7 +19,8 @@ namespace PMS
                 if (!string.IsNullOrEmpty(propertyID))
                 {
                     LoadPropertyDetails(propertyID);
-                }
+					PopulateImages(propertyID);
+				}
             }
         }
 
@@ -125,5 +130,49 @@ namespace PMS
             lblErrorMessage.Text = message;
             lblErrorMessage.Visible = true;
         }
-    }
+
+		private void PopulateImages(string propertyID)
+		{
+			List<PropertyImages> myImages = new List<PropertyImages>();
+			DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + propertyID + "/"));
+            int index = 0;
+			foreach (var file in DI.GetFiles())
+			{
+                index++;
+				myImages.Add(new PropertyImages
+				{
+                    Index = index,
+					PropertyID = propertyID,
+					FileName = file.Name,
+					FilePath = "/Images/" + propertyID + "/" + file.Name
+				});
+			}
+			listImages.DataSource = myImages;
+			listImages.DataBind();
+
+		}
+
+		protected void btnUpload_Click(object sender, EventArgs e)
+		{
+			if (fileUpload.HasFiles)
+			{
+				foreach (HttpPostedFile uploadedFile in fileUpload.PostedFiles)
+				{
+					string fileName = Path.GetFileName(uploadedFile.FileName);
+					string filePath = Server.MapPath("~/Uploads/" + fileName);
+					uploadedFile.SaveAs(filePath);
+
+					// Optionally, you can perform further processing or save the file path to a database
+				}
+
+				// Display a success message to the user
+				//lblMessage.Text = "Files uploaded successfully!";
+			}
+			else
+			{
+				// Display an error message to the user
+				//lblMessage.Text = "Please select at least one file to upload.";
+			}
+		}
+	}
 }

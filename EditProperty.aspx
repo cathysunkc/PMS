@@ -1,6 +1,41 @@
 ﻿<%@ Page Title="Edit Property" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EditProperty.aspx.cs" Inherits="PMS.EditProperty" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+       .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .image-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+            background-color: #5E2D79;
+            color: #fff;
+            padding: 10px 10px;
+            font-size: 20px;
+            text-align: center;
+        }
+        input[type=file]::file-selector-button {        
+        
+          border-radius: 3px;
+          border-color:  #D3CBFF;
+          background-color: #D3CBFF;
+          width: 10em;
+          transition: 1s;
+          color: #2C003E;
+          cursor: pointer;
+        }       
+
+    </style>
     <main aria-labelledby="title">
         <h2>Edit Property</h2>
         <br/>
@@ -115,7 +150,40 @@
             <br />
             <asp:Label ID="lblErrorAvailableDate" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
             <br />
-
+           
+           
+            <input type="file" id="fileUpload">
+            <table border="0" cellpadding="5px" style="margin-top: 1em" cellspacing="5px" width="100%">
+                <tr>
+                    <td width="100%" valign="top" align="left" >
+                        <div id="ImageGallery" style="overflow:auto; width:100%; display:inline-block;">
+                            <asp:ListView ID="listImages" runat="server" GroupItemCount="6" ShowHeader="False" AutoGenerateColumns="False">
+                                <LayoutTemplate>
+                                <table id="table1">
+                                  <tr runat="server" id="groupPlaceholder">
+                                  </tr>
+                                </table>
+                                </LayoutTemplate>
+                                  <GroupTemplate>
+                                    <tr runat="server" id="tableRow">
+                                      <td runat="server" id="itemPlaceholder" />
+                                    </tr>   
+                                  </GroupTemplate>
+                                 <ItemTemplate>
+                                    <td runat="server" style="width:100%; vertical-align: top; padding: 3px">
+                                        <div class="image-container">
+                                            <img src='<%#Eval("FilePath") %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 165px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
+                                            <div class="overlay-text"><%#Eval("Index") %></div>
+                                        </div>
+                                        </td>
+                                  </ItemTemplate>
+                            </asp:ListView>
+                                         
+                         </div>
+                    </td>  
+                    
+                    </tr>                
+                </table>
             <asp:Button ID="btnSave" Text="Save Changes" OnClick="SaveChanges_Click" runat="server" CssClass="form-button"/>
             <br />
         </asp:Panel>
