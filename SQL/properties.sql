@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2024 at 07:56 PM
+-- Generation Time: Jul 04, 2024 at 07:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -105,7 +105,17 @@ INSERT INTO `properties` (`property_id`, `address`, `zip_code`, `city`, `propert
 ('P000049', '468 Birch St. SE', 'T2G7K2', 'Calgary', 'House', 3, 2, '1400', 'Driveway', '2023-10-05 00:00:00', '2023-10-12 00:00:00', 'Spacious 3 bedroom house with large backyard', 1, 'R', 2300, 'realtor02', 1, '2023-08-05 00:00:00'),
 ('P000050', '782 Willow Crescent. NE', 'T2M1J5', 'Calgary', 'Apartment', 2, 2, '850', 'Underground', '2023-10-10 00:00:00', '2023-10-17 00:00:00', 'Modern 2 bedroom apartment with balcony', 0, 'R', 1500, 'realtor02', 1, '2023-08-10 00:00:00'),
 ('P000051', '394 Oak Blvd. SW', 'T2J3P8', 'Calgary', 'Townhouse', 3, 2.5, '1150', 'Garage', '2023-10-15 00:00:00', '2023-10-22 00:00:00', 'Well-maintained 3 bedroom townhouse with finished basement', 1, 'R', 1850, 'realtor02', 1, '2023-08-15 00:00:00'),
-('P000052', '617 Pine Dr. SE', 'T2G2K5', 'Calgary', 'House', 4, 3, '1900', 'Driveway', '2023-10-20 00:00:00', '2023-10-27 00:00:00', 'Luxurious 4 bedroom house with pool and outdoor kitchen', 1, 'R', 3200, 'realtor02', 1, '2023-08-20 00:00:00');
+('P000052', '617 Pine Dr. SE', 'T2G2K5', 'Calgary', 'House', 4, 3, '1900', 'Driveway', '2023-10-20 00:00:00', '2023-10-27 00:00:00', 'Luxurious 4 bedroom house with pool and outdoor kitchen', 1, 'R', 3200, 'realtor02', 1, '2023-08-20 00:00:00'),
+('P000053', 'Dummy Address 1', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 1', 0, 'R', 2000, 'realtor02', 1, '2024-06-25 15:44:40'),
+('P000054', 'Dummy Address 2', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 2', 0, 'S', 250000, 'realtor02', 1, '2024-06-25 15:44:40'),
+('P000055', 'Dummy Address 3', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Underground', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 3', 0, 'S', 250000, 'realtor02', 1, '2024-06-25 15:44:40'),
+('P000056', 'Dummy Address 4', 'T2N1N4', 'Calgary', 'Townhouse', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 4', 0, 'S', 300000, 'realtor02', 1, '2024-06-02 15:44:40'),
+('P000057', 'Dummy Address 5', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 5', 0, 'R', 8000, 'realtor02', 1, '2024-06-02 15:44:40'),
+('P000058', 'Dummy Address 6', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 6', 0, 'R', 2400, 'realtor02', 1, '2024-06-02 15:44:40'),
+('P000059', 'Dummy Address 7', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 7', 0, 'R', 2500, 'realtor02', 1, '2024-06-02 15:44:40'),
+('P000060', 'Dummy Address 8', 'T2N1N4', 'Calgary', 'Underground', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 8', 0, 'S', 250000, 'realtor02', 1, '2024-06-02 15:44:40'),
+('P000061', 'Dummy Address 9', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 9', 0, 'R', 3000, 'realtor02', 1, '2024-06-25 15:44:40'),
+('P000062', 'Dummy Address 10', 'T2N1N4', 'Calgary', 'House', 3, 2, '1500', 'Garage', '2024-07-01 15:44:40', '2024-08-01 15:44:40', 'Example description 10', 0, 'S', 250000, 'realtor02', 1, '2024-07-02 15:44:40');
 
 --
 -- Indexes for dumped tables
