@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 06:37 PM
+-- Generation Time: Jun 17, 2024 at 11:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,7 +82,7 @@ CREATE TABLE `pms_user` (
 --
 
 INSERT INTO `pms_user` (`user_id`, `password`, `first_name`, `last_name`, `email`, `phone`, `role`) VALUES
-('cathysun', 'test123', 'test', 'test', 'test', '123456', 'realtor'),
+('client01', 'password', 'Client', '01', 'client01@test.com', '20000001', 'client'),
 ('realtor01', 'password', 'Realtor', '01', 'realtor01@test.com', '20000001', 'realtor'),
 ('realtor02', 'password', 'Realtor', '02', 'realtor02@test.com', '20000001', 'realtor');
 
