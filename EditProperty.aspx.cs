@@ -323,6 +323,7 @@ namespace PMS
                 });
                 Session["ImageList"] = tempImages;
                 Session["ImageListCount"] = index;
+                System.Threading.Thread.Sleep(1000);
                 bindImages();
             }
         }

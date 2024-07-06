@@ -133,11 +133,13 @@ namespace PMS
         // redirect to editproperty page
         protected void btnEditProperty_Click(object sender, EventArgs e)
         {
+            /*
             string propertyID = Request.QueryString["id"];
             if (!string.IsNullOrEmpty(propertyID))
             {
                 Server.Transfer($"EditProperty.aspx?id={propertyID}"); 
-            }
+            }*/
+            Response.Redirect($"EditProperty.aspx?id={this.propertyID}");
         }
 
         protected void ImageButton_Command(object sender, CommandEventArgs e)
