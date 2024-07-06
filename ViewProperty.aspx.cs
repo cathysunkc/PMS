@@ -111,12 +111,17 @@ namespace PMS
             int index = 0;
             foreach (var file in DI.GetFiles())
             {
-                index++;
-                myImages.Add(new PropertyImages {
-                    Index = index,
-                    PropertyID = this.propertyID,
-                    FileName = file.Name,
-                    FilePath = "/Images/" + this.propertyID + "/" + file.Name});
+                if (file.Name.StartsWith(this.propertyID))
+                {
+                    index++;
+                    myImages.Add(new PropertyImages
+                    {
+                        Index = index,
+                        PropertyID = this.propertyID,
+                        FileName = file.Name,
+                        FilePath = "/Images/" + this.propertyID + "/" + file.Name
+                    });
+                }
 
             }
             listImages.DataSource = myImages;
@@ -131,7 +136,7 @@ namespace PMS
             string propertyID = Request.QueryString["id"];
             if (!string.IsNullOrEmpty(propertyID))
             {
-                Response.Redirect($"EditProperty.aspx?id={propertyID}"); 
+                Server.Transfer($"EditProperty.aspx?id={propertyID}"); 
             }
         }
 

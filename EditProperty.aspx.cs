@@ -13,15 +13,18 @@ namespace PMS
 {
     public partial class EditProperty : Page
     {
+        string propertyID = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
+            propertyID = Request.QueryString["id"];
+
             if (!IsPostBack)
-            {
-                string propertyID = Request.QueryString["id"]; 
+            {                
                 if (!string.IsNullOrEmpty(propertyID))
                 {
                     LoadPropertyDetails(propertyID);
                     Session["ImageList"] = null;
+                    Session["ImageListCount"] = 0;
                     PopulateImages(propertyID);
                    
                 }
@@ -38,8 +41,7 @@ namespace PMS
             lblErrorMessage.Visible = false;
 
             //For Image Gallery
-            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
-            if (tempImages.Count == 0)
+            if (Convert.ToInt16(Session["ImageListCount"]) == 0)
             {
                 ShowErrorMessage("Please upload at least one image.");
                 return;
@@ -114,6 +116,8 @@ namespace PMS
 
 
                 //Change Image File Name according to new Index
+                List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+
                 foreach (PropertyImages item in tempImages)
                 {
                     string originalFilePath = Server.MapPath("~/Images/" + property.PropertyID + "/") + item.FileName;
@@ -184,9 +188,18 @@ namespace PMS
         //Load Image Gallery
 		private void PopulateImages(string propertyID)
 		{
-			List<PropertyImages> myImages = new List<PropertyImages>();
-            
-            DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + propertyID + "/"));
+            //Delete all old files in directory
+            DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + this.propertyID + "/"));
+            foreach (FileInfo file in DI.GetFiles())
+            {
+                if (file.Name.StartsWith("temp"))
+                {
+                    file.Delete();
+                }
+            }
+
+            List<PropertyImages> myImages = new List<PropertyImages>();
+          
             int index = 0;
 			foreach (var file in DI.GetFiles())
 			{
@@ -201,7 +214,7 @@ namespace PMS
 			}
 			
             Session["ImageList"] = myImages;
-            Session["ImageListCount"] = index;
+            Session["ImageListCount"] = myImages.Count;
             bindImages();
 
 		}
@@ -230,7 +243,7 @@ namespace PMS
                 item.Index = i;
             }            
             Session["ImageList"] = tempImages;
-            Session["ImageListCount"] = i;
+            Session["ImageListCount"] = tempImages.Count;
 
             System.Threading.Thread.Sleep(1000);
             bindImages();
@@ -270,6 +283,48 @@ namespace PMS
             System.Threading.Thread.Sleep(1000);
             bindImages();
             
+        }
+
+        protected void btnAddImage_Click(object sender, EventArgs e)
+        {
+            lblErrorMessage.Visible = false;
+
+            if (!this.FileUpload.HasFile) {
+                ShowErrorMessage("Please select an image file to upload!");
+                return;
+            }
+
+            if (this.FileUpload.HasFile)
+            {
+                if(Path.GetExtension(this.FileUpload.FileName) != ".jpg")
+                {
+                    ShowErrorMessage("Please upload a JPEG file!");
+                    return;
+                }
+
+                if (Convert.ToInt16(Session["ImageListCount"]) == 20) 
+                {
+                    ShowErrorMessage("No. of Images exceeds 20!");
+                    return;
+                }
+
+                List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+                int index = tempImages.Count;
+                index++;
+                string fileName = "temp" + index.ToString("00") + ".jpg";
+                
+                FileUpload.SaveAs(Server.MapPath("~/Images/" + this.propertyID + "/") + fileName);
+                tempImages.Add(new PropertyImages
+                {
+                    Index = index,
+                    PropertyID = this.propertyID,
+                    FileName = fileName,
+                    FilePath = "/Images/" + this.propertyID + "/" + fileName
+                });
+                Session["ImageList"] = tempImages;
+                Session["ImageListCount"] = index;
+                bindImages();
+            }
         }
     }
 }

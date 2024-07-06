@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Edit Property" Language="C#" MasterPageFile="~/Site.Master" EnableEventValidation="false" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="EditProperty.aspx.cs" Inherits="PMS.EditProperty" %>
+﻿<%@ Page Title="Edit Property" Language="C#" MasterPageFile="~/Site.Master" EnableEventValidation="false" AutoEventWireup="true" CodeBehind="EditProperty.aspx.cs" Inherits="PMS.EditProperty" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <style type="text/css">
@@ -54,7 +54,17 @@
           transition: 1s;
           color: #2C003E;
           cursor: pointer;
-        }       
+        }
+
+        #MainContent_btnAddImage {
+            border-radius: 3px;
+            background-color: #D3CBFF;
+            width: 8em;
+            transition: 1s;
+            color: #2C003E;
+            cursor: pointer;
+        }
+        
 
         #loading {
             position: fixed;
@@ -84,7 +94,7 @@
         <asp:Panel ID="editPropertyPanel" runat="server">
                              
             <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-msg" Visible="False"></asp:Label><br/>
-                                  <asp:FileUpload ID="FileUpload1" runat="server" />
+            <asp:FileUpload ID="FileUpload" runat="server" /><asp:Button ID="btnAddImage" OnClientClick="WaitDialog()" CausesValidation="false" OnClick="btnAddImage_Click"  runat="server" Text="Add Image" CssClass="AddImage"  />
 
             <div id="ImageGallery" style="overflow:auto; width:100%; margin-top: 1em; border-color: #D3CBFF; border-width: 5px; display:inline-block;">
                 
@@ -107,7 +117,7 @@
                                 <div class="overlay-text"><%#Eval("Index") %></div>
                                  <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/trash-bin.png" CssClass="overlay-delete" ID="deleteImageButton" runat="server" OnCommand="deleteImageButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' width="30px" height="30px" ></asp:ImageButton> 
                                  <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/previous-arrow.png" CssClass="overlay-previous" ID="movePreviousButton" runat="server" OnCommand="movePreviousButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' Visible='<%# Eval("Index").ToString() != "1" ? true : false  %>'  width="30px" height="30px" ></asp:ImageButton> 
-                                 <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/next-arrow.png" CssClass="overlay-next" ID="moveNextButton" runat="server" OnCommand="moveNextButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' Visible='<%# Eval("Index").ToString() !=  Session["ImageListCount"].ToString() ? true : false  %>' width="30px" height="30px" ></asp:ImageButton> 
+                                 <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/next-arrow.png" CssClass="overlay-next" ID="moveNextButton" runat="server" OnCommand="moveNextButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' Visible='<%# Eval("Index").ToString() ==  Session["ImageListCount"].ToString() ? false : true  %>' width="30px" height="30px" ></asp:ImageButton> 
                             </div>    
                         </td>
                       </ItemTemplate>                   
