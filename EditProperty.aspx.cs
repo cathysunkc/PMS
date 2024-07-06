@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Windows.Forms;
 using static PMS.Property;
 
 namespace PMS
@@ -19,14 +21,30 @@ namespace PMS
                 if (!string.IsNullOrEmpty(propertyID))
                 {
                     LoadPropertyDetails(propertyID);
-					PopulateImages(propertyID);
-				}
+                    Session["ImageList"] = null;
+                    PopulateImages(propertyID);
+                   
+                }
+            }
+
+            if (IsPostBack)
+            {
+                bindImages();
             }
         }
 
         protected void SaveChanges_Click(object sender, EventArgs e)
         {
             lblErrorMessage.Visible = false;
+
+            //For Image Gallery
+            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+            if (tempImages.Count == 0)
+            {
+                ShowErrorMessage("Please upload at least one image.");
+                return;
+            }
+
 
             if (Page.IsValid)
             {
@@ -94,7 +112,39 @@ namespace PMS
 
                 db.UpdateProperty(property);
 
-                Response.Redirect("ViewProperty.aspx?id=" + property.PropertyID); // Update to pass "id"
+
+                //Change Image File Name according to new Index
+                foreach (PropertyImages item in tempImages)
+                {
+                    string originalFilePath = Server.MapPath("~/Images/" + property.PropertyID + "/") + item.FileName;
+                    string newFilePath = Server.MapPath("~/Images/" + property.PropertyID + "/") + "temp" + item.Index.ToString("00") + Path.GetExtension(originalFilePath);
+                    File.Move(originalFilePath, newFilePath);
+                }
+
+                //Delete all old files in directory
+                DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + property.PropertyID + "/"));
+                foreach (FileInfo file in DI.GetFiles())
+                {
+                    if (file.Name.StartsWith(property.PropertyID))
+                    {
+                        file.Delete();
+                    }
+                }
+
+                //Rename all files to start with propertyID
+                int i = 0;
+                foreach (FileInfo file in DI.GetFiles())
+                {
+                    i++;
+                    string newFileName = $"{property.PropertyID}{i.ToString("00")}{Path.GetExtension(file.Name)}";
+                    string newFilePath = Path.Combine(DI.FullName, newFileName);
+                    string oldFilePath = file.FullName;
+
+                    File.Move(oldFilePath, newFilePath);                    
+                }
+
+                // Response.Redirect("ViewProperty.aspx?id=" + property.PropertyID); // Update to pass "id"
+                Server.Transfer("ViewProperty.aspx?id=" + property.PropertyID);
             }
         }
 
@@ -131,10 +181,12 @@ namespace PMS
             lblErrorMessage.Visible = true;
         }
 
+        //Load Image Gallery
 		private void PopulateImages(string propertyID)
 		{
 			List<PropertyImages> myImages = new List<PropertyImages>();
-			DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + propertyID + "/"));
+            
+            DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + propertyID + "/"));
             int index = 0;
 			foreach (var file in DI.GetFiles())
 			{
@@ -147,32 +199,77 @@ namespace PMS
 					FilePath = "/Images/" + propertyID + "/" + file.Name
 				});
 			}
-			listImages.DataSource = myImages;
-			listImages.DataBind();
+			
+            Session["ImageList"] = myImages;
+            Session["ImageListCount"] = index;
+            bindImages();
 
 		}
 
-		protected void btnUpload_Click(object sender, EventArgs e)
-		{
-			if (fileUpload.HasFiles)
-			{
-				foreach (HttpPostedFile uploadedFile in fileUpload.PostedFiles)
-				{
-					string fileName = Path.GetFileName(uploadedFile.FileName);
-					string filePath = Server.MapPath("~/Uploads/" + fileName);
-					uploadedFile.SaveAs(filePath);
+        protected void bindImages()
+        {
+            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+            tempImages.Sort((x, y) => x.Index.CompareTo(y.Index));
+            listImages.DataSource = tempImages;
+            listImages.DataBind();
+            listImages.SelectedIndex = -1;
+        }
+  
+        // Delete Specific Image
+        protected void deleteImageButton_Command(object sender, CommandEventArgs e)
+        {
+            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
 
-					// Optionally, you can perform further processing or save the file path to a database
-				}
+            string value = e.CommandArgument.ToString();
+            int index = Convert.ToInt16(value) - 1;
+            tempImages.RemoveAt(index);
+            int i = 0;
+            foreach (PropertyImages item in tempImages)
+            {
+                i++;
+                item.Index = i;
+            }            
+            Session["ImageList"] = tempImages;
+            Session["ImageListCount"] = i;
 
-				// Display a success message to the user
-				//lblMessage.Text = "Files uploaded successfully!";
-			}
-			else
-			{
-				// Display an error message to the user
-				//lblMessage.Text = "Please select at least one file to upload.";
-			}
-		}
-	}
+            System.Threading.Thread.Sleep(1000);
+            bindImages();
+        }
+
+        protected void movePreviousButton_Command(object sender, CommandEventArgs e)
+        {
+            
+            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+
+            string value = e.CommandArgument.ToString();
+            int originalIndex = Convert.ToInt16(value);
+            int newIndex = originalIndex - 1;
+
+            tempImages[originalIndex-1].Index = newIndex;
+            tempImages[newIndex-1].Index = originalIndex;
+
+            Session["ImageList"] = tempImages;
+
+            System.Threading.Thread.Sleep(1000);
+            bindImages();
+        }
+
+        protected void moveNextButton_Command(object sender, CommandEventArgs e)
+        {
+            List<PropertyImages> tempImages = (List<PropertyImages>)Session["ImageList"];
+
+            string value = e.CommandArgument.ToString();
+            int originalIndex = Convert.ToInt16(value);
+            int newIndex = originalIndex + 1;
+
+            tempImages[originalIndex - 1].Index = newIndex;
+            tempImages[newIndex - 1].Index = originalIndex;
+
+            Session["ImageList"] = tempImages;
+
+            System.Threading.Thread.Sleep(1000);
+            bindImages();
+            
+        }
+    }
 }
