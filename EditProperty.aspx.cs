@@ -56,6 +56,7 @@ namespace PMS
                     return;
                 }
 
+                //https://stackoverflow.com/questions/9760237/what-does-cultureinfo-invariantculture-mean
                 if (!DateTime.TryParseExact(availableDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedAvailableDate))
                 {
                     ShowErrorMessage("Please enter a valid available date.");
@@ -68,7 +69,7 @@ namespace PMS
 
                 Property property = new Property
                 {
-                    PropertyID = Request.QueryString["id"], // Update to check for "id"
+                    PropertyID = Request.QueryString["id"], 
                     Address = txtPropertyName.Text,
                     City = txtPropertyCity.Text,
                     ZipCode = txtPropertyZip.Text,
@@ -89,7 +90,7 @@ namespace PMS
 
                 db.UpdateProperty(property);
 
-                Response.Redirect("ViewProperty.aspx?id=" + property.PropertyID); // Update to pass "id"
+                Response.Redirect("ViewProperty.aspx?id=" + property.PropertyID); 
             }
         }
 

@@ -5,14 +5,19 @@
         <h2>Edit Property</h2>
         <br/>
         <asp:Panel ID="editPropertyPanel" runat="server">
+            <!-- Error message -->
             <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
             <br />
+            <!-- Validation -->
             <asp:RequiredFieldValidator ID="rfvPropertyName" runat="server" ControlToValidate="txtPropertyName" ErrorMessage="Property Address is required." CssClass="error-msg"></asp:RequiredFieldValidator>
             <br />
+            <!-- Label -->
             <asp:Label ID="lblPropertyName" runat="server" Text="Property Address:"></asp:Label>
             <br />
+            <!-- Input -->
             <asp:TextBox ID="txtPropertyName" runat="server" CssClass="form-input"></asp:TextBox>
             <br />
+             <!-- Additional Label for Property Name Error Messages -->
             <asp:Label ID="lblErrorPropertyName" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
             <br />
 
@@ -120,12 +125,13 @@
             <br />
         </asp:Panel>
 
+        <!-- https://stackoverflow.com/questions/18443996/validate-radiobutton-list-using-javascript-and-customvalidator 
         <script type="text/javascript">
             function ValidateTransactionType(source, args) {
                 var radioButton1 = document.getElementById('<%= RadioButton1.ClientID %>');
                 var radioButton2 = document.getElementById('<%= RadioButton2.ClientID %>');
                 args.IsValid = radioButton1.checked || radioButton2.checked;
             }
-        </script>
+        </script>-->
     </main>
 </asp:Content>
