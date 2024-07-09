@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,11 +15,13 @@ namespace PMS
     public partial class ViewProperty : Page
     {
         string property_id = string.Empty;
-        string propertyID = string.Empty;
+        string propertyID = string.Empty;        
 
         protected void Page_Load(object sender, EventArgs e)
         {
             propertyID = Request.QueryString["id"];
+
+            
 
             if (propertyID != null)
             {
@@ -27,12 +31,21 @@ namespace PMS
 
                 this.lblAddress01.Text = property.Address;
 
-                if (!IsPostBack)
+                if (!Page.IsPostBack)
                 {
+               //     Session["imageIndex"] = null;
                     PopulateImages();
                 }
 
-                
+             /*   if (Session["imageIndex"] == null)
+                {
+                    Session["imageIndex"] = 1;
+                }
+                int index = Convert.ToInt16(Session["imageIndex"]);
+                this.mainImage.ImageUrl = "~/Images/" + this.propertyID + "/" + this.propertyID + index.ToString("00") + ".jpg?time=" + DateTime.UtcNow;*/
+
+
+
                 if (property.IsRent())
                     this.lblPrice.Text = property.Price.ToString("C2") + "/Month";
                 else
@@ -95,25 +108,47 @@ namespace PMS
         {
             List<PropertyImages> myImages = new List<PropertyImages>();
             DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + this.propertyID + "/"));
+            int index = 0;
             foreach (var file in DI.GetFiles())
             {
-                myImages.Add(new PropertyImages { 
-                    PropertyID = this.propertyID,
-                    FileName = file.Name,
-                    FilePath = "/Images/" + this.propertyID + "/" + file.Name});
+                if (file.Name.StartsWith(this.propertyID))
+                {
+                    index++;
+                    myImages.Add(new PropertyImages
+                    {
+                        Index = index,
+                        PropertyID = this.propertyID,
+                        FileName = file.Name,
+                        FilePath = "/Images/" + this.propertyID + "/" + file.Name
+                    });
+                }
+
             }
             listImages.DataSource = myImages;
             listImages.DataBind();
+
+            
         }
 
         // redirect to editproperty page
         protected void btnEditProperty_Click(object sender, EventArgs e)
         {
+            /*
             string propertyID = Request.QueryString["id"];
             if (!string.IsNullOrEmpty(propertyID))
             {
-                Response.Redirect($"EditProperty.aspx?id={propertyID}"); 
-            }
+                Server.Transfer($"EditProperty.aspx?id={propertyID}"); 
+            }*/
+            Response.Redirect($"EditProperty.aspx?id={this.propertyID}");
         }
+
+        protected void ImageButton_Command(object sender, CommandEventArgs e)
+        {
+          /*  string value = e.CommandArgument.ToString();
+            int index = Convert.ToInt16(value);
+            Session["imageIndex"] = index;
+            this.mainImage.ImageUrl = "~/Images/" + this.propertyID + "/" + this.propertyID + index.ToString("00") + ".jpg?time=" + DateTime.UtcNow; */
+        }
+
     }
 }
