@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangePassword.aspx" />
+    <Content Include="EditProperty.aspx" />
     <Content Include="Images\P000001\P00000101.jpg" />
     <Content Include="Images\P000001\P00000102.jpg" />
     <Content Include="Images\P000001\P00000103.jpg" />
@@ -322,6 +323,13 @@
     <Compile Include="Class\Message.cs" />
     <Compile Include="Class\Preference.cs" />
     <Compile Include="Class\Report.cs" />
+    <Compile Include="EditProperty.aspx.cs">
+      <DependentUpon>EditProperty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditProperty.aspx.designer.cs">
+      <DependentUpon>EditProperty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

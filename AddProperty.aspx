@@ -4,52 +4,116 @@
     <main aria-labelledby="title">
         <h2>Add New Property</h2>
         <br/>
-        <%-- Changed form to runat="server" for server-side handling --%>
         <asp:Panel ID="addPropertyPanel" runat="server">
-            <label for="propertyName">Property Address:</label>
-            <input type="text" id="propertyName" name="propertyName" class="form-input" required>
 
-            <label for="propertyCity">City:</label>
-            <input type="text" id="txtCity" name="propertyCity" class="form-input" required>
+            <asp:RequiredFieldValidator ID="rfvPropertyName" runat="server" ControlToValidate="txtPropertyName" ErrorMessage="Property Address is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblPropertyName" runat="server" Text="Property Address:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtPropertyName" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorPropertyName" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="propertyZip">Zip Code:</label>
-            <input type="text" id="txtZipCode" name="propertyZip" class="form-input" required>
+            <asp:RequiredFieldValidator ID="rfvPropertyCity" runat="server" ControlToValidate="txtPropertyCity" ErrorMessage="City is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblPropertyCity" runat="server" Text="City:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtPropertyCity" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorPropertyCity" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="propertyType">Property Type:</label>
-            <input type="text" id="txtPropertyType" name="propertyType" class="form-input" required> 
+            <asp:RequiredFieldValidator ID="rfvPropertyZip" runat="server" ControlToValidate="txtPropertyZip" ErrorMessage="Zip Code is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblPropertyZip" runat="server" Text="Zip Code:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtPropertyZip" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorPropertyZip" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" class="form-input" required></textarea>
+            <asp:RequiredFieldValidator ID="rfvPropertyType" runat="server" ControlToValidate="txtPropertyType" ErrorMessage="Property Type is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblPropertyType" runat="server" Text="Property Type:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtPropertyType" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorPropertyType" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="area">Area:</label>
-            <input type="text" id="area" name="area" class="form-input" required>
+            <asp:RequiredFieldValidator ID="rfvDescription" runat="server" ControlToValidate="txtDescription" ErrorMessage="Description is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblDescription" runat="server" Text="Description:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtDescription" runat="server" TextMode="MultiLine" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorDescription" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="bedNum">Bed Number:</label>
-            <input type="number" id="bedNum" name="bedNum" class="form-input" required>
+            <asp:RequiredFieldValidator ID="rfvArea" runat="server" ControlToValidate="txtArea" ErrorMessage="Area is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblArea" runat="server" Text="Area:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtArea" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorArea" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="bathNum">Bath Number:</label>
-            <input type="number" id="bathNum" name="bathNum" class="form-input" required>
+            <asp:RequiredFieldValidator ID="rfvBedNum" runat="server" ControlToValidate="txtBedNum" ErrorMessage="Bed Number is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblBedNum" runat="server" Text="Bed Number:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtBedNum" runat="server" CssClass="form-input" TextMode="Number"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorBedNum" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="parkingType">Parking Type:</label>
-            <input type="text" id="txtParkingType" name="parkingType" class="form-input" required> 
+            <asp:RequiredFieldValidator ID="rfvBathNum" runat="server" ControlToValidate="txtBathNum" ErrorMessage="Bath Number is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblBathNum" runat="server" Text="Bath Number:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtBathNum" runat="server" CssClass="form-input" TextMode="Number"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorBathNum" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <!-- Grouped radio buttons with GroupName -->
-            <div style="padding-top: 20px; padding-bottom: 20px">
-                <asp:RadioButton ID="RadioButton1" GroupName="transactionType" Text="For Rent" runat="server" />
-                <asp:RadioButton ID="RadioButton2" GroupName="transactionType" Text="For Sale" runat="server" />
-            </div>
+            <asp:RequiredFieldValidator ID="rfvParkingType" runat="server" ControlToValidate="txtParkingType" ErrorMessage="Parking Type is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblParkingType" runat="server" Text="Parking Type:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtParkingType" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorParkingType" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="price">Price ($):</label>
-            <input type="text" id="price" name="price" class="form-input" required>
+            <asp:CustomValidator ID="cvTransactionType" runat="server" ClientValidationFunction="ValidateTransactionType" OnServerValidate="ValidateTransactionType" ErrorMessage="Transaction Type is required." CssClass="error-msg"></asp:CustomValidator>
+            <br />
+            <asp:Label ID="lblTransactionType" runat="server" Text="Transaction Type:"></asp:Label>
+            <br />
+            <asp:RadioButton ID="RadioButton1" runat="server" GroupName="TransactionType" Text="For Rent" />
+            <asp:RadioButton ID="RadioButton2" runat="server" GroupName="TransactionType" Text="For Sale" />
+            <br />
+            <asp:Label ID="lblErrorTransactionType" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <label for="date">Available Date:</label><br/>
-            <input type="date" id="availableDate" name="availableDate" class="form-input" required>
-                
-            <label for="images">Upload Images:</label>
-            <input type="file" id="images" name="images" class="form-input" multiple>
+            <asp:RequiredFieldValidator ID="rfvPrice" runat="server" ControlToValidate="txtPrice" ErrorMessage="Price is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblPrice" runat="server" Text="Price ($):"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtPrice" runat="server" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorPrice" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
 
-            <!-- Changed submit button to ASP.NET Button control -->
+            <asp:RequiredFieldValidator ID="rfvAvailableDate" runat="server" ControlToValidate="txtAvailableDate" ErrorMessage="Available Date is required." CssClass="error-msg"></asp:RequiredFieldValidator>
+            <br />
+            <asp:Label ID="lblAvailableDate" runat="server" Text="Available Date:"></asp:Label>
+            <br />
+            <asp:TextBox ID="txtAvailableDate" runat="server" TextMode="Date" CssClass="form-input"></asp:TextBox>
+            <br />
+            <asp:Label ID="lblErrorAvailableDate" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
+
             <asp:Button ID="submitBtn" Text="Submit" OnClick="SubmitBtn_Click" runat="server" CssClass="form-button"/>
+            <br />
+            <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
         </asp:Panel>
+
+        <script type="text/javascript">
+            function ValidateTransactionType(source, args) {
+                var radioButton1 = document.getElementById('<%= RadioButton1.ClientID %>');
+                var radioButton2 = document.getElementById('<%= RadioButton2.ClientID %>');
+                args.IsValid = radioButton1.checked || radioButton2.checked;
+            }
+        </script>
     </main>
 </asp:Content>

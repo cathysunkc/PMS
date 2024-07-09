@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="PMS.Listing" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+    a, a:hover {
+        color: white;
+    }
+
+    </style>
     <main aria-labelledby="title" style="min-height:300px">
             <h2>Property Listings</h2>
             <br>
@@ -38,7 +44,7 @@
                   <tr runat="server" id="groupPlaceholder">
                   </tr>
                 </table>
-               <div style="text-align:center">
+               <div style="text-align:center;">
                         <asp:DataPager ID="DataPager1" runat="server" PagedControlID="listProperty" PageSize="9">
                             <Fields>       
                                <asp:NumericPagerField ButtonType="Link" />

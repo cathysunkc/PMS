@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace PMS
 {
@@ -11,6 +12,8 @@ namespace PMS
 
         protected void SubmitBtn_Click(object sender, EventArgs e)
         {
+            lblErrorMessage.Visible = false;
+
             if (Page.IsValid)
             {
                 double parsedPrice;
@@ -18,25 +21,25 @@ namespace PMS
                 double parsedBathNum;
                 DateTime parsedAvailableDate;
 
-                if (!double.TryParse(Request.Form["price"], out parsedPrice) || parsedPrice <= 0)
+                if (!double.TryParse(txtPrice.Text, out parsedPrice) || parsedPrice <= 0)
                 {
                     ShowErrorMessage("Please enter a valid price.");
                     return;
                 }
 
-                if (!double.TryParse(Request.Form["bedNum"], out parsedBedNum) || parsedBedNum <= 0)
+                if (!double.TryParse(txtBedNum.Text, out parsedBedNum) || parsedBedNum <= 0)
                 {
                     ShowErrorMessage("Please enter a valid number of beds.");
                     return;
                 }
 
-                if (!double.TryParse(Request.Form["bathNum"], out parsedBathNum) || parsedBathNum <= 0)
+                if (!double.TryParse(txtBathNum.Text, out parsedBathNum) || parsedBathNum <= 0)
                 {
                     ShowErrorMessage("Please enter a valid number of baths.");
                     return;
                 }
 
-                string availableDateString = Request.Form["availableDate"];
+                string availableDateString = txtAvailableDate.Text;
 
                 if (string.IsNullOrEmpty(availableDateString))
                 {
@@ -57,15 +60,15 @@ namespace PMS
                 Property property = new Property
                 {
                     PropertyID = db.GenerateNewPropertyID(),
-                    Address = Request.Form["propertyName"],
-                    City = Request.Form["propertyCity"],
-                    ZipCode = Request.Form["propertyZip"],
-                    PropertyType = Request.Form["propertyType"],
-                    Description = Request.Form["description"],
-                    Area = Request.Form["area"],
+                    Address = txtPropertyName.Text,
+                    City = txtPropertyCity.Text,
+                    ZipCode = txtPropertyZip.Text,
+                    PropertyType = txtPropertyType.Text,
+                    Description = txtDescription.Text,
+                    Area = txtArea.Text,
                     BedNum = parsedBedNum,
                     BathNum = parsedBathNum,
-                    ParkingType = Request.Form["parkingType"],
+                    ParkingType = txtParkingType.Text,
                     TransactionType = RadioButton1.Checked ? 'R' : 'S',
                     Price = parsedPrice,
                     AvailableDate = parsedAvailableDate,
@@ -79,12 +82,17 @@ namespace PMS
 
                 Response.Redirect("ViewProperty.aspx");
             }
-
-
         }
+
+        protected void ValidateTransactionType(object sender, ServerValidateEventArgs e)
+        {
+            e.IsValid = RadioButton1.Checked || RadioButton2.Checked;
+        }
+
         private void ShowErrorMessage(string message)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "showalert", $"alert('{message}');", true);
+            lblErrorMessage.Text = message;
+            lblErrorMessage.Visible = true;
         }
     }
 }
