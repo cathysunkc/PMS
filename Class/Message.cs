@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using MySqlX.XDevAPI.Relational;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Drawing2D;
 using System.Globalization;
@@ -225,6 +226,14 @@ namespace PMS
                 tempColRecip.ColumnName = "recipent";
                 tempColProp.ColumnName = "property";
                 tempColSendout.ColumnName = "sendout_date";
+
+                /*
+                HashSet<DateTime> sendoutDates = new HashSet<DateTime>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    sendoutDates.Add(DateTime.Parse(row["SendoutDate"].ToString()));
+                }
+                */
             }
             else if (dr.Length == 0)
                 dt = new DataTable();

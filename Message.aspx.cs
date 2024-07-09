@@ -1,4 +1,5 @@
-﻿using MySqlX.XDevAPI.Relational;
+﻿using Microsoft.Ajax.Utilities;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,7 +32,7 @@ namespace PMS
                     this.lblRecipientEmail.Text = "Realtor Email:";
                 }
 
-                this.txtSenderEmail.Text = user.Email;
+                //this.txtSenderEmail.Text = user.Email;
 
                 string propertyID = Request.QueryString["property_id"];
 
@@ -44,8 +45,7 @@ namespace PMS
                     this.panelSelectMessageNull.Visible = false;
                     this.panelSelectMessage.Visible = true;
 
-                    /* edited by Wilson 
-                    //User realtor = new User();
+                    /* User realtor = new User();
                     //realtor = realtor.GetUserByID(realtorID);
 
                     if (realtor != null)
@@ -162,10 +162,21 @@ namespace PMS
                 this.gridMessageNull.Visible = true;
                 this.gridMessageNull.Text = "Please enter message to communicate for " + Property.GetPropertyByID(sendMessage.Value).Address;
             }
+            else
+            {
+                // Show Date for first row of each Date
+                DataColumn ColIsFirst = new DataColumn("IsFirst", typeof(bool));
+                dt.Columns.Add(ColIsFirst);
+                foreach (DataRow row in dt.Rows)
+                {
+                    var group = dt.AsEnumerable()
+                                    .Where(r => ((DateTime)r["sendout_date"]).Date == ((DateTime)row["sendout_date"]).Date);
+                    row["IsFirst"] = ((DateTime)row["sendout_date"]).TimeOfDay == group.Min(r => ((DateTime)r["sendout_date"]).TimeOfDay);
+                }
+            }
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
-
         }
 
         protected void Message_Click(Object sender, CommandEventArgs e)

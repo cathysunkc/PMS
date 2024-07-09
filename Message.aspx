@@ -54,15 +54,18 @@
                             <asp:TextBox ID="txtRecipientEmail" runat="server" class="form-input"></asp:TextBox>
                             -->
                             <h4><asp:Label runat="server" ID="gridMessageNull" CssClass="" Visible="False">Please enter message to communicate</asp:Label></h4>
+
                             <asp:GridView runat="server" CellPadding="10" ID="gridMessage" CssClass="listing" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
                                 <Columns> 
                                 <asp:TemplateField>
                                     <ItemTemplate > 
+                                        <asp:Label ID="LabelDay" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("yyyy-MM-dd") %>' Visible='<%# Eval("IsFirst") %>'   />
                                         <asp:Panel runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>  '>
                                             <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>
-                                            
                                         </asp:Panel>
-                                        <asp:Label ID="Label5" runat="server" CssClass="message-time" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>'  />
+                                        <div style="text-align: right;">
+                                            <asp:Label ID="LabelTime" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>' Font-Size="X-small"   />
+                                        </div>
                                     </ItemTemplate> 
                                 </asp:TemplateField>
                                 </Columns>
