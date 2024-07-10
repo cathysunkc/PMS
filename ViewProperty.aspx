@@ -1,4 +1,4 @@
-﻿<%@ Page Title="View Property" Language="C#" MasterPageFile="~/Site.Master" MaintainScrollPositionOnPostback="true" AutoEventWireup="true" CodeBehind="ViewProperty.aspx.cs" Inherits="PMS.ViewProperty" %>
+﻿<%@ Page Title="View Property" Language="C#" MasterPageFile="~/Site.Master"  AutoEventWireup="true" CodeBehind="ViewProperty.aspx.cs" Inherits="PMS.ViewProperty" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
@@ -8,14 +8,26 @@
                     <tr><td style="padding:10px;"></td></tr>
                 </table>
                 <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script language="javascript" type="text/javascript">
                     function setImage(value) {
-                        document.getElementById("mainImage").src = "/Images/" + value + "/" + value + "01.jpg";
+                        const randomNumber = Math.random();
+                        document.getElementById("mainImage2").src = "/Images/" + value + "/" + value + "01.jpg?time=" + randomNumber;
                     }
                     function changeImage(url) {
-                        document.getElementById("mainImage").src = url;                    
+                        document.getElementById("mainImage2").src = url;
                     }
+                   
                 </script>
+                <style type="text/css">
+                    .mainImage {
+                        width:100%; 
+                        padding:3px; 
+                        height:85%; 
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                    }
+                </style>
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" height="550px">
                 <tr>
                     <td width="29%" valign="top" align="center" >
@@ -34,14 +46,14 @@
                               </GroupTemplate>
                              <ItemTemplate>
                                 <td runat="server" style="width:100%; vertical-align: top; padding: 3px">
-                                    <img onload="setImage('<%#Eval("PropertyID") %>')" onclick="changeImage('<%#Eval("FilePath") %>')" src='<%#Eval("FilePath") %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 165px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
+                                    <img onload="setImage('<%#Eval("PropertyID") %>')" onclick="changeImage('<%#Eval("FilePath")  + "?time=" + DateTime.UtcNow %>')" src='<%#Eval("FilePath") + "?time=" + DateTime.UtcNow %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 165px;height:150px;background-position: center center;  background-repeat: no-repeat;" />
                                  </td>
                               </ItemTemplate>
                             </asp:ListView>                  
                          </div>
                     </td>  
                     <td width="70%" style="vertical-align:top;"> 
-                        <img ID="mainImage" style="width:100%; padding:3px; height:85%; background-position: center center;background-repeat: no-repeat;" />
+                        <img ID="mainImage2" style="width:100%; padding:3px; height:85%; background-position: center center;background-repeat: no-repeat;" />                        
                     </td>
                     </tr>                
                 </table>                        
