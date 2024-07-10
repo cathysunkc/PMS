@@ -1,6 +1,12 @@
 ﻿<%@ Page Title="Listing" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Listing.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="PMS.Listing" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+    a, a:hover {
+        color: white;
+    }
+
+    </style>
     <main aria-labelledby="title" style="min-height:300px">
             <h2>Property Listings</h2>
             <br>
@@ -12,6 +18,23 @@
             </asp:Panel>
              <asp:Panel ID="panelSearch" runat="server">
                  <asp:Table ID="Table2" runat="server" CellPadding="10" Width="100%">
+                     <asp:TableRow>
+
+                    <asp:TableCell>
+                        <asp:Label ID="lblMinValue" runat="server" Text="Min Value:"></asp:Label>
+                        <asp:TextBox ID="txtMinValue" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvMinValue" runat="server" ControlToValidate="txtMinValue" ErrorMessage="Min Value is required." ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="rvMinValue" runat="server" ControlToValidate="txtMinValue" MinimumValue="0" MaximumValue="2147483647" Type="Integer" ErrorMessage="Min Value must be a positive integer." ForeColor="Red"></asp:RangeValidator>
+                    </asp:TableCell>
+
+                    <asp:TableCell>
+                        <asp:Label ID="lblMaxValue" runat="server" Text="Max Value:"></asp:Label>
+                        <asp:TextBox ID="txtMaxValue" runat="server"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvMaxValue" runat="server" ControlToValidate="txtMaxValue" ErrorMessage="Max Value is required." ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:RangeValidator ID="rvMaxValue" runat="server" ControlToValidate="txtMaxValue" MinimumValue="0" MaximumValue="2147483647" Type="Integer" ErrorMessage="Max Value must be a positive integer." ForeColor="Red"></asp:RangeValidator>
+                    </asp:TableCell>
+
+                </asp:TableRow>
                      <asp:TableRow>
                          <asp:TableCell Width="30%">
                              <asp:DropDownList ID="ddlTransactionType" AutoPostBack="True"  OnSelectedIndexChanged="TransactionType_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
@@ -29,6 +52,10 @@
                          </asp:TableCell>
                      </asp:TableRow>
                  </asp:Table>
+                    <asp:TableCell>
+                        <asp:Button ID="btnApplyFilter" runat="server" Text="Apply Filter" OnClick="btnApplyFilter_Click" CssClass="form-button" />
+                    </asp:TableCell>
+
                  <asp:Label ID="lblNoPropertyFound" runat="server" Text="No Property Found."></asp:Label>
              </asp:Panel>
             <br>
@@ -38,7 +65,7 @@
                   <tr runat="server" id="groupPlaceholder">
                   </tr>
                 </table>
-               <div style="text-align:center">
+               <div style="text-align:center;">
                         <asp:DataPager ID="DataPager1" runat="server" PagedControlID="listProperty" PageSize="9">
                             <Fields>       
                                <asp:NumericPagerField ButtonType="Link" />

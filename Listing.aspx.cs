@@ -99,25 +99,39 @@ namespace PMS
             char transactionType = Convert.ToChar(ddlTransactionType.SelectedValue);
             double bedNum = Convert.ToDouble(ddlBedNum.SelectedValue);
             double bathNum = Convert.ToDouble(ddlBathNum.SelectedValue);
-            DataTable dt = Property.FindProperty(db, transactionType, bedNum, bathNum);
+
+            // Get min and max price from textboxes
+            int minValue = 0;
+            int maxValue = int.MaxValue;
+
+            if (!string.IsNullOrEmpty(txtMinValue.Text))
+            {
+                minValue = int.Parse(txtMinValue.Text);
+            }
+
+            if (!string.IsNullOrEmpty(txtMaxValue.Text))
+            {
+                maxValue = int.Parse(txtMaxValue.Text);
+            }
+
+            DataTable dt = Property.FindProperty(db, transactionType, bedNum, bathNum, minValue, maxValue);
 
             if (dt.Rows.Count == 0)
                 this.lblNoPropertyFound.Visible = true;
             else
                 this.lblNoPropertyFound.Visible = false;
 
-            //check sorting
+            // Check sorting
             if (ddlSortType.SelectedIndex == 1)
                 dt.DefaultView.Sort = "posted_date ASC";
             else if (ddlSortType.SelectedIndex == 2)
                 dt.DefaultView.Sort = "price ASC";
             else if (ddlSortType.SelectedIndex == 3)
                 dt.DefaultView.Sort = "price DESC";
-            else 
-                dt.DefaultView.Sort = "posted_date DESC"; //default            
+            else
+                dt.DefaultView.Sort = "posted_date DESC"; // default
 
             dt.AcceptChanges();
-            //ds.Tables.Add(dt);           
 
             listProperty.DataSource = dt;
             listProperty.DataBind();
@@ -166,6 +180,13 @@ namespace PMS
         protected void ddlSortType_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindListing();
+        }
+        protected void btnApplyFilter_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                BindListing();
+            }
         }
     }
 }

@@ -37,6 +37,10 @@ namespace PMS
 				{
 					this.lnkReporting.Visible = true;
 				}
+				else
+				{
+					this.lnkReporting.Visible = false;
+				}
 				
 				this.lbnLogin.Text = "Logout";
 

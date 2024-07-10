@@ -257,7 +257,7 @@ namespace PMS
         }
 
         // New method to find properties based on criteria
-        public DataTable FindProperty(char transactionType, double bedNum, double bathNum)
+        public DataTable FindProperty(char transactionType, double bedNum, double bathNum, int minPrice, int maxPrice)
         {
             string query = "SELECT * FROM Properties WHERE is_sold = 0";
 
@@ -272,6 +272,14 @@ namespace PMS
             if (bathNum != 0)
             {
                 query += " AND bath_num = @bath_num";
+            }
+            if (minPrice > 0)
+            {
+                query += " AND price >= @minPrice";
+            }
+            if (maxPrice < int.MaxValue)
+            {
+                query += " AND price <= @maxPrice";
             }
 
             DataTable dt = new DataTable();
@@ -291,12 +299,21 @@ namespace PMS
                 {
                     cmd.Parameters.AddWithValue("@bath_num", bathNum);
                 }
+                if (minPrice > 0)
+                {
+                    cmd.Parameters.AddWithValue("@minPrice", minPrice);
+                }
+                if (maxPrice < int.MaxValue)
+                {
+                    cmd.Parameters.AddWithValue("@maxPrice", maxPrice);
+                }
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 adapter.Fill(dt);
                 CloseConnection();
             }
             return dt;
         }
+
 
         /************************************
          * User
@@ -366,7 +383,9 @@ namespace PMS
             }
         }
 
-
+        /************************************
+         * User section
+        /************************************/
         public bool AddUser(User user)
         {
             string query = "INSERT INTO pms_user (user_id, password, first_name, last_name, email, phone, role) VALUES (@userID, @password, @firstName, @lastName, @Email, @Phone, @Role)";
@@ -391,12 +410,37 @@ namespace PMS
                 return false;
             }
         }
-    
 
-        public void UpdateUser()
+        /************************************
+        * updating user account
+       /************************************/
+
+        public bool UpdateUser(User user)
         {
-            //To be implemented
+            string query = "UPDATE pms_user SET password = @password, first_name = @firstName, last_name = @lastName, email = @Email, phone = @Phone, role = @Role WHERE user_id = @userID";
+
+            if (this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@userID", user.UserID);
+                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@firstName", user.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", user.LastName);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Phone", user.Phone);
+                cmd.Parameters.AddWithValue("@Role", user.Role);
+
+                int result = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
+
+
 
         public void DeleteUser()
         {
@@ -539,19 +583,42 @@ namespace PMS
          * Reporting
         /************************************/
         //Get Listing number by realtorID
-        public int GetDBListingNumber(string realtorID)
+        public int GetDBSalesListingNumber(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
-            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02';
-            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}';";
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND transaction_type='S';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='S' AND " +
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}'; ";
 
+			int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        public int GetDBRentListingNumber(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND transaction_type='R';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+			
             int count = 0;
 
             if (OpenConnection() == true)
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -561,21 +628,22 @@ namespace PMS
         }
 
         //Get sales number by realtorID
-        public int GetDBSalesNumber(string realtorID, bool isSold)
+        public int GetDBSalesNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
 		{
             //Sample query
-			//SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1;
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1  AND transaction_type='S';
             int isSoldFlag = (isSold? 1: 0);
-			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag};";
+			string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
-			int count = 0;
+            int count = 0;
 
 			if (OpenConnection() == true)
 			{
 				MySqlCommand cmd = new MySqlCommand(query, connection);
 				object result = cmd.ExecuteScalar();
-				if (result != null)
-				{
+                if (result != DBNull.Value)
+                {
 				 	count = Convert.ToInt16(result);
 				}
 				CloseConnection();
@@ -583,15 +651,43 @@ namespace PMS
 			return count;
 		}
 
-        //Get sales percentage by realtorID
-        public double GetDBSalesPercentage(string realtorID, bool isSold)
-        {
+        //Get sales number by realtorID
+        public int GetDBRentNumber(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
             //Sample query
-            //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1)/(select count(1) from properties where realtor_id = 'realtor02') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1  AND transaction_type='R';
+            int isSoldFlag = (isSold ? 1 : 0);
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        //Get sales percentage by realtorID
+        public double GetDBSalesPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+            //Sample query
+            //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1 AND transaction_type='S')/(select count(1) from properties where realtor_id = 'realtor02' AND transaction_type='S') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
             int isSoldFlag = (isSold ? 1 : 0);
 
-            string query = $"SELECT (select count(1) from properties where realtor_id = '{realtorID}' and is_sold = {isSoldFlag}) / " +
-                $" (select count(1) from properties where realtor_id = '{realtorID}') * 100 " +
+            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " + 
+			    ") / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") * 100 " +
                 $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
 
             double percentage = 0;
@@ -600,7 +696,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
                 {
                     percentage = Convert.ToDouble(result);
                 }
@@ -609,15 +705,45 @@ namespace PMS
             return percentage;
         }
 
-        //Get listing post date by realtorID
-        public DateTime GetDBListingPostedDate(string realtorID, bool isFrom)
+        //Get rent percentage by realtorID
+        public double GetDBRentPercentage(string realtorID, bool isSold, DateTime startDate, DateTime endDate)
+		{
+            //Sample query
+            //SELECT (select count(1) from properties where realtor_id = 'realtor02' and is_sold = 1 AND transaction_type='R')/(select count(1) from properties where realtor_id = 'realtor02' AND transaction_type='R') * 100 from properties where realtor_id = 'realtor02' group by realtor_id;
+            int isSoldFlag = (isSold ? 1 : 0);
+
+            string query = $"SELECT (select count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = {isSoldFlag} AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") / " +
+                $" (select count(1) from properties where realtor_id = '{realtorID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				") * 100 " +
+                $" from properties where realtor_id = '{realtorID}' group by realtor_id;";
+
+            double percentage = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (!Convert.IsDBNull(result))
+                {
+                    percentage = Convert.ToDouble(result);
+                }
+                CloseConnection();
+            }
+            return percentage;
+        }
+
+        //Get sales listing post date by realtorID
+        public DateTime GetDBSalesListingPostedDate(string realtorID, bool isFrom)
         {
             //Sample query
-            //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02';
-            //SELECT max(posted_date) FROM `properties` WHERE realtor_id='realtor02';
+            //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02'  AND transaction_type='S';
+            //SELECT max(posted_date) FROM `properties` WHERE realtor_id='realtor02'  AND transaction_type='S';
             string isFromFlag = (isFrom ? "min" : "max");
 
-            string query = $"SELECT {isFromFlag}(posted_date) from properties where realtor_id = '{realtorID}'";
+            string query = $"SELECT {isFromFlag}(posted_date) from properties where realtor_id = '{realtorID}'  AND transaction_type='S'";
 
             DateTime date = DateTime.Now;
 
@@ -625,7 +751,32 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
+                {
+                    date = Convert.ToDateTime(result);
+                }
+                CloseConnection();
+            }
+            return date;
+        }
+
+        //Get rent listing post date by realtorID
+        public DateTime GetDBRentListingPostedDate(string realtorID, bool isFrom)
+        {
+            //Sample query
+            //SELECT min(posted_date) FROM `properties` WHERE realtor_id='realtor02'  AND transaction_type='R';
+            //SELECT max(posted_date) FROM `properties` WHERE realtor_id='realtor02'  AND transaction_type='R';
+            string isFromFlag = (isFrom ? "min" : "max");
+
+            string query = $"SELECT {isFromFlag}(posted_date) from properties where realtor_id = '{realtorID}'  AND transaction_type='R'";
+
+            DateTime date = DateTime.Now;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
                 {
                     date = Convert.ToDateTime(result);
                 }
@@ -638,8 +789,8 @@ namespace PMS
         public int GetDBSalesByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
-            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
-            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND " + 
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='S' AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND transaction_type='S' AND " + 
                 $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
             int count = 0;
@@ -648,7 +799,30 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 object result = cmd.ExecuteScalar();
-                if (result != null)
+                if (result != DBNull.Value)
+                {
+                    count = Convert.ToInt16(result);
+                }
+                CloseConnection();
+            }
+            return count;
+        }
+
+        //Get sales number by realtorID and date range
+        public int GetDBRentByPeriod(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            //SELECT count(1) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='R' AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT count(1) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1  AND transaction_type='R' AND " +
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            int count = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
                 {
                     count = Convert.ToInt16(result);
                 }
@@ -658,10 +832,47 @@ namespace PMS
         }
 
         //Get sales by realtorID and group by property type
-        public DataTable GetDBSalesByPropertyType(string userID)
-        {
-            //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' GROUP BY property_type;
-            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' GROUP BY property_type";
+        public DataTable GetDBSalesByPropertyType(string userID, DateTime startDate, DateTime endDate)
+		{
+            //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' AND transaction_type='S' GROUP BY property_type;
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='S' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " + 
+			    " GROUP BY property_type";
+
+            DataTable dt = new DataTable();
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                dt.Load(dataReader);
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return table
+                return dt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
+        //Get rent by realtorID and group by property type
+        public DataTable GetDBRentByPropertyType(string userID, DateTime startDate, DateTime endDate)
+		{
+            //SELECT property_type, count(property_type) FROM properties WHERE is_sold = 1 AND realtor_id = 'realtor02' AND transaction_type='R' GROUP BY property_type;
+            string query = $"SELECT property_type, count(property_type) as count FROM properties WHERE is_sold = 1 AND realtor_id = '{userID}' AND transaction_type='R' AND " +
+				$" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}' " +
+				" GROUP BY property_type";
 
             DataTable dt = new DataTable();
 
@@ -694,8 +905,8 @@ namespace PMS
         public double GetDBSalesPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
         {
             //Sample query
-            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND posted_date between '2023-05-01' AND '2024-04-30';
-            string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND " +
+            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='S' AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND transaction_type='S' AND " +
                 $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
 
             double price = 0;
@@ -713,6 +924,29 @@ namespace PMS
             return price;
         }
 
-        
+        //Get rent price by realtorID and date range
+        public double GetDBRentPriceByPeriod(string realtorID, DateTime startDate, DateTime endDate)
+        {
+            //Sample query
+            ////SELECT AVG(price) FROM properties WHERE realtor_id = 'realtor02' AND is_sold = 1 AND transaction_type='R' AND posted_date between '2023-05-01' AND '2024-04-30';
+            string query = $"SELECT AVG(price) FROM properties WHERE realtor_id = '{realtorID}' AND is_sold = 1 AND transaction_type='R' AND " +
+                $" posted_date between '{startDate.ToString("yyyy-MM-dd")}' AND '{endDate.ToString("yyyy-MM-dd")}';";
+
+            double price = 0;
+
+            if (OpenConnection() == true)
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    price = Convert.ToDouble(result);
+                }
+                CloseConnection();
+            }
+            return price;
+        }
+
+
     }
 }

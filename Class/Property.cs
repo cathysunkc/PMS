@@ -115,10 +115,11 @@ namespace PMS
         }
 
         // New static method to find properties using DB instance
-        public static DataTable FindProperty(DB db, char transactionType, double bedNum, double bathNum)
+        public static DataTable FindProperty(DB db, char transactionType, double bedNum, double bathNum, int minPrice, int maxPrice)
         {
-            return db.FindProperty(transactionType, bedNum, bathNum);
+            return db.FindProperty(transactionType, bedNum, bathNum, minPrice, maxPrice);
         }
+
 
         // New method to add the property to the database using DB instance
         public void AddProperty(DB db)

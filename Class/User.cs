@@ -97,7 +97,31 @@ namespace PMS
         }
 
 
-        public void ChangePassword(string userID, string password)
+
+        public User GetUserDetails(string userID)
+            {
+                DB db = new DB();
+                User user = null;
+                DataTable dt = db.SelectUserByID(userID);
+
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow dr = dt.Rows[0];
+                    user = new User(userID, dr["password"].ToString())
+                    {
+                        FirstName = dr["first_name"].ToString(),
+                        LastName = dr["last_name"].ToString(),
+                        Email = dr["email"].ToString(),
+                        Phone = dr["phone"].ToString(),
+                        Role = dr["role"].ToString()
+                    };
+                }
+                return user;
+        }
+
+    
+
+    public void ChangePassword(string userID, string password)
         {
             this.UserID = userID;
             this.Password = password;
