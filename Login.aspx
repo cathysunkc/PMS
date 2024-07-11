@@ -38,11 +38,10 @@
                 <asp:Label runat="server" ID="lblErrorRegisterFail" CssClass="error-msg" Visible="False">Registration failed.</asp:Label>
                 <asp:Label runat="server" ID="lblErrorPasswordMismatch" CssClass="error-msg" Visible="False">Passwords do not match.</asp:Label>
                 <asp:Label runat="server" ID="lblErrorRoleRequired" CssClass="error-msg" Visible="False">Role is required.</asp:Label>
+
+
+
                 <asp:Button runat="server" Text="Register" ID="btnRegister" CssClass="form-button" OnClick="RegisterSubmit_Click"></asp:Button>
-                Already have an account? Login <asp:LinkButton ID="lbnLogin" CssClass="link" runat="server" OnClick="LoginLink_Click">here</asp:LinkButton>
-
-
-                 <asp:Button runat="server" Text="Register" ID="btnRegister" CssClass="form-button" OnClick="RegisterSubmit_Click"></asp:Button>
 
 
 

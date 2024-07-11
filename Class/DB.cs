@@ -368,6 +368,7 @@ namespace PMS
 
         /************************************
          * User section
+         * Reference: Chatgpt
         /************************************/
         public bool AddUser(User user)
         {
@@ -396,6 +397,7 @@ namespace PMS
 
         /************************************
         * updating user account
+        * Reference chatgpt with error handling
        /************************************/
 
         public bool UpdateUser(User user)
@@ -423,13 +425,99 @@ namespace PMS
             }
         }
 
-
-
-        public void DeleteUser()
+        public bool DeleteUserAccount(string userID)
         {
-            //To be implemented
+            string query = "DELETE FROM pms_user WHERE user_id = @userID";
+
+            if (this.OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);  
+                cmd.Parameters.AddWithValue("@userID", userID);
+
+                int result = cmd.ExecuteNonQuery();
+                this.CloseConnection();
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
 
+        // Method to select user by userID
+        public User UserSelectByID(string userID)
+        {
+            string query = "SELECT * FROM pms_user WHERE user_id = @UserID";
+            User user = null;
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@UserID", userID);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    user = new User
+                    {
+                        UserID = dataReader["user_id"].ToString(),
+                        Password = dataReader["password"].ToString(),
+                        FirstName = dataReader["first_name"].ToString(),
+                        LastName = dataReader["last_name"].ToString(),
+                        Email = dataReader["email"].ToString(),
+                        Phone = dataReader["phone"].ToString(),
+                        Role = dataReader["role"].ToString(),
+                        FailedAttempts = Convert.ToInt32(dataReader["failed_attempts"]),
+                        IsLocked = Convert.ToBoolean(dataReader["is_locked"]),
+                        LockTime = dataReader["lock_time"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(dataReader["lock_time"])
+                    };
+                }
+
+                dataReader.Close();
+                CloseConnection();
+            }
+            return user;
+        }
+
+
+        // Method to update user account status///////////////////////////////////////////////
+        public bool UpdateUserAccountStatus(User user)
+        {
+            string query = @"UPDATE pms_user SET 
+                    failed_attempts = @FailedAttempts, 
+                    is_locked = @IsLocked, 
+                    lock_time = @LockTime 
+                    WHERE user_id = @UserID";
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@FailedAttempts", user.FailedAttempts);
+                cmd.Parameters.AddWithValue("@IsLocked", user.IsLocked);
+                cmd.Parameters.AddWithValue("@LockTime", user.LockTime.HasValue ? (object)user.LockTime.Value : DBNull.Value);
+                cmd.Parameters.AddWithValue("@UserID", user.UserID);
+
+                try
+                {
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    Console.WriteLine($"User account status updated successfully. Rows affected: {rowsAffected}");
+                    return rowsAffected > 0;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error updating user: " + ex.Message);
+                    return false;
+                }
+                finally
+                {
+                    CloseConnection();
+                }
+            }
+            return false;
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
         /************************************
          * Message
         /************************************/
