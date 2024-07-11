@@ -10,6 +10,12 @@
     <main aria-labelledby="title" style="min-height:300px">
             <h2>Property Listings</h2>
             <br>
+            <!-- Save Search Button and Dropdown -->
+            <asp:Button ID="btnSaveSearch" runat="server" Text="Save Search" OnClick="btnSaveSearch_Click" CssClass="form-button" />
+        
+            <asp:DropDownList ID="ddlSavedSearches" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlSavedSearches_SelectedIndexChanged" CssClass="form-input"></asp:DropDownList>
+            <br /><br />
+            <asp:Label ID="lblDebug" runat="server" ForeColor="Red"></asp:Label>
             <!-- Listing 1 -->
             <asp:Panel ID="panelAddListing" runat="server" Visible="false">
                  <div class="add-listing-cta">
@@ -63,13 +69,13 @@
                     <asp:Label ID="lblPrice" runat="server" Text='<%# Eval("price", "{0:c}") %>' Font-Size="X-Large"  /> <asp:Label ID="Label3" runat="server" Text='<%# Eval("transaction_type").ToString() == "R" ? "/Monthly" : "" %>' Font-Size="X-Large"  /><br/>
                  <div style="min-height: 200px"><a href='<%# "ViewProperty?id=" + Eval("property_id")%>'>
                      <asp:Image ID="imgPropertyImage" style="max-width:100%; height:200px; background-position: center center;
-background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id")  + "01.jpg" %>'/></a></div> 
+background-repeat: no-repeat;" runat="server" ImageUrl='<%# "~/Images/" + Eval("property_id") + "/" + Eval("property_id")  + "01.jpg?time=" + DateTime.UtcNow %>'/></a></div> 
                  <asp:Label ID="lblDescription" runat="server" Text='<%# Eval("description") %> ' />
                  </div>
              </td>
           </ItemTemplate>
                  
-        </asp:ListView>  
+        </asp:ListView> 
        
     </main>
 </asp:Content>

@@ -171,6 +171,11 @@
   <ItemGroup>
     <Content Include="ChangePassword.aspx" />
     <Content Include="EditProperty.aspx" />
+    <Content Include="Icons\loading.gif" />
+    <Content Include="Icons\next-arrow.png" />
+    <Content Include="Icons\next.png" />
+    <Content Include="Icons\previous-arrow.png" />
+    <Content Include="Icons\trash-bin.png" />
     <Content Include="Images\P000001\P00000101.jpg" />
     <Content Include="Images\P000001\P00000102.jpg" />
     <Content Include="Images\P000001\P00000103.jpg" />
@@ -225,6 +230,7 @@
     <Content Include="Reporting.aspx" />
     <Content Include="Scripts\map.js" />
     <Content Include="SQL\pms.sql" />
+    <Content Include="trash.png" />
     <Content Include="ViewProperty.aspx" />
     <Content Include="AddProperty.aspx" />
     <Content Include="Message.aspx" />

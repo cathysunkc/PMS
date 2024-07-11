@@ -103,8 +103,32 @@ namespace PMS
             }
         }
 
+        protected void DeleteAccount_Click(object sender, EventArgs e)
+        {
+            string userID = Session["UserID"]?.ToString();
 
+            if (userID == null)
+            {
+                lblDeleteFail.Visible = true;
+                lblDeleteFail.Text = "No user is currently logged in.";
+                return;
+            }
 
+            User user = new User();
+            if (user.DeleteAccount(userID))
+            {
+                lblDeleteSuccess.Visible = true;
+                lblDeleteFail.Visible = false;
+                Session.Clear();
+                Response.Redirect("Default.aspx"); // Redirect to a default or login page after deleting the account
+            }
+            else
+            {
+                lblDeleteFail.Visible = true;
+                lblDeleteSuccess.Visible = false;
+            }
+        }
     }
 
 }
+
