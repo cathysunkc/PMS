@@ -63,7 +63,10 @@
 
         <!-- Trigger Button for Update Panel -->
         <asp:Button runat="server" Text="Update Profile" ID="btnUpdateProfile" CssClass="form-button" OnClick="UpdateProfileLink_Click"></asp:Button>
-
+     
+        <asp:Button runat="server" Text="Delete Account" ID="btnDeleteAccount" CssClass="form-button" OnClick="DeleteAccount_Click" />
+<asp:Label runat="server" ID="lblDeleteSuccess" CssClass="success-msg" Visible="False">Account successfully deleted.</asp:Label>
+<asp:Label runat="server" ID="lblDeleteFail" CssClass="error-msg" Visible="False">Failed to delete the account.</asp:Label>
 
     </main>
 </asp:Content>

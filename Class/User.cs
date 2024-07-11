@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace PMS
 {
@@ -21,8 +22,14 @@ namespace PMS
 
         public string Role { get; set; }
 
-		//Constructors
-		public User() { }
+        public int FailedAttempts { get; set; }
+
+        public bool IsLocked { get; set; }
+
+        public DateTime? LockTime { get; set; }
+
+        //Constructors
+        public User() { }
 
 		public User(string userID, string password) 
 		{
@@ -57,43 +64,71 @@ namespace PMS
 		{
 			return this.FirstName + " " + this.LastName;
 		}
-        
-		public User Login(string userID, string password)
-		{
-            DB db = new DB();
-			User user = null;
-            DataTable dt = db.SelectUserByIDPassword(userID, password);
-            
-            if (dt.Rows.Count > 0)
-			{
-                DataRow dr = dt.Rows[0];
-				user = new User(userID, password);
-				user.FirstName = dr["first_name"].ToString();
-                user.LastName = dr["last_name"].ToString();
-				user.Email = dr["email"].ToString();
-                user.Phone = dr["phone"].ToString();
-                user.Role = dr["role"].ToString();
-            }           
-			return user;
-		}
 
-		public User GetUserByID(string userID)
+        public User Login(string userID, string password)
         {
             DB db = new DB();
-            User user = null;
-            DataTable dt = db.SelectUserByID(userID);
+            User user = db.UserSelectByID(userID);
 
-            if (dt.Rows.Count > 0)
+            if (user == null)
+
             {
-                DataRow dr = dt.Rows[0];
-                user = new User(userID, dr["password"].ToString());
-                user.FirstName = dr["first_name"].ToString();
-                user.LastName = dr["last_name"].ToString();
-                user.Email = dr["email"].ToString();
-                user.Phone = dr["phone"].ToString();
-                user.Role = dr["role"].ToString();
+                Console.WriteLine("User not found.");
+                return null;
             }
-            return user;
+           
+
+            // Change the duration from 24 hours to 2 minutes
+            const double lockDurationMinutes = 2;
+
+            Console.WriteLine($"User: {userID}, IsLocked: {user.IsLocked}, LockTime: {user.LockTime}, FailedAttempts: {user.FailedAttempts}");
+
+            if (user.IsLocked && user.LockTime.HasValue && (DateTime.Now - user.LockTime.Value).TotalMinutes < lockDurationMinutes)
+            {
+                // User is locked and lock duration has not passed
+                Console.WriteLine("Account is locked. Lock duration has not passed.");
+                return null;
+            }
+            else if (user.IsLocked && user.LockTime.HasValue && (DateTime.Now - user.LockTime.Value).TotalMinutes >= lockDurationMinutes)
+            {
+                // Lock duration has passed, reset the lock
+                Console.WriteLine("Lock duration has passed. Resetting lock status.");
+                user.IsLocked = false;
+                user.FailedAttempts = 0;
+                user.LockTime = null;
+            }
+
+            if (user.Password == password)
+            {
+                Console.WriteLine("Login successful. Resetting failed attempts.");
+                user.FailedAttempts = 0;
+                user.IsLocked = false;
+                user.LockTime = null;
+                db.UpdateUserAccountStatus(user);
+                return user;
+            }
+            else
+            {
+                user.FailedAttempts += 1;
+                Console.WriteLine($"Failed login attempt {user.FailedAttempts}.");
+
+                if (user.FailedAttempts >= 5)
+                {
+                    Console.WriteLine("Account is locked due to 5 failed attempts.");
+                    user.IsLocked = true;
+                    user.LockTime = DateTime.Now;
+                }
+
+                db.UpdateUserAccountStatus(user);
+                return null;
+            }
+        }
+
+
+        public User GetUserByID(string userID)
+        {
+            DB db = new DB();
+            return db.UserSelectByID(userID);
         }
 
 
@@ -119,8 +154,13 @@ namespace PMS
                 return user;
         }
 
-    
 
+        public bool DeleteAccount(string userID)
+        {
+            DB db = new DB();
+            return db.DeleteUserAccount(userID);
+        }
+    
     public void ChangePassword(string userID, string password)
         {
             this.UserID = userID;
