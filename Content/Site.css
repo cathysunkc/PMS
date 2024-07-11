@@ -206,12 +206,16 @@ h2, h3 {
 
 
 /* Chat Page Specific Styles */
-#chat-box {
-    background: #1A1A1A;
-    padding: 10px;
-    height: 300px;
+.chat-box {
+    background: white;
+}
+
+.message-container {
+    background: #222; /* Darker background for listing */
+    padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px;
+    color: #ccc;
 }
 
 .chat-message {
@@ -224,6 +228,14 @@ h2, h3 {
 }
 
 /* 
+.chat-box {
+    background: #1A1A1A;
+    padding: 10px;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
 .chat-message {
     padding: 10px;
     margin: 5px 0;
@@ -232,8 +244,19 @@ h2, h3 {
     max-width: 80%;
     cursor: pointer;
 }
+.chattestcontainer {
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    border-color: transparent;
+}
 
 */
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
 
 .another-message {
     background-color: #5E2D79; /* Lighter purple for the realtor */
@@ -256,10 +279,10 @@ h2, h3 {
     font-size: xx-small;
 }
 
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+
+
+.check-msgGroup {
+
 }
 
 .uncheck-msgGroup {
@@ -274,9 +297,7 @@ h2, h3 {
 }
 
 .chattestcontainer {
-    border-top: 10px solid;
-    border-bottom: 10px solid;
-    border-color: transparent;
+
 }
 
 .uncheck-message {
