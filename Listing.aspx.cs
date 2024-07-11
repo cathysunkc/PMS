@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.DynamicData;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -31,9 +33,108 @@ namespace PMS
                 BindDropDownList();
                 BindSortType();
                 BindListing();
+                LoadSavedSearches();
             }
 
         }
+
+        /************************************
+         * SaveSearch
+        /************************************/
+        private void LoadSavedSearches()
+        {
+            string userID = Session["UserID"]?.ToString();
+            if (string.IsNullOrEmpty(userID))
+            {
+                Response.Redirect("Login.aspx");
+                return;
+            }
+
+            DB db = new DB();
+            DataTable dt = db.LoadSavedSearches(userID);
+
+            if (dt.Rows.Count > 0)
+            {
+                ddlSavedSearches.DataSource = dt;
+                ddlSavedSearches.DataTextField = "search_name";
+                ddlSavedSearches.DataValueField = "search_name";
+                ddlSavedSearches.DataBind();
+            }
+
+            ddlSavedSearches.Items.Insert(0, new ListItem("Select a saved search", ""));
+        }
+
+
+
+        protected void btnSaveSearch_Click(object sender, EventArgs e)
+        {
+            // Debug message
+            lblDebug.Text = "Save button clicked";
+
+            string userID = Session["UserID"]?.ToString();
+            if (string.IsNullOrEmpty(userID))
+            {
+                lblDebug.Text = "User is not logged in.";
+                return;
+            }
+
+            DB db = new DB();
+            int lastSearchName = db.GetLastSearchName(userID);
+            int newSearchName = lastSearchName + 1;
+            string searchName = newSearchName.ToString();
+
+            string transactionType = ddlTransactionType.SelectedValue; // Get selected value from transaction type dropdown
+            string bedNum = ddlBedNum.SelectedValue; // Get selected value from bed number dropdown
+            string bathNum = ddlBathNum.SelectedValue; // Get selected value from bath number dropdown
+
+            // Create an object to hold the search criteria
+            var searchCriteriaObj = new
+            {
+                transactionType,
+                bedNum,
+                bathNum
+            };
+
+            // Serialize the search criteria object to JSON
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string searchCriteria = serializer.Serialize(searchCriteriaObj);
+
+            // Debug message
+            lblDebug.Text += $" | Search Criteria: {searchCriteria}";
+
+            db.SaveSearch(userID, searchName, searchCriteria);
+
+            // Update the last search name
+            db.UpdateLastSearchName(userID, newSearchName);
+
+            // Confirm save
+            lblDebug.Text += " | Search saved successfully.";
+
+            LoadSavedSearches();
+        }
+
+        protected void ddlSavedSearches_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblDebug.Text = "Selected saved search changed"; // Debug message
+
+            if (!string.IsNullOrEmpty(ddlSavedSearches.SelectedValue))
+            {
+                string searchName = ddlSavedSearches.SelectedValue;
+                DB db = new DB();
+                dynamic searchCriteria = db.GetSavedSearchCriteriaByName(searchName);
+
+                if (searchCriteria != null)
+                {
+                    ddlTransactionType.SelectedValue = searchCriteria["transactionType"];
+                    ddlBedNum.SelectedValue = searchCriteria["bedNum"].ToString();
+                    ddlBathNum.SelectedValue = searchCriteria["bathNum"].ToString();
+
+                    BindListing();
+                }
+            }
+        }
+
+
 
         private void BindDropDownList()
         {
@@ -113,7 +214,7 @@ namespace PMS
                 dt.DefaultView.Sort = "price ASC";
             else if (ddlSortType.SelectedIndex == 3)
                 dt.DefaultView.Sort = "price DESC";
-            else 
+            else
                 dt.DefaultView.Sort = "posted_date DESC"; //default            
 
             dt.AcceptChanges();
@@ -149,7 +250,7 @@ namespace PMS
             //reset paging
             DataPager pager = listProperty.FindControl("DataPager1") as DataPager;
             pager.SetPageProperties(0, pager.PageSize, true);
-            BindListing();            
+            BindListing();
         }
 
         protected void AddProperty_Click(object sender, EventArgs e)

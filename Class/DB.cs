@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Diagnostics.Metrics;
+using System.Web.Script.Serialization;
 using System.Web.Services.Description;
 using System.Windows.Forms;
 using Google.Protobuf.WellKnownTypes;
@@ -594,6 +595,126 @@ namespace PMS
             int newNumericPart = numericPart + 1;
             return $"P{newNumericPart:D6}"; 
         }
+
+
+        /************************************
+         * SaveSearch
+        /************************************/
+        public DataTable LoadSavedSearches(string userID)
+        {
+            string query = "SELECT search_id, search_name FROM savesearches WHERE user_id = @user_id";
+
+            DataTable dt = new DataTable();
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@user_id", userID);
+                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                CloseConnection();
+            }
+
+            return dt;
+        }
+
+        public void SaveSearch(string userID, string searchName, string searchCriteria)
+        {
+            string query = "INSERT INTO savesearches (user_id, search_name, search_criteria, last_search_name) VALUES (@user_id, @search_name, @search_criteria, @search_name)";
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@user_id", userID);
+                cmd.Parameters.AddWithValue("@search_name", searchName);
+                cmd.Parameters.AddWithValue("@search_criteria", searchCriteria);
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Search saved successfully");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error saving search: " + ex.Message);
+                }
+                finally
+                {
+                    CloseConnection();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Unable to open database connection");
+            }
+        }
+
+
+        public dynamic GetSavedSearchCriteriaByName(string searchName)
+        {
+            string query = "SELECT search_criteria FROM savesearches WHERE search_name = @search_name";
+            string searchCriteriaJson = null;
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@search_name", searchName);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        searchCriteriaJson = reader["search_criteria"].ToString();
+                    }
+                }
+                CloseConnection();
+            }
+
+            if (searchCriteriaJson != null)
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                return serializer.Deserialize<dynamic>(searchCriteriaJson);
+            }
+
+            return null;
+        }
+
+
+
+        public int GetLastSearchName(string userID)
+        {
+            string query = "SELECT last_search_name FROM savesearches WHERE user_id = @user_id ORDER BY last_search_name DESC LIMIT 1";
+            int lastSearchName = 0;
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@user_id", userID);
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    lastSearchName = Convert.ToInt32(result);
+                }
+                CloseConnection();
+            }
+            return lastSearchName;
+        }
+
+        public void UpdateLastSearchName(string userID, int newSearchName)
+        {
+            string query = "UPDATE savesearches SET last_search_name = @newSearchName WHERE user_id = @user_id";
+
+            if (OpenConnection())
+            {
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@newSearchName", newSearchName);
+                cmd.Parameters.AddWithValue("@user_id", userID);
+                cmd.ExecuteNonQuery();
+                CloseConnection();
+            }
+        }
+
+
 
 
         /************************************
