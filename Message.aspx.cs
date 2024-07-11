@@ -1,4 +1,5 @@
-﻿using MySqlX.XDevAPI.Relational;
+﻿using Microsoft.Ajax.Utilities;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,7 +32,7 @@ namespace PMS
                     this.lblRecipientEmail.Text = "Realtor Email:";
                 }
 
-                this.txtSenderEmail.Text = user.Email;
+                //this.txtSenderEmail.Text = user.Email;
 
                 string propertyID = Request.QueryString["property_id"];
 
@@ -44,8 +45,7 @@ namespace PMS
                     this.panelSelectMessageNull.Visible = false;
                     this.panelSelectMessage.Visible = true;
 
-                    /* edited by Wilson 
-                    //User realtor = new User();
+                    /* User realtor = new User();
                     //realtor = realtor.GetUserByID(realtorID);
 
                     if (realtor != null)
@@ -56,7 +56,10 @@ namespace PMS
                     */
                 }
 
-                // Edited by Wilson
+                if (!this.IsPostBack)
+                {
+                    BindDropDownList();
+                }
                 BindMessageList();
             }
             else
@@ -66,10 +69,81 @@ namespace PMS
         }
 
         // Edited by Wilson
+        private void BindDropDownList()
+        {
+            var transactionType = new Dictionary<char, string>
+            {
+                { ' ', "Transaction Type" },
+                { 'S', "For Sale" },
+                { 'R', "For Rent" }
+            };
+            ddlTransactionType.DataSource = transactionType;
+            ddlTransactionType.DataTextField = "Value";
+            ddlTransactionType.DataValueField = "Key";
+            ddlTransactionType.DataBind();
+
+            var bedNum = new Dictionary<double, string>
+            {
+                { 0, "Beds" },
+                { 1, "1" },
+                { 2, "2" },
+                { 3, "3" },
+                { 4, "4" },
+            };
+            ddlBedNum.DataSource = bedNum;
+            ddlBedNum.DataTextField = "Value";
+            ddlBedNum.DataValueField = "Key";
+            ddlBedNum.DataBind();
+
+            var bathNum = new Dictionary<double, string>
+            {
+                { 0, "Baths" },
+                { 1, "1" },
+                { 2, "2" },
+                { 3, "3" },
+                { 4, "4" },
+            };
+            ddlBathNum.DataSource = bathNum;
+            ddlBathNum.DataValueField = "Key";
+            ddlBathNum.DataTextField = "Value";
+            ddlBathNum.DataBind();
+
+        }
+
+        protected void TransactionType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindMessageList();
+        }
+
+        protected void BedNum_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindMessageList();
+        }
+
+        protected void BathNum_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindMessageList();
+        }
+
+        protected void Reset_Click(object sender, EventArgs e)
+        {
+            //reset dropdownlist
+            ddlTransactionType.SelectedIndex = 0;
+            ddlBedNum.SelectedIndex = 0;
+            ddlBathNum.SelectedIndex = 0;
+
+            BindMessageList();
+        }
+
+
         private void BindMessageList()
         {
+            char transactionType = Convert.ToChar(ddlTransactionType.SelectedValue);
+            double bedNum = Convert.ToDouble(ddlBedNum.SelectedValue);
+            double bathNum = Convert.ToDouble(ddlBathNum.SelectedValue);
+            DataTable dt = Message.GetMessageByUserIDAndPref((String)Session["UserID"], transactionType, bedNum, bathNum);
+
             DataSet ds = new DataSet();
-            DataTable dt = Message.GetMessageByUserID((String)Session["UserID"]);
             ds.Tables.Add(dt);
 
             listMessage.DataSource = ds;
@@ -88,10 +162,21 @@ namespace PMS
                 this.gridMessageNull.Visible = true;
                 this.gridMessageNull.Text = "Please enter message to communicate for " + Property.GetPropertyByID(sendMessage.Value).Address;
             }
+            else
+            {
+                // Show Date for first row of each Date
+                DataColumn ColIsFirst = new DataColumn("IsFirst", typeof(bool));
+                dt.Columns.Add(ColIsFirst);
+                foreach (DataRow row in dt.Rows)
+                {
+                    var group = dt.AsEnumerable()
+                                    .Where(r => ((DateTime)r["sendout_date"]).Date == ((DateTime)row["sendout_date"]).Date);
+                    row["IsFirst"] = ((DateTime)row["sendout_date"]).TimeOfDay == group.Min(r => ((DateTime)r["sendout_date"]).TimeOfDay);
+                }
+            }
 
             gridMessage.DataSource = ds;
             gridMessage.DataBind();
-
         }
 
         protected void Message_Click(Object sender, CommandEventArgs e)
@@ -109,10 +194,10 @@ namespace PMS
 
         protected void Send_Click(object sender, EventArgs e)
         {
+            // sendMessage.Value == PropertyID
             Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
     DateTime.Now.ToString("yyyy'-'MM'-'dd"), true, this.txtMessage.Text, false);
             message.SendMessage(message);
-            //dt.Rows.Add("M0000XX", user.GetUserByID((String)Session["UserID"]), user.GetUserByID(property.RealtorID), property,DateTime.Now.ToString("yyyy'-'MM'-'dd"),false, this.txtMessage.Text, false);
 
             BindMessageGrid(sendMessage.Value);
             BindMessageList();
@@ -121,6 +206,9 @@ namespace PMS
 
             //Console.WriteLine($"{dv}");
             //System.Windows.Forms.MessageBox.Show($"{sendMessage.Value}");
+
+            
         }
+
     }
 }

@@ -144,6 +144,8 @@ namespace PMS
             public string FilePath { get; set; }
 
             public string PropertyID { get; set; }
+
+            public int Index { get; set; }
         }
 
 

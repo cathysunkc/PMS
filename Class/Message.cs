@@ -1,9 +1,13 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using MySqlX.XDevAPI.Relational;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Linq;
 using System.Web.DynamicData;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace PMS
@@ -29,25 +33,20 @@ namespace PMS
 
         public bool IsChecked { get; set; }
 
-        // initial messages are before 20
-        private static int MessageINT = 20;
-
         //Constructors
         public Message() 
         {
-            this.MessageID = "M" + MessageINT.ToString("D6");
-            MessageINT++;
+            this.MessageID = Message.GererateMessageID();
         }
 
         public Message(string messageID) 
-        { 
-            this.MessageID = "M" + MessageINT.ToString("D6");
-            MessageINT++;
+        {
+            this.MessageID = Message.GererateMessageID();
         }
 
         public Message(string senderID, string recipentID, string propertyID, string SendOutDate, bool IsImportant, string content, bool isChecked)
         {
-            this.MessageID = "M" + MessageINT.ToString("D6");
+            this.MessageID = Message.GererateMessageID();
             this.SenderID = senderID;
             this.RecipentID = recipentID;
             this.PropertyID = propertyID;
@@ -55,10 +54,19 @@ namespace PMS
             this.IsImportant = IsImportant;
             this.Content = content;
             this.IsChecked = isChecked;
-            MessageINT++;
         }
 
         //Methods
+
+        public static string GererateMessageID()
+        {
+            // example: last message ID "M000001", new message ID "M000002"
+            DB dB = new DB();
+            string lastStringId = dB.SelectMessageLastID();
+            int lastIntId = int.Parse(lastStringId.Substring(1)) + 1;
+            return "M" + lastIntId.ToString("D6");
+        }
+
         public Message GetMessageByID(string messageID)
         {
             //To be implemented
@@ -118,6 +126,63 @@ namespace PMS
             return dt;
         }
 
+
+        public static DataTable GetMessageByUserIDAndPref(string userID, char transactionType, double bedNum, double bathNum)
+        {
+            DB dB = new DB();
+            DataTable dtDB = dB.SelectMessageByUserID(userID);
+
+            // Get all PropertyID by Pref
+            DataTable dtPropDB = Property.FindProperty(dB, transactionType, bedNum, bathNum);
+            string[] propIDs = dtPropDB.AsEnumerable()
+                .Select(row => (string)row["property_id"])
+                .ToArray();
+
+            DataTable dt = new DataTable();
+
+
+            DataRow[] dr = dtDB.AsEnumerable()
+                .Where(row => propIDs.Contains((string)row["property_id"]))
+                .OrderByDescending(row => row["sendout_date"])
+                .GroupBy(row => row["property_id"])
+                .Select(group => group.First())
+                .ToArray();
+
+
+            if (dr.Length > 0)
+            {
+                dt = dr.CopyToDataTable();
+                User user = new User();
+
+                DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
+                DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
+                DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                dt.Columns.Add(tempColSend);
+                dt.Columns.Add(tempColRecip);
+                dt.Columns.Add(tempColProp);
+                foreach (DataRow row in dt.Rows)
+                {
+                    row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
+                    row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
+                    row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID((string)row["property_id"]), typeof(Property));
+                }
+                tempColSend.SetOrdinal(1);
+                tempColRecip.SetOrdinal(2);
+                tempColProp.SetOrdinal(3);
+                dt.Columns.Remove("sender_id");
+                dt.Columns.Remove("recipent_id");
+                dt.Columns.Remove("property_id");
+                tempColSend.ColumnName = "sender";
+                tempColRecip.ColumnName = "recipent";
+                tempColProp.ColumnName = "property";
+            }
+            else if (dr.Length == 0)
+                dt = new DataTable();
+
+            return dt;
+        }
+
+
         public static DataTable GetMessageByUserIDAndPropID(string userID, string propertyID)
         {
             DB dB = new DB();
@@ -137,25 +202,38 @@ namespace PMS
                 DataColumn tempColSend = new DataColumn("tempSend", typeof(User));
                 DataColumn tempColRecip = new DataColumn("tempRecip", typeof(User));
                 DataColumn tempColProp = new DataColumn("tempProp", typeof(Property));
+                DataColumn tempColSendout = new DataColumn("tempSendOut", typeof(DateTime));
                 dt.Columns.Add(tempColSend);
                 dt.Columns.Add(tempColRecip);
                 dt.Columns.Add(tempColProp);
+                dt.Columns.Add(tempColSendout);
                 foreach (DataRow row in dt.Rows)
                 {
                     row["tempSend"] = Convert.ChangeType(user.GetUserByID((string)row["sender_id"]), typeof(User));
                     row["tempRecip"] = Convert.ChangeType(user.GetUserByID((string)row["recipent_id"]), typeof(User));
                     row["tempProp"] = Convert.ChangeType(Property.GetPropertyByID(propertyID), typeof(Property));
+                    row["tempSendOut"] = Convert.ChangeType(row["sendout_date"], typeof(DateTime));
                 }
                 tempColSend.SetOrdinal(1);
                 tempColRecip.SetOrdinal(2);
                 tempColProp.SetOrdinal(3);
+                tempColSendout.SetOrdinal(4);
                 dt.Columns.Remove("sender_id");
                 dt.Columns.Remove("recipent_id");
                 dt.Columns.Remove("property_id");
+                dt.Columns.Remove("sendout_date");
                 tempColSend.ColumnName = "sender";
                 tempColRecip.ColumnName = "recipent";
                 tempColProp.ColumnName = "property";
+                tempColSendout.ColumnName = "sendout_date";
 
+                /*
+                HashSet<DateTime> sendoutDates = new HashSet<DateTime>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    sendoutDates.Add(DateTime.Parse(row["SendoutDate"].ToString()));
+                }
+                */
             }
             else if (dr.Length == 0)
                 dt = new DataTable();
@@ -245,5 +323,7 @@ namespace PMS
                 .ToArray();
             return dr.Length;
         }
+
+
     }
 }
