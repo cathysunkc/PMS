@@ -1,11 +1,137 @@
-﻿<%@ Page Title="AddProperty" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddProperty.aspx.cs" Inherits="PMS.AddProperty" %>
+﻿<%@ Page Title="AddProperty" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="AddProperty.aspx.cs" Inherits="PMS.AddProperty" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+   .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay-text {
+        position: absolute;
+        top: -5px;
+        left: 1%;
+        /* transform: translate(-50%, -50%); */
+        background-color: #5E2D79;
+        color: #fff;
+        padding: 10px 10px;
+        font-size: 20px;
+        text-align: center;
+    }
+
+     .overlay-delete {
+        position: relative;
+        border: none;
+        cursor: pointer;
+        top: -2em;
+        left: 7.4em;               
+     }
+
+    .overlay-previous {
+        position: relative;
+        cursor: pointer;
+        bottom: 2em;
+        right: 2em;
+   
+    }
+    .overlay-next {
+        position: relative;
+        cursor: pointer;
+        bottom: 2em;
+        right: 2.2em;
+    }
+    input[type=file]::file-selector-button {        
+    
+      border-radius: 3px;
+      border-color:  #D3CBFF;
+      background-color: #D3CBFF;
+      width: 10em;
+      transition: 1s;
+      color: #2C003E;
+      cursor: pointer;
+    }
+
+    #MainContent_btnAddImage {
+        border-radius: 3px;
+        background-color: #D3CBFF;
+        width: 8em;
+        transition: 1s;
+        color: #2C003E;
+        cursor: pointer;
+    }
+    
+
+    #loading {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+        opacity: 0.4;
+        background-color: black;
+        z-index: 99;
+    }
+
+    #loading-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        
+    }
+</style>
     <main aria-labelledby="title">
         <h2>Add New Property</h2>
         <br/>
         <asp:Panel ID="addPropertyPanel" runat="server">
+             <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
+            <br/>
+             <asp:FileUpload ID="FileUpload" runat="server" /><asp:Button ID="btnAddImage" OnClientClick="WaitDialog()" CausesValidation="false" OnClick="btnAddImage_Click"  runat="server" Text="Add Image" CssClass="AddImage"  />
 
+         <div id="ImageGallery" style="overflow:auto; width:100%; margin-top: 1em; border-color: #D3CBFF; border-width: 5px; display:inline-block;">
+     
+             <asp:ListView ID="listImages" runat="server" GroupItemCount="6" ShowHeader="False" AutoGenerateColumns="False" >
+                 <LayoutTemplate>
+                 <table id="table1">
+                   <tr runat="server" id="groupPlaceholder">
+                   </tr>
+                 </table>
+                 </LayoutTemplate>
+                   <GroupTemplate>
+                     <tr runat="server" id="tableRow">
+                       <td runat="server" id="itemPlaceholder" />
+                     </tr>   
+                   </GroupTemplate>
+                  <ItemTemplate>
+                     <td runat="server" style="width:160px; height: 160px; vertical-align: top; padding: 3px">
+                         <div class="image-container">
+                             <img src='<%#Eval("FilePath") + "?time=" + DateTime.UtcNow %>' alt='<%#Eval("FilePath") %>' style="cursor:pointer;width: 150px;height:140px;background-position: center center;  background-repeat: no-repeat;" />
+                             <div class="overlay-text"><%#Eval("Index") %></div>
+                              <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/trash-bin.png" CssClass="overlay-delete" ID="deleteImageButton" runat="server" OnCommand="deleteImageButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' width="30px" height="30px" ></asp:ImageButton> 
+                              <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/previous-arrow.png" CssClass="overlay-previous" ID="movePreviousButton" runat="server" OnCommand="movePreviousButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' Visible='<%# Eval("Index").ToString() != "1" ? true : false  %>'  width="30px" height="30px" ></asp:ImageButton> 
+                              <asp:ImageButton OnClientClick="WaitDialog()" CausesValidation="false" ImageUrl="~/Icons/next-arrow.png" CssClass="overlay-next" ID="moveNextButton" runat="server" OnCommand="moveNextButton_Command" CommandArgument='<%#Eval("Index").ToString() %>' Visible='<%# Eval("Index").ToString() ==  Session["ImageListCount"].ToString() ? false : true  %>' width="30px" height="30px" ></asp:ImageButton> 
+                         </div>    
+                     </td>
+                   </ItemTemplate>                   
+             </asp:ListView>  
+          </div>
+          <div id="loading" style="display: none; width: 100%; height: 100%">
+                 <img src="Icons/loading.gif" id="loading-image" style="height: 64px; width: 70px" alt="Loading..." />                
+         </div>
+
+         <script>
+             function WaitDialog() {
+                 var mywait = document.getElementById("loading")
+                 mywait.style.display = 'block';
+             }
+         </script>
+         <br />
             <asp:RequiredFieldValidator ID="rfvPropertyName" runat="server" ControlToValidate="txtPropertyName" ErrorMessage="Property Address is required." CssClass="error-msg"></asp:RequiredFieldValidator>
             <br />
             <asp:Label ID="lblPropertyName" runat="server" Text="Property Address:"></asp:Label>
@@ -105,7 +231,7 @@
 
             <asp:Button ID="submitBtn" Text="Submit" OnClick="SubmitBtn_Click" runat="server" CssClass="form-button"/>
             <br />
-            <asp:Label ID="lblErrorMessage" runat="server" CssClass="error-msg" Visible="False"></asp:Label>
+
         </asp:Panel>
 
         <script type="text/javascript">
