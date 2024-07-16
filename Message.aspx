@@ -30,7 +30,7 @@
                             <tr id="tableRow" runat="server" >
 
                                 <td runat="server" class='<%# (Eval("recipent.UserID").ToString() == Session["UserID"].ToString()) && (Eval("is_checked").ToString() == "False") ? "uncheck-msgGroup" : "check-msgGroup" %>'>
-                                    <asp:LinkButton ID="lbnRegister" runat="server" class='<%# Eval("is_checked").ToString() == "False" ? "uncheck-msgGroupbutton" : "" %>' CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
+                                    <asp:LinkButton ID="lbnRegister" runat="server" class='<%# Eval("is_checked").ToString() == "False" ? "uncheck-msgGroupbutton" : "check-msgGroupbutton" %>' CommandArgument='<%# Eval("property.PropertyID")%>'  OnCommand="Message_Click">
                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("property.Address").ToString().Length > 25 ? Eval("property.Address").ToString().Substring(0,25) : Eval("property.Address") %>' Font-Size="medium"  /><br/>
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("sender.UserID").ToString() == Session["UserID"].ToString() ? Eval("recipent.FirstName").ToString()+" "+Eval("recipent.LastName").ToString() : Eval("sender.FirstName").ToString()+" "+Eval("sender.LastName").ToString() %>' Font-Size="medium"  /> <br />
                                         <asp:Label ID="Label3" runat="server" Text='<%# Eval("content").ToString().Length > 45 ? Eval("content").ToString().Substring(0,45) : Eval("content") %>' Font-Size="x-small"  /><br/>

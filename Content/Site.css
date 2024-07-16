@@ -207,7 +207,7 @@ h2, h3 {
 
 /* Chat Page Specific Styles */
 .chat-box {
-    background: white;
+
 }
 
 .message-container {
@@ -282,7 +282,13 @@ h2, h3 {
 
 
 .check-msgGroup {
+    background-color: #616161;
+    padding: 5px;
+    border-radius: 20px;
+}
 
+.check-msgGroupbutton {
+    color: black;
 }
 
 .uncheck-msgGroup {
