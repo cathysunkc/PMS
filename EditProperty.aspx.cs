@@ -236,7 +236,19 @@ namespace PMS
             string value = e.CommandArgument.ToString();
             int index = Convert.ToInt16(value) - 1;
             tempImages.RemoveAt(index);
-            int i = 0;
+            index++;
+
+			//If the image is temp file, delete physically
+			DirectoryInfo DI = new DirectoryInfo(Server.MapPath("~/Images/" + this.propertyID + "/"));
+			foreach (FileInfo file in DI.GetFiles())
+			{
+				if (file.Name.StartsWith("temp" + index.ToString("00")))
+				{
+					file.Delete();
+				}
+			}
+
+			int i = 0;
             foreach (PropertyImages item in tempImages)
             {
                 i++;
