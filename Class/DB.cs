@@ -606,6 +606,8 @@ namespace PMS
 
             DataTable dt = new DataTable();
 
+            // https://csharp.hotexamples.com/examples/MySql.Data.MySqlClient/MySqlCommand/-/php-mysqlcommand-class-examples.html\
+            //https://stackoverflow.com/questions/21110001/sqlcommand-parameters-add-vs-addwithvalue
             if (OpenConnection())
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -679,8 +681,6 @@ namespace PMS
             return null;
         }
 
-
-
         public int GetLastSearchName(string userID)
         {
             string query = "SELECT last_search_name FROM savesearches WHERE user_id = @user_id ORDER BY last_search_name DESC LIMIT 1";
@@ -690,7 +690,7 @@ namespace PMS
             {
                 MySqlCommand cmd = new MySqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@user_id", userID);
-                object result = cmd.ExecuteScalar();
+                object result = cmd.ExecuteScalar(); //Executes the query using ExecuteScalar(), which returns the value of the first column of the first row in the result set.
                 if (result != DBNull.Value)
                 {
                     lastSearchName = Convert.ToInt32(result);
