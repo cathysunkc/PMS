@@ -43,14 +43,22 @@ namespace PMS
                 Response.Redirect("Default");
 
             }
+
             else
             {
-                Session["UserID"] = null;
-                Session["UserRole"] = null;
+                User failedUser = new User().GetUserByID(userID);
+                if (failedUser != null && failedUser.IsLocked)
+                {
+                    lblErrorLoginFail.Text = "Your account is locked. Please try again after 2 minutes.";
+                }
+                else
+                {
+                    lblErrorLoginFail.Text = "Invalid Login ID or Password.";
+                }
                 lblErrorLoginFail.Visible = true;
             }
 
-			//Response.Redirect(HttpContext.Current.Request.Url.ToString(), true);
+            //Response.Redirect(HttpContext.Current.Request.Url.ToString(), true);
 
         }
 
@@ -138,6 +146,17 @@ namespace PMS
                 }
             }
 
+      
         }
+
+
+
+
+
+
+
+
+
+
     }
 }
