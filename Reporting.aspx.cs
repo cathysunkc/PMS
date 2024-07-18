@@ -181,25 +181,25 @@ namespace PMS
             int count01 = report.GetSalesByPeriod(user.UserID, startDate01, endDate01);
 
             //Interval 02
-            DateTime startDate02 = endDate01.AddDays(1);
+            DateTime startDate02 = endDate01.AddMilliseconds(1);
             DateTime endDate02 = startDate02.AddDays(intervalStep);
             string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
             int count02 = report.GetSalesByPeriod(user.UserID, startDate02, endDate02);
 
             //Interval 03
-            DateTime startDate03 = endDate02.AddDays(1);
+            DateTime startDate03 = endDate02.AddMilliseconds(1);
             DateTime endDate03 = startDate03.AddDays(intervalStep);
             string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
             int count03 = report.GetSalesByPeriod(user.UserID, startDate03, endDate03);
 
             //Interval 04
-            DateTime startDate04 = endDate03.AddDays(1);
+            DateTime startDate04 = endDate03.AddMilliseconds(1);
             DateTime endDate04 = startDate04.AddDays(intervalStep);
             string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
             int count04 = report.GetSalesByPeriod(user.UserID, startDate04, endDate04);
 
             //Interval 05
-            DateTime startDate05 = endDate04.AddDays(1);
+            DateTime startDate05 = endDate04.AddMilliseconds(1);
             DateTime endDate05 = endDate;
             string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
             int count05 = report.GetSalesByPeriod(user.UserID, startDate05, endDate05);
@@ -231,25 +231,25 @@ namespace PMS
             int count01 = report.GetRentByPeriod(user.UserID, startDate01, endDate01);
 
             //Interval 02
-            DateTime startDate02 = endDate01.AddDays(1);
+            DateTime startDate02 = endDate01.AddMilliseconds(1);
             DateTime endDate02 = startDate02.AddDays(intervalStep);
             string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
             int count02 = report.GetRentByPeriod(user.UserID, startDate02, endDate02);
 
             //Interval 03
-            DateTime startDate03 = endDate02.AddDays(1);
+            DateTime startDate03 = endDate02.AddMilliseconds(1);
             DateTime endDate03 = startDate03.AddDays(intervalStep);
             string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
             int count03 = report.GetRentByPeriod(user.UserID, startDate03, endDate03);
 
             //Interval 04
-            DateTime startDate04 = endDate03.AddDays(1);
+            DateTime startDate04 = endDate03.AddMilliseconds(1);
             DateTime endDate04 = startDate04.AddDays(intervalStep);
             string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
             int count04 = report.GetRentByPeriod(user.UserID, startDate04, endDate04);
 
             //Interval 05
-            DateTime startDate05 = endDate04.AddDays(1);
+            DateTime startDate05 = endDate04.AddMilliseconds(1);
             DateTime endDate05 = endDate;
             string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
             int count05 = report.GetRentByPeriod(user.UserID, startDate05, endDate05);
@@ -319,25 +319,25 @@ namespace PMS
             double price01 = report.GetSalesPriceByPeriod(user.UserID, startDate01, endDate01);
 
             //Interval 02
-            DateTime startDate02 = endDate01.AddDays(1);
+            DateTime startDate02 = endDate01.AddMilliseconds(1);
             DateTime endDate02 = startDate02.AddDays(intervalStep);
             string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
             double price02 = report.GetSalesPriceByPeriod(user.UserID, startDate02, endDate02);
 
             //Interval 03
-            DateTime startDate03 = endDate02.AddDays(1);
+            DateTime startDate03 = endDate02.AddMilliseconds(1);
             DateTime endDate03 = startDate03.AddDays(intervalStep);
             string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
             double price03 = report.GetSalesPriceByPeriod(user.UserID, startDate03, endDate03);
 
             //Interval 04
-            DateTime startDate04 = endDate03.AddDays(1);
+            DateTime startDate04 = endDate03.AddMilliseconds(1);
             DateTime endDate04 = startDate04.AddDays(intervalStep);
             string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
             double price04 = report.GetSalesPriceByPeriod(user.UserID, startDate04, endDate04);
 
             //Interval 05
-            DateTime startDate05 = endDate04.AddDays(1);
+            DateTime startDate05 = endDate04.AddMilliseconds(1);
             DateTime endDate05 = endDate;
             string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
             double price05 = report.GetSalesPriceByPeriod(user.UserID, startDate05, endDate05);
@@ -369,25 +369,25 @@ namespace PMS
             double price01 = report.GetRentPriceByPeriod(user.UserID, startDate01, endDate01);
 
             //Interval 02
-            DateTime startDate02 = endDate01.AddDays(1);
+            DateTime startDate02 = endDate01.AddMilliseconds(1);
             DateTime endDate02 = startDate02.AddDays(intervalStep);
             string interval02 = startDate02.ToString(dateFormat) + " - " + endDate02.ToString(dateFormat);
             double price02 = report.GetRentPriceByPeriod(user.UserID, startDate02, endDate02);
 
             //Interval 03
-            DateTime startDate03 = endDate02.AddDays(1);
+            DateTime startDate03 = endDate02.AddMilliseconds(1);
             DateTime endDate03 = startDate03.AddDays(intervalStep);
             string interval03 = startDate03.ToString(dateFormat) + " - " + endDate03.ToString(dateFormat);
             double price03 = report.GetRentPriceByPeriod(user.UserID, startDate03, endDate03);
 
             //Interval 04
-            DateTime startDate04 = endDate03.AddDays(1);
+            DateTime startDate04 = endDate03.AddMilliseconds(1);
             DateTime endDate04 = startDate04.AddDays(intervalStep);
             string interval04 = startDate04.ToString(dateFormat) + " - " + endDate04.ToString(dateFormat);
             double price04 = report.GetRentPriceByPeriod(user.UserID, startDate04, endDate04);
 
             //Interval 05
-            DateTime startDate05 = endDate04.AddDays(1);
+            DateTime startDate05 = endDate04.AddMilliseconds(1);
             DateTime endDate05 = endDate;
             string interval05 = startDate05.ToString(dateFormat) + " - " + endDate05.ToString(dateFormat);
             double price05 = report.GetRentPriceByPeriod(user.UserID, startDate05, endDate05);
