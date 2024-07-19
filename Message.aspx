@@ -59,8 +59,12 @@
                                     <ItemTemplate > 
                                         <asp:Label ID="LabelDay" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("yyyy-MM-dd") %>' Visible='<%# Eval("IsFirst") %>'   />
                                         <asp:Panel runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>  '>
-                                            <asp:Label ID="Label4" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>' Text='<%# Eval("content") %>' Font-Size="medium"  /><br/>
+                                            <asp:Label ID="LabelComment" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>'>
+                                                <span class="LabelComment-background"><%# Eval("content") %></span>
+                                            </asp:Label> 
+                                            <br/>
                                         </asp:Panel>
+
                                         <div style="text-align: right; width:auto !important;">
                                             <asp:Label ID="LabelTime" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>' Font-Size="X-small"   />
                                         </div>
