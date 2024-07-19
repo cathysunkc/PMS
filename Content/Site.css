@@ -206,7 +206,25 @@ h2, h3 {
 
 
 /* Chat Page Specific Styles */
-#chat-box {
+
+
+.message-container {
+    background: #222; /* Darker background for listing */
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ccc;
+    max-height: 300px;
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    white-space: nowrap;
+}
+
+
+/* 
+.chat-box {
     background: #1A1A1A;
     padding: 10px;
     height: 300px;
@@ -216,37 +234,66 @@ h2, h3 {
 
 .chat-message {
     background-color: #3CB371;
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-/* 
-.chat-message {
     padding: 10px;
     margin: 5px 0;
+    border: 1px solid #1A1A1A;
     border-radius: 20px;
     color: #FFF;
     max-width: 80%;
     cursor: pointer;
 }
+.chattestcontainer {
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    border-color: transparent;
+}
 
 */
 
-.another-message {
-    background-color: #5E2D79; /* Lighter purple for the realtor */
-    align-self: flex-start;
-    margin-left: 20px;
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
+.chatgroup-container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height:600px;
+}
+
+
 .user-message {
-    background-color: #432371; /* Slightly darker purple for the user */
-    align-self: flex-end;
+    width: 100%;
     margin-right: 20px;
+    word-wrap: break-word;
+    max-width: 650px;
+    overflow: clip;
+    white-space: normal;
+}
+
+.another-message {
+    margin-left: 20px;
     text-align: right;
-    
+    word-wrap: break-word;
+    max-width: 650px; 
+    overflow: clip;
+    white-space: normal; 
+}
+
+.LabelComment-background {
+    display: inline-block;
+    padding: 2px;
+    border-radius: 10px;
+}
+
+.user-message .LabelComment-background {
+    background-color: #432371; /* Slightly darker purple for the user */
+}
+
+.another-message .LabelComment-background {
+    background-color: #5E2D79; /* Lighter purple for the counterpart */
 }
 
 .message-time {
@@ -256,10 +303,18 @@ h2, h3 {
     font-size: xx-small;
 }
 
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+
+
+.check-msgGroup {
+    background-color: #616161;
+    padding: 5px;
+    border: 1px solid #1A1A1A;
+    border-radius: 20px;
+}
+
+.check-msgGroupbutton {
+    color: white;
+    text-decoration: none;
 }
 
 .uncheck-msgGroup {
@@ -270,13 +325,12 @@ h2, h3 {
 }
 
 .uncheck-msgGroupbutton {
-    color: white;
+    color: yellow;
+    text-decoration: none;
 }
 
 .chattestcontainer {
-    border-top: 10px solid;
-    border-bottom: 10px solid;
-    border-color: transparent;
+
 }
 
 .uncheck-message {
