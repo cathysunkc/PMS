@@ -24,12 +24,12 @@ namespace PMS
                 if (user.IsRealtor())
                 {
                     this.lblNote.Text = "Message to Client";
-                    this.lblRecipientEmail.Text = "Client Email:";
+                    //this.lblRecipientEmail.Text = "Client Email:";
                 }
                 else if (user.IsClient())
                 {
                     this.lblNote.Text = "Message to Realtor";
-                    this.lblRecipientEmail.Text = "Realtor Email:";
+                    //this.lblRecipientEmail.Text = "Realtor Email:";
                 }
 
                 //this.txtSenderEmail.Text = user.Email;
@@ -175,7 +175,7 @@ namespace PMS
                 }
             }
 
-            gridMessage.DataSource = ds;
+            gridMessage.DataSource = dt;
             gridMessage.DataBind();
         }
 
