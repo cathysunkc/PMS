@@ -7,18 +7,18 @@
 
         <asp:Table ID="TableChat" CssClass="" runat="server" CellPadding="10" Width="100%">
             <asp:TableRow>
-                    <asp:TableCell Width="30%">
+                    <asp:TableCell Width="25%">
                         <asp:DropDownList ID="ddlTransactionType" AutoPostBack="True"  OnSelectedIndexChanged="TransactionType_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
-                    <asp:TableCell Width="25%">
-                        <asp:DropDownList ID="ddlBedNum" AutoPostBack="True"  OnSelectedIndexChanged="BedNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
-                    <asp:TableCell Width="25%">
-                        <asp:DropDownList ID="ddlBathNum" AutoPostBack="True"  OnSelectedIndexChanged="BathNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
                     <asp:TableCell Width="20%">
-                    <asp:Button ID="btnReset" CssClass="form-button" runat="server" OnClick="Reset_Click" Text="Reset" Width="80px" /></asp:TableCell>
+                        <asp:DropDownList ID="ddlBedNum" AutoPostBack="True"  OnSelectedIndexChanged="BedNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
+                    <asp:TableCell Width="20%">
+                        <asp:DropDownList ID="ddlBathNum" AutoPostBack="True"  OnSelectedIndexChanged="BathNum_SelectedIndexChanged" CssClass="form-input" runat="server"></asp:DropDownList></asp:TableCell>
+                    <asp:TableCell Width="35%">
+                        <asp:Button ID="btnReset" CssClass="form-button" runat="server" OnClick="Reset_Click" Text="Reset" Width="80px" /></asp:TableCell>
             </asp:TableRow>
 
             <asp:TableRow>
-                <asp:TableCell Width="30%" Height="300px">
+                <asp:TableCell Height="300px">
                     <asp:ListView ID="listMessage" ShowHeader="False" runat="server" AutoGenerateColumns="True">
                         <LayoutTemplate>
                             <table id="TableChatGroup" runat="server" CellPadding="10" class="chatgroup-container" >
@@ -42,36 +42,26 @@
                     </asp:ListView> 
                 </asp:TableCell>
 
-                <asp:TableCell Width="70%" ColumnSpan="3" VerticalAlign="Top">
+                <asp:TableCell ColumnSpan="3" VerticalAlign="Top">
                     <h4><asp:Label runat="server" ID="panelSelectMessageNull" CssClass="" Visible="True">Please select message to communicate</asp:Label></h4>
                     <asp:Panel ID="panelSelectMessage" runat="server" Visible="false" CssClass="">
-
-                        <!-- Hidden 
-                        <asp:Label ID="lblSenderEmail" runat="server" Text="Your Email:"></asp:Label>                
-                        <asp:TextBox ID="txtSenderEmail" runat="server" class="form-input" ReadOnly=true></asp:TextBox>
-                        <asp:Label ID="lblRecipientEmail" runat="server" Text="Recipient Email:"></asp:Label><br/>
-                        <asp:TextBox ID="txtRecipientEmail" runat="server" class="form-input"></asp:TextBox>
-                        -->
                         <h4><asp:Label runat="server" ID="gridMessageNull" CssClass="" Visible="False">Please enter message to communicate</asp:Label></h4>
-                        <asp:GridView runat="server" CellPadding="1" ID="gridMessage" CssClass="message-container" ShowHeader="False" GridLines="None" AutoGenerateColumns="False">
-                            <Columns>
-                                <asp:TemplateField ItemStyle-Width="100%">
-                                    <ItemTemplate > 
-                                        <asp:Label ID="LabelDay" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("yyyy-MM-dd") %>' Visible='<%# Eval("IsFirst") %>'   />
-                                        <asp:Panel runat="server" class='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>  '>
-                                            <asp:Label ID="LabelComment" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>'>
-                                                <span class="LabelComment-background"><%# Eval("content") %></span>
-                                            </asp:Label> 
-                                            <br/>
-                                        </asp:Panel>
-
-                                        <div style="text-align: right; width:auto !important;">
-                                            <asp:Label ID="LabelTime" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>' Font-Size="X-small"   />
-                                        </div>
-                                    </ItemTemplate> 
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                        <div class="message-container">
+                            <asp:Repeater runat="server" ID="gridMessage" >
+                                    <ItemTemplate>
+                                    <asp:Label ID="LabelDay" runat="server" CssClass="message-date" Text='<%# ((DateTime)Eval("sendout_date")).ToString("yyyy-MM-dd") %>' Visible='<%# Eval("IsFirst") %>' />
+                                    <asp:Panel runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() ? "user-message" : "another-message" %>'>
+                                        <asp:Label ID="LabelComment" runat="server" CssClass='<%# Eval("recipent.UserID").ToString() == Session["UserID"].ToString() && Eval("is_checked").ToString() == "False" ? "uncheck-message" : "" %>'>
+                                            <span class="LabelComment-background"><%# Eval("content") %></span>
+                                        </asp:Label>
+                                        <br/>
+                                    </asp:Panel>
+                                    <div class="message-time">
+                                        <asp:Label ID="LabelTime" runat="server" Text='<%# ((DateTime)Eval("sendout_date")).ToString("hh:mm") %>' Font-Size="X-small"   />
+                                     </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
 
                         <div>
                             <asp:hiddenfield ID="sendMessage" Value="" runat="server"/>
