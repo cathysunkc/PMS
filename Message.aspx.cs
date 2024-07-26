@@ -24,12 +24,12 @@ namespace PMS
                 if (user.IsRealtor())
                 {
                     this.lblNote.Text = "Message to Client";
-                    this.lblRecipientEmail.Text = "Client Email:";
+                    //this.lblRecipientEmail.Text = "Client Email:";
                 }
                 else if (user.IsClient())
                 {
                     this.lblNote.Text = "Message to Realtor";
-                    this.lblRecipientEmail.Text = "Realtor Email:";
+                    //this.lblRecipientEmail.Text = "Realtor Email:";
                 }
 
                 //this.txtSenderEmail.Text = user.Email;
@@ -175,7 +175,7 @@ namespace PMS
                 }
             }
 
-            gridMessage.DataSource = ds;
+            gridMessage.DataSource = dt;
             gridMessage.DataBind();
         }
 
@@ -196,7 +196,7 @@ namespace PMS
         {
             // sendMessage.Value == PropertyID
             Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
-    DateTime.Now.ToString("yyyy'-'MM'-'dd"), true, this.txtMessage.Text, false);
+    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), true, this.txtMessage.Text, false);
             message.SendMessage(message);
 
             BindMessageGrid(sendMessage.Value);
