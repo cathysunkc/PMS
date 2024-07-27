@@ -17,7 +17,7 @@
                 <br />
                 No account yet? Sign Up <asp:LinkButton ID="lbnRegister" CssClass="link" runat="server" OnClick="RegisterLink_Click">here</asp:LinkButton>
                 <br />
-                Forgot password? <asp:HyperLink ID="ChangePasswordLink" runat="server" NavigateUrl="~/ChangePassword.aspx">Change Password</asp:HyperLink>
+                Forgot password? <asp:HyperLink ID="ChangePasswordLink" CssClass="link" runat="server" NavigateUrl="~/ChangePassword.aspx">Change Password</asp:HyperLink>
             </div>
         </asp:Panel>
         <asp:Panel ID="panelRegister" runat="server" Visible="false">
