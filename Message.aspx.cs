@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.DynamicData;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Speech.Recognition;
+using System.EnterpriseServices;
 
 namespace PMS
 {
@@ -194,21 +196,25 @@ namespace PMS
 
         protected void Send_Click(object sender, EventArgs e)
         {
-            // sendMessage.Value == PropertyID
-            Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
-    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), true, this.txtMessage.Text, false);
-            message.SendMessage(message);
+            if (Message.IsValidated(this.txtMessage.Text))
+            {
+                // sendMessage.Value == PropertyID
+                Message message = new Message((String)Session["UserID"], Property.GetPropertyByID(sendMessage.Value).RealtorID, sendMessage.Value,
+        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), true, this.txtMessage.Text, false);
+                message.SendMessage(message);
 
-            BindMessageGrid(sendMessage.Value);
-            BindMessageList();
+                BindMessageGrid(sendMessage.Value);
+                BindMessageList();
 
-            this.txtMessage.Text = null;
+                this.txtMessage.Text = null;
+            }
 
             //Console.WriteLine($"{dv}");
             //System.Windows.Forms.MessageBox.Show($"{sendMessage.Value}");
-
             
         }
+
+
 
     }
 }

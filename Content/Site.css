@@ -264,26 +264,26 @@ h2, h3 {
 }
 
 .check-msgGroup {
-    background-color: #616161;
+    background-color: lightgray;
     padding: 5px;
     border: 1px solid #1A1A1A;
     border-radius: 20px;
 }
 
 .check-msgGroupbutton {
-    color: white;
+    color: #5E2D79;
     text-decoration: none;
 }
 
 .uncheck-msgGroup {
-    background-color: #3CB371;
+    background-color: #5E2D79;
     padding: 5px;
     border: 1px solid #1A1A1A;
     border-radius: 20px;
 }
 
 .uncheck-msgGroupbutton {
-    color: yellow;
+    color: #FFFFFF;
     text-decoration: none;
 }
 
@@ -346,9 +346,6 @@ h2, h3 {
     text-align: right;
     width: auto !important;
 }
-
-
-
 
 
 .uncheck-message {
