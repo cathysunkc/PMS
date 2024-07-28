@@ -6,7 +6,9 @@ using System.Data;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.DynamicData;
+using System.Web.Services.Description;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
@@ -324,6 +326,16 @@ namespace PMS
             return dr.Length;
         }
 
+        public static bool IsValidated(string content) 
+        {
 
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                System.Windows.Forms.MessageBox.Show($"Please enter a message.");
+                return false;
+            }
+
+            return true;
+        }
     }
 }
