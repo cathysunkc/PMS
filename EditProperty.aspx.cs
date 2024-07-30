@@ -174,6 +174,7 @@ namespace PMS
             }
         }
 
+        //waiting to be deleted
         protected void ValidateTransactionType(object sender, ServerValidateEventArgs e)
         {
             e.IsValid = RadioButton1.Checked || RadioButton2.Checked;

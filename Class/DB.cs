@@ -688,6 +688,8 @@ namespace PMS
         /************************************
          * SaveSearch
         /************************************/
+
+
         public DataTable LoadSavedSearches(string userID)
         {
             string query = "SELECT search_id, search_name FROM savesearches WHERE user_id = @user_id";
@@ -708,6 +710,7 @@ namespace PMS
             return dt;
         }
 
+            
         public void SaveSearch(string userID, string searchName, string searchCriteria)
         {
             string query = "INSERT INTO savesearches (user_id, search_name, search_criteria, last_search_name) VALUES (@user_id, @search_name, @search_criteria, @search_name)";
@@ -769,6 +772,7 @@ namespace PMS
             return null;
         }
 
+        //no longer required for name input text box
         public int GetLastSearchName(string userID)
         {
             string query = "SELECT last_search_name FROM savesearches WHERE user_id = @user_id ORDER BY last_search_name DESC LIMIT 1";
@@ -788,6 +792,7 @@ namespace PMS
             return lastSearchName;
         }
 
+        //no longer required for name input text box
         public void UpdateLastSearchName(string userID, int newSearchName)
         {
             string query = "UPDATE savesearches SET last_search_name = @newSearchName WHERE user_id = @user_id";

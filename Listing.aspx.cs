@@ -46,21 +46,29 @@ namespace PMS
         /************************************/
         private void LoadSavedSearches()
         {
+            // Retrieve the user ID from the session
             string userID = Session["UserID"]?.ToString();
+
+            // Check if the user is not logged in (i.e., userID is null or empty)
             if (string.IsNullOrEmpty(userID))
             {
-                Response.Redirect("Login.aspx");
+                // Hide the save search button and saved searches dropdown if the user is not logged in
+                btnSaveSearch.Visible = false;
+                ddlSavedSearches.Visible = false;
                 return;
             }
 
+            // Create a new instance of the DB class to interact with the database
             DB db = new DB();
+
+            // Load the saved searches for the logged-in user from the database
             DataTable dt = db.LoadSavedSearches(userID);
 
             if (dt.Rows.Count > 0)
             {
                 ddlSavedSearches.DataSource = dt;
-                ddlSavedSearches.DataTextField = "search_name"; //text to shown in ddl
-                ddlSavedSearches.DataValueField = "search_name"; // value for the field
+                ddlSavedSearches.DataTextField = "search_name";
+                ddlSavedSearches.DataValueField = "search_name";
                 ddlSavedSearches.DataBind();
             }
 
@@ -79,10 +87,12 @@ namespace PMS
                 return;
             }
 
-            DB db = new DB();
-            int lastSearchName = db.GetLastSearchName(userID);
-            int newSearchName = lastSearchName + 1;
-            string searchName = newSearchName.ToString();
+            string searchName = txtSearchName.Text.Trim(); // Get the search name from the TextBox
+            if (string.IsNullOrEmpty(searchName))
+            {
+                lblDebug.Text = "Search name cannot be empty.";
+                return;
+            }
 
             string transactionType = ddlTransactionType.SelectedValue; // Get selected value from transaction type dropdown
             string bedNum = ddlBedNum.SelectedValue; // Get selected value from bed number dropdown
@@ -96,8 +106,6 @@ namespace PMS
                 bathNum
             };
 
-            // https://csharp.hotexamples.com/examples/MySql.Data.MySqlClient/MySqlCommand/-/php-mysqlcommand-class-examples.html\
-            //https://stackoverflow.com/questions/21110001/sqlcommand-parameters-add-vs-addwithvalue
             // Serialize the search criteria object to JSON
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string searchCriteria = serializer.Serialize(searchCriteriaObj);
@@ -105,10 +113,8 @@ namespace PMS
             // Debug message
             lblDebug.Text += $" | Search Criteria: {searchCriteria}";
 
+            DB db = new DB();
             db.SaveSearch(userID, searchName, searchCriteria);
-
-            // Update the last search name
-            db.UpdateLastSearchName(userID, newSearchName);
 
             // Confirm save
             lblDebug.Text += " | Search saved successfully.";
@@ -156,8 +162,8 @@ namespace PMS
             var bedNum = new Dictionary<double, string>
             {
                 { 0, "Beds" },
-                { 1, "1" },
-                { 2, "2" },
+                { 1, "1" }, //1+
+                { 2, "2" }, //2+
                 { 3, "3" },
                 { 4, "4" },
             };

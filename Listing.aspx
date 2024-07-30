@@ -10,9 +10,9 @@
     <main aria-labelledby="title" style="min-height:300px">
             <h2>Property Listings</h2>
             <br>
-            <!-- Save Search Button and Dropdown -->
+            <!-- Save Search Button, TextBox for Search Name, and Dropdown -->
+            <asp:TextBox ID="txtSearchName" runat="server" CssClass="form-input" Placeholder="Enter search name"></asp:TextBox>
             <asp:Button ID="btnSaveSearch" runat="server" Text="Save Search" OnClick="btnSaveSearch_Click" CssClass="form-button" />
-        
             <asp:DropDownList ID="ddlSavedSearches" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlSavedSearches_SelectedIndexChanged" CssClass="form-input"></asp:DropDownList>
             <br /><br />
             <asp:Label ID="lblDebug" runat="server" ForeColor="Red"></asp:Label>
