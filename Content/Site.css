@@ -86,6 +86,7 @@ nav {
         nav a:hover, nav a.active {
             border: 2px solid #FFF;
             border-radius: 5px;
+            color: #D3CBFF;
         }
 
 
@@ -206,23 +207,6 @@ h2, h3 {
 
 
 /* Chat Page Specific Styles */
-
-
-.message-container {
-    background: #222; /* Darker background for listing */
-    margin-bottom: 20px;
-    padding: 5px;
-    border-radius: 10px;
-    color: #ccc;
-    max-height: 300px;
-    width: 97%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    white-space: nowrap;
-}
-
-
 /* 
 .chat-box {
     background: #1A1A1A;
@@ -248,7 +232,23 @@ h2, h3 {
     border-color: transparent;
 }
 
+.message-time {
+    display: inline-block;
+    color: lightskyblue;
+    float: right;
+    text-align: right;
+    width: auto !important;
+    font-size: xx-small;
+}
+
 */
+
+.gridview {
+    width: 100%;
+    word-wrap: break-word;
+    table-layout: fixed;
+}
+
 
 .chat-container {
     display: flex;
@@ -261,6 +261,44 @@ h2, h3 {
     flex-direction: column;
     overflow-y: auto;
     height:600px;
+}
+
+.check-msgGroup {
+    background-color: lightgray;
+    padding: 5px;
+    border: 1px solid #1A1A1A;
+    border-radius: 20px;
+}
+
+.check-msgGroupbutton {
+    color: #5E2D79;
+    text-decoration: none;
+}
+
+.uncheck-msgGroup {
+    background-color: #5E2D79;
+    padding: 5px;
+    border: 1px solid #1A1A1A;
+    border-radius: 20px;
+}
+
+.uncheck-msgGroupbutton {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.message-container {
+    background: #222; /* Darker background for listing */
+    margin-bottom: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    color: #ccc;
+    max-height: 300px;
+    max-width: 97%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    white-space: nowrap;
 }
 
 
@@ -277,15 +315,17 @@ h2, h3 {
     margin-left: 20px;
     text-align: right;
     word-wrap: break-word;
-    max-width: 650px; 
+    max-width: 650px;
     overflow: clip;
-    white-space: normal; 
+    white-space: normal;
 }
 
 .LabelComment-background {
     display: inline-block;
     padding: 2px;
     border-radius: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 .user-message .LabelComment-background {
@@ -296,42 +336,17 @@ h2, h3 {
     background-color: #5E2D79; /* Lighter purple for the counterpart */
 }
 
-.message-time {
-    display: inline-block;
+.message-date {
     color: lightskyblue;
-    float: right;
-    font-size: xx-small;
+    font-size:small;
 }
 
-
-
-.check-msgGroup {
-    background-color: #616161;
-    padding: 5px;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
+.message-time {
+    color: powderblue;
+    text-align: right;
+    width: auto !important;
 }
 
-.check-msgGroupbutton {
-    color: white;
-    text-decoration: none;
-}
-
-.uncheck-msgGroup {
-    background-color: #3CB371;
-    padding: 5px;
-    border: 1px solid #1A1A1A;
-    border-radius: 20px;
-}
-
-.uncheck-msgGroupbutton {
-    color: yellow;
-    text-decoration: none;
-}
-
-.chattestcontainer {
-
-}
 
 .uncheck-message {
     color: yellow;
@@ -446,7 +461,7 @@ header {
     color: #2C003E;
 }
 
-.link {
+.link, .link:hover {
     padding: 0px;
     margin: 0px;
     border: 0px;

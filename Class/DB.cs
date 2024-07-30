@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Web.Script.Serialization;
@@ -772,7 +772,6 @@ namespace PMS
             return null;
         }
 
-        //no longer required for name input text box
         public int GetLastSearchName(string userID)
         {
             string query = "SELECT last_search_name FROM savesearches WHERE user_id = @user_id ORDER BY last_search_name DESC LIMIT 1";

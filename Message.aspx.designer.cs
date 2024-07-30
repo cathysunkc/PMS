@@ -96,42 +96,6 @@ namespace PMS
         protected global::System.Web.UI.WebControls.Panel panelSelectMessage;
 
         /// <summary>
-        /// lblSenderEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSenderEmail;
-
-        /// <summary>
-        /// txtSenderEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSenderEmail;
-
-        /// <summary>
-        /// lblRecipientEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRecipientEmail;
-
-        /// <summary>
-        /// txtRecipientEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRecipientEmail;
-
-        /// <summary>
         /// gridMessageNull control.
         /// </summary>
         /// <remarks>
@@ -147,7 +111,7 @@ namespace PMS
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridMessage;
+        protected global::System.Web.UI.WebControls.Repeater gridMessage;
 
         /// <summary>
         /// sendMessage control.

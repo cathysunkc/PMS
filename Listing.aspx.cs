@@ -67,8 +67,8 @@ namespace PMS
             if (dt.Rows.Count > 0)
             {
                 ddlSavedSearches.DataSource = dt;
-                ddlSavedSearches.DataTextField = "search_name";
-                ddlSavedSearches.DataValueField = "search_name";
+                ddlSavedSearches.DataTextField = "search_name"; //text to shown in ddl
+                ddlSavedSearches.DataValueField = "search_name"; // value for the field
                 ddlSavedSearches.DataBind();
             }
 
@@ -106,6 +106,8 @@ namespace PMS
                 bathNum
             };
 
+            // https://csharp.hotexamples.com/examples/MySql.Data.MySqlClient/MySqlCommand/-/php-mysqlcommand-class-examples.html\
+            //https://stackoverflow.com/questions/21110001/sqlcommand-parameters-add-vs-addwithvalue
             // Serialize the search criteria object to JSON
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string searchCriteria = serializer.Serialize(searchCriteriaObj);
